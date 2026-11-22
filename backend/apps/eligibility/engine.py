@@ -1,5 +1,5 @@
 """
-Deterministic Rule Engine for YOJNAVIA.
+Deterministic Rule Engine for YojnaVia.
 Evaluates student profiles against structured AST criteria trees with statutory GR citations.
 Zero LLM hallucination in eligibility determinations.
 """

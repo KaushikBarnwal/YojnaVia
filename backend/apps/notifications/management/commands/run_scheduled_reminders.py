@@ -6,7 +6,7 @@ class Command(BaseCommand):
     help = "Scan tracked applications and trigger scheduled WhatsApp, SMS and In-App reminders for approaching deadlines, missing documents, inactivity, grievance resubmission, and annual renewals."
 
     def handle(self, *args, **options):
-        self.stdout.write(self.style.NOTICE("Starting Yojnavia Scheduled Reminder Scan..."))
+        self.stdout.write(self.style.NOTICE("Starting YojnaVia Scheduled Reminder Scan..."))
         result = NotificationDispatchService.scan_and_generate_reminders()
 
         self.stdout.write(self.style.SUCCESS(

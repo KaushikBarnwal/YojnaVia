@@ -41,10 +41,10 @@ import { ShieldCheck, Lock, CheckCircle2, ArrowLeft } from '@lucide/vue';
           1. Zero-Aadhaar Sovereign Data Guarantee
         </h2>
         <p>
-          YOJNAVIA has a strict, programmatic <strong>Zero-Sensitive Identifier Policy</strong>. The application will never ask for, collect, store, or transmit your 12-digit Aadhaar number, PAN card number, bank passwords, or biometric credentials.
+          YojnaVia has a strict, programmatic <strong>Zero-Sensitive Identifier Policy</strong>. The application will never ask for, collect, store, or transmit your 12-digit Aadhaar number, PAN card number, bank passwords, or biometric credentials.
         </p>
         <p>
-          Official government submission on MahaDBT or Aaple Sarkar will require your official authentication through their official portals; however, on YOJNAVIA, all scheme matching operates purely on coarsened criteria (e.g. annual family income bracket, educational level, and district).
+          Official government submission on MahaDBT or Aaple Sarkar will require your official authentication through their official portals; however, on YojnaVia, all scheme matching operates purely on coarsened criteria (e.g. annual family income bracket, educational level, and district).
         </p>
       </div>
 
@@ -69,7 +69,7 @@ import { ShieldCheck, Lock, CheckCircle2, ArrowLeft } from '@lucide/vue';
           3. Zero Advertising & Third-Party Trackers
         </h2>
         <p>
-          YOJNAVIA does not sell, lease, or broker citizen demographic data to financial institutions, private loan providers, or advertising networks. We use zero third-party commercial analytics scripts.
+          YojnaVia does not sell, lease, or broker citizen demographic data to financial institutions, private loan providers, or advertising networks. We use zero third-party commercial analytics scripts.
         </p>
       </div>
 
@@ -83,7 +83,7 @@ import { ShieldCheck, Lock, CheckCircle2, ArrowLeft } from '@lucide/vue';
           If you have questions regarding data retention or statutory compliance under the Maharashtra Right to Services Act 2015, please contact our civil tech team at:
         </p>
         <p class="font-bold text-[#0B132B]">
-          Email: <a href="mailto:privacy@yojnavia.in" class="text-amber-700 underline">privacy@yojnavia.in</a>
+          Email: <a href="mailto:privacy@YojnaVia.in" class="text-amber-700 underline">privacy@YojnaVia.in</a>
         </p>
       </div>
 

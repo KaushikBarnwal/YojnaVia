@@ -5,7 +5,7 @@ import { ShieldCheck, ArrowRight, X } from '@lucide/vue';
 const isVisible = ref(false);
 
 onMounted(() => {
-  const consent = localStorage.getItem('yojnavia_cookie_consent');
+  const consent = localStorage.getItem('YojnaVia_cookie_consent');
   if (!consent) {
     // Show banner after short delay
     setTimeout(() => {
@@ -15,7 +15,7 @@ onMounted(() => {
 });
 
 function acceptConsent() {
-  localStorage.setItem('yojnavia_cookie_consent', 'accepted');
+  localStorage.setItem('YojnaVia_cookie_consent', 'accepted');
   isVisible.value = false;
 }
 </script>
@@ -52,7 +52,7 @@ function acceptConsent() {
       </div>
 
       <p class="text-xs text-slate-600 font-medium leading-relaxed mb-3">
-        YOJNAVIA uses client-side local storage on your device only to preserve your scheme matching session. We do not use advertising cookies, third-party trackers, or sensitive biometric identifiers.
+        YojnaVia uses client-side local storage on your device only to preserve your scheme matching session. We do not use advertising cookies, third-party trackers, or sensitive biometric identifiers.
       </p>
 
       <div class="flex items-center justify-between gap-2 pt-1 border-t border-slate-100">

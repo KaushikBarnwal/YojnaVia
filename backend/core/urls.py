@@ -1,5 +1,5 @@
 """
-URL configuration for core project - YOJNAVIA.
+URL configuration for core project - YojnaVia.
 """
 from django.contrib import admin
 from django.urls import include, path

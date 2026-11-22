@@ -55,8 +55,8 @@ import { ArrowLeft, Sparkles, Scale, AlertTriangle } from '@lucide/vue';
         Need assistance or found a broken government gazette citation?
         <br />
         Contact the civil tech helpdesk at
-        <a href="mailto:support@yojnavia.in" class="font-bold text-amber-700 hover:underline">
-          support@yojnavia.in
+        <a href="mailto:support@YojnaVia.in" class="font-bold text-amber-700 hover:underline">
+          support@YojnaVia.in
         </a>
       </div>
     </div>

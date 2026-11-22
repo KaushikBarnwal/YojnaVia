@@ -14,7 +14,7 @@ NOTIFICATION_TEMPLATES: Dict[str, Dict[str, Dict[str, str]]] = {
         "en": {
             "title": "Application Deadline Alert: {scheme_name}",
             "body": (
-                "Namaste {student_name}, this is an important reminder from YOJNAVIA. "
+                "Namaste {student_name}, this is an important reminder from YojnaVia. "
                 "The official application deadline for '{scheme_name}' on the {portal_name} portal is on {deadline} "
                 "({days_left} days remaining). Please ensure all mandatory documents are submitted before portal cutoff."
             )
@@ -94,7 +94,7 @@ NOTIFICATION_TEMPLATES: Dict[str, Dict[str, Dict[str, str]]] = {
             "body": (
                 "Namaste {student_name}, your tracked application for '{scheme_name}' has been in '{status}' "
                 "status for over 14 days. Don't lose momentum! Have you visited your college scholarship clerk? "
-                "Update your progress in YOJNAVIA to keep track."
+                "Update your progress in YojnaVia to keep track."
             )
         },
         "mr": {
@@ -167,9 +167,9 @@ NOTIFICATION_TEMPLATES: Dict[str, Dict[str, Dict[str, str]]] = {
 
     "TEST_DEMO": {
         "en": {
-            "title": "YOJNAVIA Test Notification Ping",
+            "title": "YojnaVia Test Notification Ping",
             "body": (
-                "Namaste {student_name}, this is a verified test reminder from YOJNAVIA. "
+                "Namaste {student_name}, this is a verified test reminder from YojnaVia. "
                 "Your mobile notification preference ({channel}) has been successfully linked. "
                 "You will receive official deadline, missing document, and scrutiny reminders here."
             )
@@ -202,7 +202,7 @@ def render_template(event_type: str, language: str, context: Dict[str, Any]) -> 
     event_templates = NOTIFICATION_TEMPLATES.get(event_type, NOTIFICATION_TEMPLATES["TEST_DEMO"])
     lang_template = event_templates.get(language, event_templates.get("en", {}))
 
-    raw_title = lang_template.get("title", "YOJNAVIA Notification")
+    raw_title = lang_template.get("title", "YojnaVia Notification")
     raw_body = lang_template.get("body", "You have a new update regarding your scheme.")
 
     # Safe formatting with fallback to empty strings

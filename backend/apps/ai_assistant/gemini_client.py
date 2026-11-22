@@ -65,11 +65,11 @@ class GeminiIntakeAssistant:
             from .schema import detect_message_language
             detected = detect_message_language(message)
             if detected == "marathi":
-                greeting = "नमस्कार! YOJNAVIA मध्ये आपले स्वागत आहे. आपले शिक्षण, जिल्हा, जात प्रवर्ग आणि कौटुंबिक उत्पन्नाबद्दल सांगा."
+                greeting = "नमस्कार! YojnaVia मध्ये आपले स्वागत आहे. आपले शिक्षण, जिल्हा, जात प्रवर्ग आणि कौटुंबिक उत्पन्नाबद्दल सांगा."
             elif detected in ("hindi", "hinglish"):
-                greeting = "नमस्ते! YOJNAVIA में आपका स्वागत है। अपने कोर्स, ज़िला, वर्ग (Category) और पारिवारिक आय के बारे में बताएं।"
+                greeting = "नमस्ते! YojnaVia में आपका स्वागत है। अपने कोर्स, ज़िला, वर्ग (Category) और पारिवारिक आय के बारे में बताएं।"
             else:
-                greeting = "Namaste! Welcome to YOJNAVIA. Tell me about your education, district, category and family income to discover your eligible scholarships."
+                greeting = "Namaste! Welcome to YojnaVia. Tell me about your education, district, category and family income to discover your eligible scholarships."
             return {}, None, None, greeting
 
         last_exc = None
@@ -123,7 +123,7 @@ class GeminiIntakeAssistant:
         field_lines = "\n".join(f"- {f}: {FIELD_FORMATS[f]}" for f in requested)
         keys = ", ".join(requested)
         return (
-            "You are YOJNAVIA, an empathetic, helpful benefits guide assisting students and families in Maharashtra.\n"
+            "You are YojnaVia, an empathetic, helpful benefits guide assisting students and families in Maharashtra.\n"
             "You extract structured profile fields for government scheme matching AND generate a warm, human, conversational reply.\n\n"
             "LANGUAGE MIRRORING RULES (MANDATORY):\n"
             "- If the user message is in Hindi or Hinglish (e.g. 'meri umar 21 saal hai', 'mai pune me rehta hu', or Devanagari Hindi), reply in natural Hindi or Hinglish matching the user's phrasing!\n"

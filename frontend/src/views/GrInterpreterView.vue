@@ -106,7 +106,7 @@ onMounted(async () => {
           Government Language-to-Action Interpreter 📜
         </h1>
         <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl font-medium">
-          Paste complex Maharashtra Government Resolutions (GRs), Gazette notifications, or circulars. YOJNAVIA decodes them into simple-language eligibility rules, required documents, and step-by-step citizen actions—with every single requirement linked directly back to its verbatim source passage.
+          Paste complex Maharashtra Government Resolutions (GRs), Gazette notifications, or circulars. YojnaVia decodes them into simple-language eligibility rules, required documents, and step-by-step citizen actions—with every single requirement linked directly back to its verbatim source passage.
         </p>
       </div>
 

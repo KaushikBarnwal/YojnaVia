@@ -287,7 +287,7 @@ class WhatsAppWebhookView(APIView):
         token = request.query_params.get('hub.verify_token')
         challenge = request.query_params.get('hub.challenge')
 
-        expected_token = getattr(settings, 'META_VERIFY_TOKEN', '') or os.getenv('META_VERIFY_TOKEN', 'yojnavia_verify_token_2026')
+        expected_token = getattr(settings, 'META_VERIFY_TOKEN', '') or os.getenv('META_VERIFY_TOKEN', 'YojnaVia_verify_token_2026')
 
         if mode == 'subscribe' and token == expected_token:
             return HttpResponse(challenge, content_type="text/plain", status=200)

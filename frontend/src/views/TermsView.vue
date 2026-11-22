@@ -27,7 +27,7 @@ import { Scale, AlertTriangle, CheckCircle2, ArrowLeft, ShieldAlert } from '@luc
       </h1>
 
       <p class="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
-        Effective: Academic Year 2024–2025 • Governing the YOJNAVIA Public Welfare Navigation Engine
+        Effective: Academic Year 2024–2025 • Governing the YojnaVia Public Welfare Navigation Engine
       </p>
     </div>
 
@@ -41,7 +41,7 @@ import { Scale, AlertTriangle, CheckCircle2, ArrowLeft, ShieldAlert } from '@luc
           1. Statutory Eligibility Estimate (Never Guaranteed)
         </h2>
         <p>
-          YOJNAVIA provides an <strong>informational statutory estimate</strong> derived deterministically from published Government Resolutions (GRs) of the Government of Maharashtra and central welfare guidelines.
+          YojnaVia provides an <strong>informational statutory estimate</strong> derived deterministically from published Government Resolutions (GRs) of the Government of Maharashtra and central welfare guidelines.
         </p>
         <p class="bg-amber-50 p-3 rounded-xl border border-amber-300 text-amber-950 font-bold">
           Eligibility evaluations indicate that a citizen is "likely eligible" based on provided criteria. Final approval, sanction, and fund disbursement remain under the sole constitutional authority of the respective government department, desk officer, or scrutinizing committee.
@@ -55,7 +55,7 @@ import { Scale, AlertTriangle, CheckCircle2, ArrowLeft, ShieldAlert } from '@luc
           2. Free Civic Service — No Middlemen / No Agent Fees
         </h2>
         <p>
-          YOJNAVIA is dedicated to eliminating the exploitation of citizens by unauthorized middlemen. Using YOJNAVIA to discover schemes, generate document checklists, and inspect Government Resolutions is 100% free of charge.
+          YojnaVia is dedicated to eliminating the exploitation of citizens by unauthorized middlemen. Using YojnaVia to discover schemes, generate document checklists, and inspect Government Resolutions is 100% free of charge.
         </p>
         <p>
           Official government fees for certificate issuance (such as Tahsildar stamp charges on Aaple Sarkar) are defined by the state government and must be paid only through official state gateways.
@@ -83,7 +83,7 @@ import { Scale, AlertTriangle, CheckCircle2, ArrowLeft, ShieldAlert } from '@luc
           For questions regarding the terms of service or institutional partnerships with Common Service Centers (CSCs), email us at:
         </p>
         <p class="font-bold text-[#0B132B]">
-          Email: <a href="mailto:support@yojnavia.in" class="text-amber-700 underline">support@yojnavia.in</a>
+          Email: <a href="mailto:support@YojnaVia.in" class="text-amber-700 underline">support@YojnaVia.in</a>
         </p>
       </div>
 

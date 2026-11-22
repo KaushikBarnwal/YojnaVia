@@ -241,18 +241,18 @@ class IntakeChatView(APIView):
             if is_pure_greeting and not llm_values and not heuristic_values:
                 if user_lang == "marathi":
                     q_text = FRIENDLY_PROMPTS_MR.get(nq.get("field"), nq.get("text", "")) if nq else "आपले शिक्षण व प्रवर्ग सांगा."
-                    reply = f"नमस्कार! YOJNAVIA मध्ये आपले स्वागत आहे. आपल्यासाठी योग्य शासकीय योजना शोधण्यासाठी, {q_text}"
+                    reply = f"नमस्कार! YojnaVia मध्ये आपले स्वागत आहे. आपल्यासाठी योग्य शासकीय योजना शोधण्यासाठी, {q_text}"
                 elif user_lang == "hindi":
                     q_text = FRIENDLY_PROMPTS_HI.get(nq.get("field"), nq.get("text", "")) if nq else "अपनी पढ़ाई और वर्ग बताएं।"
-                    reply = f"नमस्ते! YOJNAVIA में आपका स्वागत है। आपके लिए सही सरकारी योजनाएं खोजने के लिए, {q_text}"
+                    reply = f"नमस्ते! YojnaVia में आपका स्वागत है। आपके लिए सही सरकारी योजनाएं खोजने के लिए, {q_text}"
                 elif user_lang == "hinglish":
                     q_text = FRIENDLY_PROMPTS_HINGLISH.get(nq.get("field"), nq.get("text", "")) if nq else "apni padhai aur category batayein."
-                    reply = f"Namaste! YOJNAVIA me aapka swagat hai. Sahi government schemes dhoondhne ke liye, {q_text}"
+                    reply = f"Namaste! YojnaVia me aapka swagat hai. Sahi government schemes dhoondhne ke liye, {q_text}"
                 else:
                     raw_text = nq.get("text", "") if nq else "could you tell me your course and category?"
                     q_text = raw_text.lower() if raw_text and raw_text[0].isupper() else raw_text
                     reply = (
-                        "Namaste! Welcome to YOJNAVIA. To help you discover the right scholarships and government schemes in Maharashtra, "
+                        "Namaste! Welcome to YojnaVia. To help you discover the right scholarships and government schemes in Maharashtra, "
                         f"could you tell me a little about yourself—to start with, {q_text}"
                     )
             elif not edu_known and not social_known:

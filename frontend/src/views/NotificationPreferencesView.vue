@@ -129,7 +129,7 @@ const canonicalEvents = computed(() => [
     },
     trigger: 'Sent 7 days, 2 days, and on deadline day from verified scheme record.',
     preview: {
-      en: `Namaste ${store.profile?.name || 'Citizen'}, this is an important reminder from YOJNAVIA. The official application deadline for 'Post Matric Scholarship' on the MahaDBT portal is on 31 December 2026 (2 days remaining). Please ensure all mandatory documents are submitted before portal cutoff.`,
+      en: `Namaste ${store.profile?.name || 'Citizen'}, this is an important reminder from YojnaVia. The official application deadline for 'Post Matric Scholarship' on the MahaDBT portal is on 31 December 2026 (2 days remaining). Please ensure all mandatory documents are submitted before portal cutoff.`,
       mr: `नमस्ते ${store.profile?.name || 'विद्यार्थी'}, योजनाव्हायाकडून महत्त्वाची सूचना. 'पोस्ट मॅट्रिक शिष्यवृत्ती' या योजनेसाठी MahaDBT संकेतस्थळावर अर्ज करण्याची अंतिम मुदत 31 डिसेंबर 2026 आहे (फक्त 2 दिवस शिल्लक). कृपया मुदतीपूर्वी आपले कागदपत्र सादर करा.`,
       hi: `नमस्ते ${store.profile?.name || 'नागरिक'}, योजनावाया की ओर से महत्वपूर्ण सूचना। 'पोस्ट मैट्रिक छात्रवृत्ति' के लिए MahaDBT पोर्टल पर आवेदन की अंतिम तिथि 31 दिसंबर 2026 है (केवल 2 दिन शेष)। कृपया पोर्टल बंद होने से पहले अपने दस्तावेज़ जमा करें।`
     }
@@ -834,7 +834,7 @@ onMounted(async () => {
             <!-- Trilingual WhatsApp Chat Bubble Preview -->
             <div class="bg-[#ECFDF5] border-[1.5px] border-[#059669] p-3 rounded-lg text-[11px] text-[#064E3B] leading-relaxed shadow-[1px_1px_0_0_#059669] relative">
               <div class="flex items-center justify-between text-[10px] text-[#065F46] font-black mb-1 pb-1 border-b border-[#059669]/30">
-                <span>YOJNAVIA Verified Alert ({{ prefs.preferred_language.toUpperCase() }})</span>
+                <span>YojnaVia Verified Alert ({{ prefs.preferred_language.toUpperCase() }})</span>
                 <span class="flex items-center gap-0.5 text-[#059669]">
                   <CheckCircle2 class="w-2.5 h-2.5" />
                   Official

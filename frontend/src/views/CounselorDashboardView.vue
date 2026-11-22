@@ -27,8 +27,8 @@ const DEMO_ACCOUNTS = [
 ];
 
 // Counselor Auth State
-const counselorToken = ref(localStorage.getItem('yojnavia_counselor_token') || '');
-const counselorUser = ref<any>(localStorage.getItem('yojnavia_counselor_user') ? JSON.parse(localStorage.getItem('yojnavia_counselor_user')!) : null);
+const counselorToken = ref(localStorage.getItem('YojnaVia_counselor_token') || '');
+const counselorUser = ref<any>(localStorage.getItem('YojnaVia_counselor_user') ? JSON.parse(localStorage.getItem('YojnaVia_counselor_user')!) : null);
 const isLoggingIn = ref(false);
 const loginError = ref('');
 const loginUsername = ref('');
@@ -132,8 +132,8 @@ const handleDemoLogin = async (username: string) => {
     const res = await api.post('/counselor/auth/login/', { demo_user: username });
     counselorToken.value = res.data.token;
     counselorUser.value = res.data.user;
-    localStorage.setItem('yojnavia_counselor_token', res.data.token);
-    localStorage.setItem('yojnavia_counselor_user', JSON.stringify(res.data.user));
+    localStorage.setItem('YojnaVia_counselor_token', res.data.token);
+    localStorage.setItem('YojnaVia_counselor_user', JSON.stringify(res.data.user));
     await fetchCenterData();
   } catch (err: any) {
     loginError.value = err.response?.data?.error || 'Login failed. Please check credentials.';
@@ -156,8 +156,8 @@ const handleCustomLogin = async () => {
     });
     counselorToken.value = res.data.token;
     counselorUser.value = res.data.user;
-    localStorage.setItem('yojnavia_counselor_token', res.data.token);
-    localStorage.setItem('yojnavia_counselor_user', JSON.stringify(res.data.user));
+    localStorage.setItem('YojnaVia_counselor_token', res.data.token);
+    localStorage.setItem('YojnaVia_counselor_user', JSON.stringify(res.data.user));
     await fetchCenterData();
   } catch (err: any) {
     loginError.value = err.response?.data?.error || 'Authentication error. Please retry.';
@@ -173,8 +173,8 @@ const handleLogout = () => {
   casesList.value = [];
   analyticsData.value = null;
   crossCenterWarning.value = '';
-  localStorage.removeItem('yojnavia_counselor_token');
-  localStorage.removeItem('yojnavia_counselor_user');
+  localStorage.removeItem('YojnaVia_counselor_token');
+  localStorage.removeItem('YojnaVia_counselor_user');
 };
 
 // -------------------------------------------------------------

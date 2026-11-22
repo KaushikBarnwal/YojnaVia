@@ -251,7 +251,7 @@ function startDiscovery(mode?: string) {
               </span>
             </h2>
             <p class="text-sm text-slate-700 leading-relaxed font-medium">
-              Most portals give vague, AI-hallucinated scheme lists that get citizens rejected at the clerk desk. Yojnavia runs deterministic statutory code verified against official Government Gazette Resolutions.
+              Most portals give vague, AI-hallucinated scheme lists that get citizens rejected at the clerk desk. YojnaVia runs deterministic statutory code verified against official Government Gazette Resolutions.
             </p>
             <div class="pt-2">
               <button
@@ -378,7 +378,7 @@ function startDiscovery(mode?: string) {
             </div>
             <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0B132B] tracking-tight font-heading leading-tight">
               Slow network?
-              <span class="block text-slate-800">Yojnavia keeps working.</span>
+              <span class="block text-slate-800">YojnaVia keeps working.</span>
             </h2>
             <p class="text-sm text-slate-700 leading-relaxed font-medium">
               Designed specifically for remote talukas, crowded Cyber Cafes, and patchy 2G mobile coverage. Lightweight, low-bandwidth, and generates physical printable handover slips for college clerks.
@@ -435,7 +435,7 @@ function startDiscovery(mode?: string) {
               Stop losing scholarships to clerical rejections.
             </h2>
             <p class="text-sm text-slate-300 leading-relaxed font-medium">
-              Over 38% of MahaDBT applications get queried or rejected due to minor certificate mismatches or missing Tahsildar seals. Yojnavia detects defects before you submit.
+              Over 38% of MahaDBT applications get queried or rejected due to minor certificate mismatches or missing Tahsildar seals. YojnaVia detects defects before you submit.
             </p>
 
             <div class="space-y-2.5 text-xs text-slate-200 font-medium">

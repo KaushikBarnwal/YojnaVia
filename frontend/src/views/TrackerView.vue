@@ -147,7 +147,7 @@ async function handleReEvaluateApp(schemeCode: string) {
       <Info class="w-5 h-5 text-amber-800 shrink-0 mt-0.5" />
       <div>
         <strong class="font-bold block text-amber-950 mb-0.5">User-Reported Application Status Notice (Self-Managed):</strong>
-        <span class="text-amber-900 font-medium">"This tracker is a personal planning and document-readiness log. YOJNAVIA does not integrate with internal government sanction databases and does not claim official departmental application status. All milestone stages, application dates, and reference numbers are user-reported."</span>
+        <span class="text-amber-900 font-medium">"This tracker is a personal planning and document-readiness log. YojnaVia does not integrate with internal government sanction databases and does not claim official departmental application status. All milestone stages, application dates, and reference numbers are user-reported."</span>
       </div>
     </div>
 

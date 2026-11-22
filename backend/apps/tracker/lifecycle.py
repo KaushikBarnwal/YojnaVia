@@ -175,7 +175,7 @@ class EntitlementLifecycleService:
             "is_user_reported": True,
             "official_vs_user_reported_notice": (
                 "Official Portal vs User-Reported Status: All milestones and stage selections shown here are self-reported "
-                "by the student for personal compliance planning. YOJNAVIA does not claim direct integration with internal "
+                "by the student for personal compliance planning. YojnaVia does not claim direct integration with internal "
                 "government treasury databases. Official sanction letters are issued exclusively via mahadbt.maharashtra.gov.in."
             ),
             "lifecycle_milestones": enriched_stages,

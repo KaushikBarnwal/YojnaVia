@@ -19,7 +19,6 @@ import {
   RotateCcw,
   Edit3,
   X,
-  Lock,
   Award,
   CheckCircle2,
   Mic,
@@ -838,7 +837,7 @@ function formatFieldValue(key: string, value: any): string {
           <div class="space-y-0.5">
             <div class="font-black uppercase tracking-wider text-[11px]">Zero-Aadhaar Sovereign Policy</div>
             <p class="text-amber-900 leading-normal font-medium text-[11px]">
-              YOJNAVIA never requests or records 12-digit Aadhaar numbers, OTPs, or bank passwords. All official filings occur on the official MahaDBT portal.
+              YojnaVia never requests or records 12-digit Aadhaar numbers, OTPs, or bank passwords. All official filings occur on the official MahaDBT portal.
             </p>
           </div>
         </div>

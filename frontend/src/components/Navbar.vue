@@ -306,7 +306,7 @@ async function handleRestart() {
         <div class="flex items-center gap-2 xl:hidden">
           <router-link to="/" class="flex items-center gap-2 group cursor-pointer">
             <img src="/favicon.svg" alt="YojnaVia" class="w-8 h-8 rounded-lg shadow-[1.5px_1.5px_0_0_#D97706]" />
-            <span class="text-base font-black tracking-tight text-[#0B132B]">YOJNAVIA</span>
+            <span class="text-base font-black tracking-tight text-[#0B132B]">YojnaVia</span>
           </router-link>
         </div>
 

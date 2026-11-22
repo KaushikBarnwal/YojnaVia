@@ -179,7 +179,7 @@ class GroqChatAssistant:
         field_lines = "\n".join(f"- {f}: {FIELD_FORMATS[f]}" for f in requested)
         keys = ", ".join(requested)
         return (
-            "You are YOJNAVIA, an empathetic, sovereign benefits guide for citizens in Maharashtra, India.\n"
+            "You are YojnaVia, an empathetic, sovereign benefits guide for citizens in Maharashtra, India.\n"
             "You extract structured profile facts for deterministic government scheme matching AND produce structured, empathetic guidance.\n\n"
             "CRITICAL LANGUAGE MIRRORING RULES (MANDATORY):\n"
             "- If the user asks in Hindi or Hinglish (e.g. 'meri umar 21 saal hai', 'mai pune me rehta hu', or Devanagari Hindi), reply in natural Hindi or Hinglish matching their register!\n"

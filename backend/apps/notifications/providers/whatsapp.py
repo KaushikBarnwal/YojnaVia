@@ -101,7 +101,7 @@ class MetaWhatsAppCloudProvider(BaseNotificationProvider):
             "type": "text",
             "text": {
                 "preview_url": False,
-                "body": f"*{title}*\n\n{body}\n\n_YOJNAVIA Citizen Services • Maharashtra_"
+                "body": f"*{title}*\n\n{body}\n\n_YojnaVia Citizen Services • Maharashtra_"
             }
         }
 

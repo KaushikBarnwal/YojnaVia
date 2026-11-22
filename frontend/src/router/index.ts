@@ -18,159 +18,159 @@ import TermsView from '../views/TermsView.vue';
 import NotFoundView from '../views/NotFoundView.vue';
 
 const routes = [
-  { 
-    path: '/', 
-    name: 'Landing', 
+  {
+    path: '/',
+    name: 'Landing',
     component: LandingView,
     meta: {
-      title: 'YOJNAVIA — Claim What’s Yours | Maharashtra Benefits Navigator',
+      title: 'YojnaVia — Claim What’s Yours | Maharashtra Benefits Navigator',
       description: 'Discover every government scheme and scholarship in plain Marathi, Hindi, and English. 100% deterministic rules, zero-Aadhaar policy, and RTS Act 2015 tracking.'
     }
   },
-  { 
-    path: '/app', 
-    name: 'AppIntake', 
+  {
+    path: '/app',
+    name: 'AppIntake',
     component: IntakeView,
     meta: {
-      title: 'AI Conversational Intake & Discovery — YOJNAVIA',
+      title: 'AI Conversational Intake & Discovery — YojnaVia',
       description: 'Speak or type your age, course, and income in Marathi, Hindi, or English to unlock likely eligible Maharashtra welfare entitlements.'
     }
   },
   { path: '/app/intake', redirect: '/app' },
   { path: '/intake', redirect: '/app' },
-  { 
-    path: '/review', 
-    name: 'ProfileReview', 
+  {
+    path: '/review',
+    name: 'ProfileReview',
     component: ProfileReviewView,
     meta: {
-      title: 'Profile Verification & Statutory Audit — YOJNAVIA',
+      title: 'Profile Verification & Statutory Audit — YojnaVia',
       description: 'Review and confirm your verified demographic criteria against Maharashtra welfare resolutions.'
     }
   },
-  { 
-    path: '/schemes', 
-    name: 'Schemes', 
+  {
+    path: '/schemes',
+    name: 'Schemes',
     component: SchemesDashboardView,
     meta: {
-      title: 'Recommended Schemes & Scholarships Catalog — YOJNAVIA',
+      title: 'Recommended Schemes & Scholarships Catalog — YojnaVia',
       description: 'Explore 15 pre-qualified Maharashtra Higher Education and Social Justice schemes matched deterministically with GR citations.'
     }
   },
-  { 
-    path: '/schemes/:code', 
-    name: 'SchemeDetail', 
+  {
+    path: '/schemes/:code',
+    name: 'SchemeDetail',
     component: SchemeDetailView,
     meta: {
-      title: 'Scheme Specifications & Applying Guide — YOJNAVIA',
+      title: 'Scheme Specifications & Applying Guide — YojnaVia',
       description: 'Step-by-step applying instructions, issuing authorities, and required document checklists.'
     }
   },
-  { 
-    path: '/family', 
-    name: 'FamilyBenefits', 
+  {
+    path: '/family',
+    name: 'FamilyBenefits',
     component: FamilyBenefitsView,
     meta: {
-      title: 'Family Stacking & Household Welfare — YOJNAVIA',
+      title: 'Family Stacking & Household Welfare — YojnaVia',
       description: 'Combine and maximize household benefits across students, parents, and siblings without illegal stacking conflicts.'
     }
   },
-  { 
-    path: '/what-if', 
-    name: 'WhatIfSimulator', 
+  {
+    path: '/what-if',
+    name: 'WhatIfSimulator',
     component: WhatIfSimulatorView,
     meta: {
-      title: 'What-If Entitlement Simulator — YOJNAVIA',
+      title: 'What-If Entitlement Simulator — YojnaVia',
       description: 'Simulate how income certificate changes or hosteller status unlocks new higher education fee waivers.'
     }
   },
-  { 
-    path: '/gr-interpreter', 
-    name: 'GrInterpreter', 
+  {
+    path: '/gr-interpreter',
+    name: 'GrInterpreter',
     component: GrInterpreterView,
     meta: {
-      title: 'Government Resolution (GR) Interpreter — YOJNAVIA',
+      title: 'Government Resolution (GR) Interpreter — YojnaVia',
       description: 'Decode complex Maharashtra government resolutions and gazette circulars into plain language and structured rules.'
     }
   },
-  { 
-    path: '/community-gap', 
-    name: 'CommunityGap', 
+  {
+    path: '/community-gap',
+    name: 'CommunityGap',
     component: CommunityGapView,
     meta: {
-      title: 'Community Insights & Grievance Intelligence — YOJNAVIA',
+      title: 'Community Insights & Grievance Intelligence — YojnaVia',
       description: 'Track rejection hotspots and RTI/RTS Act 2015 resolution metrics across Maharashtra districts.'
     }
   },
-  { 
-    path: '/documents', 
-    name: 'DocumentGraph', 
+  {
+    path: '/documents',
+    name: 'DocumentGraph',
     component: DocumentGraphView,
     meta: {
-      title: 'Cross-Scheme Document Dependency Graph — YOJNAVIA',
+      title: 'Cross-Scheme Document Dependency Graph — YojnaVia',
       description: 'Visual prerequisite tree mapping Domicile, Tahsildar Income, Caste Validity, and Non-Creamy Layer certificates.'
     }
   },
-  { 
-    path: '/tracker', 
-    name: 'Tracker', 
+  {
+    path: '/tracker',
+    name: 'Tracker',
     component: TrackerView,
     meta: {
-      title: 'Application Lifecycle & RTS SLA Tracker — YOJNAVIA',
+      title: 'Application Lifecycle & RTS SLA Tracker — YojnaVia',
       description: 'Track saved applications from preparation through scrutiny to final disbursement with 30-day statutory SLAs.'
     }
   },
-  { 
-    path: '/notifications', 
-    name: 'NotificationPreferences', 
+  {
+    path: '/notifications',
+    name: 'NotificationPreferences',
     component: NotificationPreferencesView,
     meta: {
-      title: 'Deadline Reminders & SMS/WhatsApp Alerts — YOJNAVIA',
+      title: 'Deadline Reminders & SMS/WhatsApp Alerts — YojnaVia',
       description: 'Configure automated SMS and WhatsApp reminders for scholarship filing deadlines.'
     }
   },
-  { 
-    path: '/counselor', 
-    name: 'CounselorDashboard', 
+  {
+    path: '/counselor',
+    name: 'CounselorDashboard',
     component: CounselorDashboardView,
     meta: {
-      title: 'Aaple Sarkar Seva Kendra (ASSK) Counselor Desk — YOJNAVIA',
+      title: 'Aaple Sarkar Seva Kendra (ASSK) Counselor Desk — YojnaVia',
       description: 'Co-pilot for VLEs and CSC operators to serve 50+ walk-in citizens daily with zero data leakage.'
     }
   },
-  { 
-    path: '/admin-portal', 
-    name: 'AdminPortal', 
+  {
+    path: '/admin-portal',
+    name: 'AdminPortal',
     component: AdminPortalView,
     meta: {
-      title: 'Scheme Rules & Gazette Admin Portal — YOJNAVIA',
+      title: 'Scheme Rules & Gazette Admin Portal — YojnaVia',
       description: 'Edit scheme rules and criteria versions as policies change and trigger student re-evaluations.'
     }
   },
-  { 
-    path: '/privacy', 
-    name: 'Privacy', 
+  {
+    path: '/privacy',
+    name: 'Privacy',
     component: PrivacyView,
     meta: {
-      title: 'Citizen Privacy & Zero-Aadhaar Policy — YOJNAVIA',
-      description: 'Read YOJNAVIA’s sovereign zero-Aadhaar guarantee and client-side data privacy policy.'
+      title: 'Citizen Privacy & Zero-Aadhaar Policy — YojnaVia',
+      description: 'Read YojnaVia’s sovereign zero-Aadhaar guarantee and client-side data privacy policy.'
     }
   },
-  { 
-    path: '/terms', 
-    name: 'Terms', 
+  {
+    path: '/terms',
+    name: 'Terms',
     component: TermsView,
     meta: {
-      title: 'Terms of Service & Statutory Disclaimers — YOJNAVIA',
+      title: 'Terms of Service & Statutory Disclaimers — YojnaVia',
       description: 'Statutory disclaimers, RTS Act 2015 framework, and informational eligibility guidelines.'
     }
   },
-  { 
-    path: '/:pathMatch(.*)*', 
-    name: 'NotFound', 
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
     component: NotFoundView,
     meta: {
-      title: '404 Page Not Found — YOJNAVIA',
-      description: 'The requested statutory page or scheme link was not found on YOJNAVIA.'
+      title: '404 Page Not Found — YojnaVia',
+      description: 'The requested statutory page or scheme link was not found on YojnaVia.'
     }
   },
 ];
@@ -188,7 +188,7 @@ const router = createRouter({
 
 // Dynamic Title & Meta Description Synchronization
 router.afterEach((to) => {
-  const title = (to.meta?.title as string) || 'YOJNAVIA — Maharashtra Benefits Navigator';
+  const title = (to.meta?.title as string) || 'YojnaVia — Maharashtra Benefits Navigator';
   document.title = title;
 
   const desc = to.meta?.description as string;
@@ -203,8 +203,8 @@ router.afterEach((to) => {
   }
 
   // Analytics event dispatch
-  if (typeof window !== 'undefined' && (window as any).yojnaviaAnalytics) {
-    (window as any).yojnaviaAnalytics.trackEvent('page_view', { path: to.path, title });
+  if (typeof window !== 'undefined' && (window as any).YojnaViaAnalytics) {
+    (window as any).YojnaViaAnalytics.trackEvent('page_view', { path: to.path, title });
   }
 });
 

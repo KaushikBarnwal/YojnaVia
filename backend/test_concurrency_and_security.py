@@ -1,5 +1,5 @@
 """
-Comprehensive Concurrency, Security, and Performance Verification Suite for YOJNAVIA.
+Comprehensive Concurrency, Security, and Performance Verification Suite for YojnaVia.
 
 Tests:
 1. Concurrency & Performance: 20 simultaneous simulated citizens making parallel requests

@@ -1,5 +1,5 @@
 """
-Django settings for core project - YOJNAVIA.
+Django settings for core project - YojnaVia.
 """
 
 from pathlib import Path
@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
 
-    # Yojnavia core apps
+    # YojnaVia core apps
     'apps.profiles',
     'apps.schemes',
     'apps.citizens',
@@ -139,7 +139,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'yojnavia-mem-cache',
+        'LOCATION': 'YojnaVia-mem-cache',
         'TIMEOUT': 300,  # 5 minutes default TTL
     }
 }

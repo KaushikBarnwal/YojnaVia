@@ -27,7 +27,7 @@
   </g>
 
   <!-- Brand Wordmark -->
-  <text x="210" y="155" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="48" fill="#FBFBFA" letter-spacing="-1">YOJNAVIA</text>
+  <text x="210" y="155" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="48" fill="#FBFBFA" letter-spacing="-1">YojnaVia</text>
   <rect x="460" y="120" width="70" height="34" rx="8" fill="#F59E0B"/>
   <text x="495" y="144" font-family="system-ui, sans-serif" font-weight="900" font-size="16" fill="#0B132B" text-anchor="middle">AI</text>
 

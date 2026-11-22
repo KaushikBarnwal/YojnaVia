@@ -110,7 +110,7 @@ onMounted(async () => {
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600 font-medium pb-4 border-b border-slate-100">
           <div class="flex items-center gap-2 flex-wrap">
-            <span class="font-black text-[#0B132B] tracking-tight text-sm">YOJNAVIA</span>
+            <span class="font-black text-[#0B132B] tracking-tight text-sm">YojnaVia</span>
             <span>•</span>
             <span class="font-bold text-slate-800">{{ t('brand_subtitle', store.locale) }}</span>
             <span>•</span>
@@ -123,12 +123,12 @@ onMounted(async () => {
           <!-- Clickable Email & Helpdesk -->
           <div class="flex items-center gap-3 text-xs">
             <a
-              href="mailto:support@yojnavia.in"
+              href="mailto:support@YojnaVia.in"
               class="inline-flex items-center gap-1.5 font-bold text-[#0B132B] hover:text-[#D97706] transition-colors"
               title="Official Civic Tech Helpdesk"
             >
               <Mail class="w-3.5 h-3.5 text-[#D97706]" />
-              <span>support@yojnavia.in</span>
+              <span>support@YojnaVia.in</span>
             </a>
           </div>
         </div>

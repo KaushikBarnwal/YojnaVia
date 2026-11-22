@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
 import api, { intakeApi } from '../services/api';
-import type { 
-  StudentProfile, 
-  EvaluatedScheme, 
-  EvaluationSummary, 
-  StackingBundle, 
-  DocumentNode, 
+import type {
+  StudentProfile,
+  EvaluatedScheme,
+  EvaluationSummary,
+  StackingBundle,
+  DocumentNode,
   ApplicationRecord,
   ApplicationStatus,
   PersonaInfo,
@@ -16,7 +16,7 @@ import type {
 
 export const useStudentStore = defineStore('student', {
   state: () => ({
-    sessionToken: localStorage.getItem('yojnavia_session_token') || ('yojnavia-' + Math.random().toString(36).substring(2, 10)),
+    sessionToken: localStorage.getItem('YojnaVia_session_token') || ('YojnaVia-' + Math.random().toString(36).substring(2, 10)),
     profile: null as StudentProfile | null,
     evaluationSummary: null as EvaluationSummary | null,
     evaluatedSchemes: [] as EvaluatedScheme[],
@@ -37,7 +37,7 @@ export const useStudentStore = defineStore('student', {
     chatMessages: [
       {
         sender: 'assistant',
-        text: 'Namaste! I am YOJNAVIA. Tell me about your situation, education, family income and district in Maharashtra (e.g. "I am 21, from Pune, studying MCA, family income around ₹2 lakh"), or choose a demo persona above to discover what benefits you qualify for.',
+        text: 'Namaste! I am YojnaVia. Tell me about your situation, education, family income and district in Maharashtra (e.g. "I am 21, from Pune, studying MCA, family income around ₹2 lakh"), or choose a demo persona above to discover what benefits you qualify for.',
         structuredAnalysis: {
           understanding: 'Ready to evaluate Maharashtra welfare entitlements for your household.',
           key_statutory_finding: '100% deterministic rule matching against authentic Maharashtra Government Resolutions (GRs).',
@@ -59,10 +59,10 @@ export const useStudentStore = defineStore('student', {
       error?: string;
       structuredAnalysis?: any;
     }>,
-    adminUser: (localStorage.getItem('yojnavia_admin_user') ? JSON.parse(localStorage.getItem('yojnavia_admin_user')!) : null) as AdminUser | null,
-    adminToken: localStorage.getItem('yojnavia_admin_token') || '',
+    adminUser: (localStorage.getItem('YojnaVia_admin_user') ? JSON.parse(localStorage.getItem('YojnaVia_admin_user')!) : null) as AdminUser | null,
+    adminToken: localStorage.getItem('YojnaVia_admin_token') || '',
     adminSchemes: [] as any[],
-    locale: (localStorage.getItem('yojnavia_locale') || 'en') as 'en' | 'mr' | 'hi'
+    locale: (localStorage.getItem('YojnaVia_locale') || 'en') as 'en' | 'mr' | 'hi'
   }),
 
   getters: {
@@ -74,13 +74,13 @@ export const useStudentStore = defineStore('student', {
   actions: {
     setLocale(lang: 'en' | 'mr' | 'hi') {
       this.locale = lang;
-      localStorage.setItem('yojnavia_locale', lang);
+      localStorage.setItem('YojnaVia_locale', lang);
     },
 
     async initSession() {
       if (!this.sessionToken) {
-        this.sessionToken = 'yojnavia-' + Math.random().toString(36).substring(2, 10);
-        localStorage.setItem('yojnavia_session_token', this.sessionToken);
+        this.sessionToken = 'YojnaVia-' + Math.random().toString(36).substring(2, 10);
+        localStorage.setItem('YojnaVia_session_token', this.sessionToken);
       }
       await this.fetchPersonas();
       await this.fetchProfile();
@@ -115,7 +115,7 @@ export const useStudentStore = defineStore('student', {
         this.profile = res.data.profile;
         if (res.data.session_token) {
           this.sessionToken = res.data.session_token;
-          localStorage.setItem('yojnavia_session_token', this.sessionToken);
+          localStorage.setItem('YojnaVia_session_token', this.sessionToken);
         }
       } catch (err: any) {
         this.errorMessage = 'Failed to load student profile';
@@ -167,8 +167,8 @@ export const useStudentStore = defineStore('student', {
     async sendIntakeMessage(message: string) {
       if (!message.trim()) return;
       if (!this.sessionToken) {
-        this.sessionToken = 'yojnavia-' + Math.random().toString(36).substring(2, 10);
-        localStorage.setItem('yojnavia_session_token', this.sessionToken);
+        this.sessionToken = 'YojnaVia-' + Math.random().toString(36).substring(2, 10);
+        localStorage.setItem('YojnaVia_session_token', this.sessionToken);
       }
       this.chatMessages.push({ sender: 'user', text: message });
       this.isLoading = true;
@@ -359,8 +359,8 @@ export const useStudentStore = defineStore('student', {
         });
         this.adminToken = res.data.token;
         this.adminUser = res.data.user;
-        localStorage.setItem('yojnavia_admin_token', this.adminToken);
-        localStorage.setItem('yojnavia_admin_user', JSON.stringify(this.adminUser));
+        localStorage.setItem('YojnaVia_admin_token', this.adminToken);
+        localStorage.setItem('YojnaVia_admin_user', JSON.stringify(this.adminUser));
         await this.fetchAdminSchemes();
         return res.data;
       } catch (err: any) {
@@ -374,8 +374,8 @@ export const useStudentStore = defineStore('student', {
     adminLogout() {
       this.adminToken = '';
       this.adminUser = null;
-      localStorage.removeItem('yojnavia_admin_token');
-      localStorage.removeItem('yojnavia_admin_user');
+      localStorage.removeItem('YojnaVia_admin_token');
+      localStorage.removeItem('YojnaVia_admin_user');
       this.adminSchemes = [];
     },
 

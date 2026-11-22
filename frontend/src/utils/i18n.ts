@@ -2,7 +2,7 @@ export type SupportedLocale = 'en' | 'mr' | 'hi';
 
 export const translations = {
   en: {
-    brand_title: 'YOJNAVIA',
+    brand_title: 'YojnaVia',
     brand_subtitle: 'From Eligibility to Action',
     edition_badge: 'Maharashtra Student Edition',
     nav_discovery: 'Discovery',
