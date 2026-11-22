@@ -345,28 +345,32 @@ function formatFieldValue(key: string, value: any): string {
     <PersonaBar />
 
     <!-- Hero Header -->
-    <div class="text-center max-w-2xl mx-auto mb-5">
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+    <div class="text-center max-w-3xl mx-auto mb-6">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#FFFBEB] text-[#92400E] border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] text-[11px] font-black uppercase tracking-wider mb-2.5">
+        <Sparkles class="w-3.5 h-3.5 text-[#D97706] fill-current" />
+        <span>Sovereign Welfare Intelligence • 100% Deterministic Rules</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-black text-[#0B132B] tracking-tight">
         Discover Government Schemes & Scholarships
       </h1>
-      <p class="text-slate-600 text-sm mt-1.5">
-        Tell us about your education and family background, or select a demo profile above to discover what you qualify for.
+      <p class="text-slate-700 text-xs sm:text-sm mt-1.5 font-medium max-w-xl mx-auto">
+        पात्रतेपासून थेट लाभापर्यंत — Speak or type your details in Marathi, Hindi, or English to unlock verified Maharashtra welfare entitlements.
       </p>
     </div>
 
     <!-- Intake Progress Indicator Bar -->
-    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-3.5 mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <div class="bg-white rounded-2xl border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] p-4 mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-xs shrink-0">
+        <div class="w-9 h-9 rounded-xl bg-[#0B132B] text-white flex items-center justify-center font-black text-xs shrink-0 shadow-[1px_1px_0_0_#D97706]">
           {{ progressPercentage }}%
         </div>
         <div>
-          <div class="text-xs font-semibold text-slate-800">
-            Profile Completion: <span class="text-indigo-600 font-bold">{{ store.intakeState?.known_count || 0 }}</span> of <span class="text-slate-600">{{ store.intakeState?.total_count || 1 }}</span> key details
+          <div class="text-xs font-bold text-slate-900">
+            Profile Completion: <span class="text-[#D97706] font-black">{{ store.intakeState?.known_count || 0 }}</span> of <span class="text-slate-700">{{ store.intakeState?.total_count || 1 }}</span> statutory criteria
           </div>
-          <div class="w-36 sm:w-48 bg-slate-100 rounded-full h-1.5 overflow-hidden mt-1">
+          <div class="w-36 sm:w-48 bg-slate-200 rounded-full h-2 overflow-hidden mt-1 border border-slate-300">
             <div 
-              class="bg-indigo-600 h-1.5 rounded-full transition-all duration-500"
+              class="bg-[#D97706] h-2 rounded-full transition-all duration-500"
               :style="{ width: `${progressPercentage}%` }"
             ></div>
           </div>
@@ -375,16 +379,16 @@ function formatFieldValue(key: string, value: any): string {
       
       <div class="flex items-center gap-2 self-end sm:self-auto">
         <span 
-          class="text-xs font-medium px-2.5 py-1 rounded-full border inline-flex items-center gap-1.5"
-          :class="isEligibilityReady ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-50 text-slate-600 border-slate-200'"
+          class="text-xs font-black px-3 py-1 rounded-full border-[1.5px] border-[#0B132B] inline-flex items-center gap-1.5 shadow-[1px_1px_0_0_#0B132B]"
+          :class="isEligibilityReady ? 'bg-[#ECFDF5] text-[#065F46]' : 'bg-[#FFFBEB] text-[#92400E]'"
         >
-          <span class="w-1.5 h-1.5 rounded-full" :class="isEligibilityReady ? 'bg-emerald-500' : 'bg-indigo-500 animate-pulse'"></span>
-          {{ isEligibilityReady ? 'Ready for Matching' : 'Gathering Details' }}
+          <span class="w-2 h-2 rounded-full" :class="isEligibilityReady ? 'bg-[#059669]' : 'bg-[#D97706] animate-ping'"></span>
+          {{ isEligibilityReady ? 'Ready for Matching' : 'Gathering Criteria' }}
         </span>
         <button
           @click="handleRestart"
           title="Reset conversation"
-          class="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-rose-600 border border-slate-200 hover:border-rose-200 px-2.5 py-1 rounded-lg transition-colors bg-white shadow-xs"
+          class="neo-btn neo-btn-paper text-xs px-2.5 py-1 text-slate-700 hover:text-red-700"
         >
           <RotateCcw class="w-3 h-3" />
           <span>Reset</span>
@@ -395,24 +399,24 @@ function formatFieldValue(key: string, value: any): string {
     <!-- Eligibility Ready Notification Bar -->
     <div 
       v-if="isEligibilityReady"
-      class="mb-5 bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl px-5 py-3.5 text-white shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3 animate-in fade-in"
+      class="mb-5 bg-[#0B132B] border-[1.5px] border-[#0B132B] rounded-2xl px-5 py-4 text-white shadow-[3px_3px_0_0_#D97706] flex flex-col sm:flex-row items-center justify-between gap-3 animate-in fade-in"
     >
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
-          <Award class="w-5 h-5 text-white" />
+        <div class="w-10 h-10 rounded-xl bg-[#D97706] text-white flex items-center justify-center shrink-0 border border-white/20 shadow-[1px_1px_0_0_#060A14]">
+          <Award class="w-5 h-5" />
         </div>
         <div>
-          <div class="text-sm font-bold">
-            Matching complete! {{ store.evaluationSummary?.likely_eligible || 0 }} eligible scholarships found
+          <div class="text-sm sm:text-base font-black">
+            Matching Complete! {{ store.evaluationSummary?.likely_eligible || 0 }} eligible scholarships found
           </div>
-          <div class="text-xs text-emerald-100">
-            Based on official Maharashtra government resolution rules
+          <div class="text-xs text-amber-200/90 font-medium">
+            Verified against authentic Maharashtra Government Resolutions (GRs)
           </div>
         </div>
       </div>
       <button
         @click="proceedToSchemes"
-        class="px-4 py-2 bg-white text-emerald-800 hover:bg-emerald-50 font-bold rounded-xl text-xs sm:text-sm flex items-center gap-1.5 shadow-sm transition-all shrink-0"
+        class="neo-btn neo-btn-saffron px-4 py-2 text-xs sm:text-sm shadow-[2px_2px_0_0_#FFFFFF] shrink-0"
       >
         <span>View Matched Schemes</span>
         <ArrowRight class="w-4 h-4" />
@@ -423,36 +427,36 @@ function formatFieldValue(key: string, value: any): string {
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       
       <!-- Conversational Chat Interface -->
-      <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[520px] sm:h-[640px] overflow-hidden">
+      <div class="lg:col-span-7 bg-white rounded-2xl border-[1.5px] border-[#0B132B] shadow-[3px_3px_0_0_#0B132B] flex flex-col h-[540px] sm:h-[650px] overflow-hidden">
         
         <!-- Chat Header -->
-        <div class="px-4 py-3 bg-slate-50/80 border-b border-slate-200 flex items-center justify-between">
+        <div class="px-4 py-3 bg-[#0B132B] text-white border-b-[1.5px] border-[#0B132B] flex items-center justify-between">
           <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+            <div class="w-8 h-8 rounded-xl bg-[#D97706] text-white border border-white/20 flex items-center justify-center shadow-[1px_1px_0_0_#060A14]">
               <Bot class="w-4 h-4" />
             </div>
             <div>
-              <div class="text-sm font-bold text-slate-900">YojnaVia Assistant</div>
-              <div class="text-[11px] text-emerald-600 flex items-center gap-1 font-medium">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <div class="text-sm font-black tracking-tight text-white">YojnaVia Sovereign Navigator</div>
+              <div class="text-[11px] text-amber-300 flex items-center gap-1 font-bold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 Official Maharashtra Scheme Guide
               </div>
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-xs text-emerald-800 font-bold inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full shadow-xs">
+            <span class="neo-stamp neo-stamp-emerald text-[10px]">
               <Mic class="w-3 h-3 text-emerald-600 animate-pulse" />
               <span>{{ t('voice_pilot_badge', store.locale) }}</span>
             </span>
-            <span class="text-xs text-slate-500 inline-flex items-center gap-1 bg-white border border-slate-200 px-2.5 py-1 rounded-full shadow-xs hidden sm:inline-flex">
-              <Lock class="w-3 h-3 text-emerald-600" />
-              <span>Safe Demo • No Aadhaar</span>
+            <span class="neo-stamp text-[10px] hidden sm:inline-flex">
+              <Lock class="w-3 h-3 text-[#059669]" />
+              <span>Zero-Aadhaar Guaranteed</span>
             </span>
           </div>
         </div>
 
         <!-- Chat Messages Area -->
-        <div class="flex-1 p-4 overflow-y-auto space-y-3.5">
+        <div class="flex-1 p-4 overflow-y-auto space-y-3.5 bg-[#FBFBFA]">
           <div 
             v-for="(msg, index) in store.chatMessages" 
             :key="index"
@@ -460,26 +464,26 @@ function formatFieldValue(key: string, value: any): string {
             :class="msg.sender === 'user' ? 'flex-row-reverse' : ''"
           >
             <div 
-              class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-white text-xs font-bold"
-              :class="msg.sender === 'user' ? 'bg-indigo-600' : (msg.isSensitiveRefusal ? 'bg-amber-600' : 'bg-slate-800')"
+              class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-white text-xs font-bold border-[1.5px] border-[#0B132B]"
+              :class="msg.sender === 'user' ? 'bg-[#0B132B] shadow-[1px_1px_0_0_#D97706]' : (msg.isSensitiveRefusal ? 'bg-amber-600 shadow-[1px_1px_0_0_#0B132B]' : 'bg-[#D97706] shadow-[1px_1px_0_0_#0B132B]')"
             >
-              <User v-if="msg.sender === 'user'" class="w-3.5 h-3.5" />
-              <ShieldCheck v-else-if="msg.isSensitiveRefusal" class="w-3.5 h-3.5" />
-              <Bot v-else class="w-3.5 h-3.5" />
+              <User v-if="msg.sender === 'user'" class="w-4 h-4" />
+              <ShieldCheck v-else-if="msg.isSensitiveRefusal" class="w-4 h-4" />
+              <Bot v-else class="w-4 h-4" />
             </div>
 
             <div 
-              class="max-w-[85%] rounded-2xl p-3.5 text-sm shadow-xs"
+              class="max-w-[85%] rounded-2xl p-3.5 text-sm"
               :class="msg.sender === 'user' 
-                ? 'bg-indigo-600 text-white rounded-tr-xs' 
+                ? 'bg-[#0B132B] text-white rounded-tr-xs border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#D97706]' 
                 : (msg.isSensitiveRefusal 
-                    ? 'bg-amber-50 text-amber-900 border border-amber-200 rounded-tl-xs'
-                    : 'bg-slate-100 text-slate-900 rounded-tl-xs border border-slate-200/80')"
+                    ? 'bg-amber-50 text-amber-950 border-[1.5px] border-amber-600 rounded-tl-xs shadow-[2px_2px_0_0_#0B132B]'
+                    : 'bg-white text-slate-900 rounded-tl-xs border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B]')"
             >
-              <p class="leading-relaxed whitespace-pre-line">{{ msg.text }}</p>
+              <p class="leading-relaxed whitespace-pre-line font-medium">{{ msg.text }}</p>
 
               <!-- Optional Error Banner if extraction failed or timed out -->
-              <div v-if="msg.error" class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded p-1.5 flex items-center gap-1.5">
+              <div v-if="msg.error" class="mt-2 text-xs text-amber-800 bg-amber-50 border-[1.5px] border-amber-300 rounded-lg p-2 flex items-center gap-1.5 font-bold">
                 <AlertCircle class="w-3.5 h-3.5 text-amber-600 shrink-0" />
                 <span>{{ msg.error }}</span>
               </div>
@@ -487,19 +491,19 @@ function formatFieldValue(key: string, value: any): string {
           </div>
 
           <!-- Typing Indicator -->
-          <div v-if="store.isLoading" class="flex items-center gap-2 text-slate-500 text-xs italic pl-10 py-1">
-            <span class="w-2 h-2 rounded-full bg-indigo-600 animate-ping"></span>
-            <span>Checking your details against Maharashtra scheme criteria...</span>
+          <div v-if="store.isLoading" class="flex items-center gap-2 text-slate-600 text-xs italic pl-11 py-1 font-semibold">
+            <span class="w-2 h-2 rounded-full bg-[#D97706] animate-ping"></span>
+            <span>Evaluating your facts against Maharashtra statutory rules...</span>
           </div>
         </div>
 
         <!-- Suggested Answers Chips (Dynamic from Next Question) -->
         <div 
           v-if="store.nextQuestion && store.nextQuestion.suggested_answers && store.nextQuestion.suggested_answers.length > 0"
-          class="px-4 py-2.5 bg-indigo-50/70 border-t border-indigo-100"
+          class="px-4 py-2.5 bg-[#FFFBEB] border-t-[1.5px] border-[#0B132B]"
         >
-          <div class="text-[11px] font-bold text-indigo-900 mb-1.5 flex items-center gap-1">
-            <Sparkles class="w-3 h-3 text-indigo-600" />
+          <div class="text-[11px] font-black text-[#92400E] mb-1.5 flex items-center gap-1 uppercase tracking-wide">
+            <Sparkles class="w-3 h-3 text-[#D97706]" />
             Suggested Quick Answers:
           </div>
           <div class="flex flex-wrap gap-1.5">
@@ -507,7 +511,7 @@ function formatFieldValue(key: string, value: any): string {
               v-for="(chip, chipIdx) in store.nextQuestion.suggested_answers"
               :key="chipIdx"
               @click="handleSendChip(chip)"
-              class="text-xs bg-white hover:bg-indigo-600 hover:text-white border border-indigo-200 text-indigo-800 font-medium px-3 py-1 rounded-full transition-colors shadow-xs"
+              class="neo-btn neo-btn-paper text-xs px-3 py-1 font-bold text-slate-800 hover:text-white hover:bg-[#0B132B]"
             >
               {{ chip }}
             </button>
@@ -517,47 +521,47 @@ function formatFieldValue(key: string, value: any): string {
         <!-- Starter Prompt Suggestions (When chat just started) -->
         <div 
           v-else-if="store.chatMessages.length <= 2"
-          class="px-4 py-2 bg-slate-50 border-t border-slate-200 overflow-x-auto whitespace-nowrap scrollbar-none flex gap-2"
+          class="px-4 py-2 bg-slate-50 border-t-[1.5px] border-[#0B132B]/20 overflow-x-auto whitespace-nowrap scrollbar-none flex gap-2"
         >
           <button
             v-for="(sp, idx) in samplePrompts"
             :key="idx"
             @click="handleUsePrompt(sp)"
-            class="text-[11px] bg-white border border-slate-200 hover:border-indigo-400 hover:text-indigo-700 px-3 py-1 rounded-full text-slate-600 transition-colors shrink-0"
+            class="neo-btn neo-btn-paper text-[11px] px-3 py-1 font-bold text-slate-700 hover:border-[#0B132B] shrink-0"
           >
             "{{ sp.substring(0, 36) }}..."
           </button>
         </div>
 
         <!-- Voice Mode & Quick Speech Demo Strip -->
-        <div class="px-4 py-2 bg-gradient-to-r from-emerald-50/70 via-indigo-50/40 to-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="px-4 py-2 bg-[#F8FAFC] border-t-[1.5px] border-[#0B132B] flex flex-wrap items-center justify-between gap-2 text-xs">
           <div class="flex items-center gap-1.5">
-            <span class="text-[11px] font-bold text-emerald-900 flex items-center gap-1">
-              <Volume2 class="w-3.5 h-3.5 text-emerald-600" />
-              <span>Voice Language:</span>
+            <span class="text-[11px] font-black text-[#0B132B] flex items-center gap-1">
+              <Volume2 class="w-3.5 h-3.5 text-[#059669]" />
+              <span>Voice:</span>
             </span>
-            <div class="inline-flex rounded-lg bg-white p-0.5 border border-slate-200 shadow-2xs text-[10px] font-bold">
+            <div class="inline-flex rounded-lg bg-white p-0.5 border-[1.5px] border-[#0B132B] shadow-[1px_1px_0_0_#0B132B] text-[10px] font-black">
               <button 
                 type="button"
                 @click="selectedVoiceLang = 'unknown'" 
-                class="px-2 py-0.5 rounded transition-all"
-                :class="selectedVoiceLang === 'unknown' ? 'bg-emerald-600 text-white' : 'text-slate-600 hover:text-slate-900'"
+                class="px-2 py-0.5 rounded transition-all cursor-pointer"
+                :class="selectedVoiceLang === 'unknown' ? 'bg-[#0B132B] text-white' : 'text-slate-600 hover:text-slate-900'"
               >
                 Auto
               </button>
               <button 
                 type="button"
                 @click="selectedVoiceLang = 'mr-IN'" 
-                class="px-2 py-0.5 rounded transition-all"
-                :class="selectedVoiceLang === 'mr-IN' ? 'bg-emerald-600 text-white' : 'text-slate-600 hover:text-slate-900'"
+                class="px-2 py-0.5 rounded transition-all cursor-pointer"
+                :class="selectedVoiceLang === 'mr-IN' ? 'bg-[#0B132B] text-white' : 'text-slate-600 hover:text-slate-900'"
               >
                 मराठी
               </button>
               <button 
                 type="button"
                 @click="selectedVoiceLang = 'hi-IN'" 
-                class="px-2 py-0.5 rounded transition-all"
-                :class="selectedVoiceLang === 'hi-IN' ? 'bg-emerald-600 text-white' : 'text-slate-600 hover:text-slate-900'"
+                class="px-2 py-0.5 rounded transition-all cursor-pointer"
+                :class="selectedVoiceLang === 'hi-IN' ? 'bg-[#0B132B] text-white' : 'text-slate-600 hover:text-slate-900'"
               >
                 हिंदी
               </button>
@@ -571,10 +575,10 @@ function formatFieldValue(key: string, value: any): string {
               @click="processAudioUpload('marathi')"
               :disabled="isTranscribing || isRecording"
               title="Test Marathi speech input with Pune, age 24, income 2 lakh"
-              class="px-2.5 py-1 bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg text-[10px] font-bold shadow-2xs transition-all flex items-center gap-1"
+              class="neo-btn neo-btn-paper px-2.5 py-1 text-[10px] font-black text-emerald-900 hover:bg-emerald-50"
             >
               <Radio class="w-2.5 h-2.5 text-emerald-600" />
-              <span>🎙️ Test Marathi Voice</span>
+              <span>🎙️ Marathi Voice</span>
             </button>
 
             <button
@@ -582,25 +586,25 @@ function formatFieldValue(key: string, value: any): string {
               @click="processAudioUpload('hindi')"
               :disabled="isTranscribing || isRecording"
               title="Test Hindi speech input"
-              class="px-2.5 py-1 bg-white hover:bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-lg text-[10px] font-bold shadow-2xs transition-all flex items-center gap-1"
+              class="neo-btn neo-btn-paper px-2.5 py-1 text-[10px] font-black text-amber-900 hover:bg-amber-50"
             >
-              <Radio class="w-2.5 h-2.5 text-indigo-600" />
-              <span>🎙️ Test Hindi Voice</span>
+              <Radio class="w-2.5 h-2.5 text-amber-600" />
+              <span>🎙️ Hindi Voice</span>
             </button>
           </div>
         </div>
 
         <!-- Voice Error Alert -->
-        <div v-if="voiceError" class="mx-3 my-2 p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center justify-between gap-2">
-          <div class="flex items-center gap-1.5 font-medium">
+        <div v-if="voiceError" class="mx-3 my-2 p-2.5 bg-rose-50 border-[1.5px] border-rose-600 rounded-xl text-xs text-rose-900 flex items-center justify-between gap-2 shadow-[1px_1px_0_0_#0B132B]">
+          <div class="flex items-center gap-1.5 font-bold">
             <AlertCircle class="w-4 h-4 text-rose-600 shrink-0" />
             <span>{{ voiceError }}</span>
           </div>
-          <button @click="voiceError = ''" class="text-rose-500 hover:text-rose-800 text-xs font-bold">✕</button>
+          <button @click="voiceError = ''" class="text-rose-600 hover:text-rose-900 text-xs font-black">✕</button>
         </div>
 
         <!-- ACTIVE RECORDING BAR -->
-        <div v-if="isRecording" class="p-3 bg-red-50 border-t border-red-200 flex items-center justify-between gap-3 animate-in fade-in">
+        <div v-if="isRecording" class="p-3 bg-red-50 border-t-[1.5px] border-[#0B132B] flex items-center justify-between gap-3 animate-in fade-in">
           <div class="flex items-center gap-3">
             <div class="relative flex items-center justify-center">
               <span class="w-3.5 h-3.5 rounded-full bg-red-600 animate-ping absolute"></span>
@@ -609,7 +613,7 @@ function formatFieldValue(key: string, value: any): string {
             <div>
               <div class="text-xs font-bold text-red-950 flex items-center gap-2">
                 <span>{{ t('voice_recording', store.locale) }}</span>
-                <span class="font-mono bg-red-100 text-red-800 px-2 py-0.5 rounded text-[11px] font-extrabold">{{ formattedDuration }}</span>
+                <span class="font-mono bg-red-100 text-red-800 px-2 py-0.5 rounded text-[11px] font-extrabold border border-red-300">{{ formattedDuration }}</span>
               </div>
               <div class="text-[10px] text-red-700">Audio is processed in-memory and never saved to permanent disk.</div>
             </div>
@@ -619,14 +623,14 @@ function formatFieldValue(key: string, value: any): string {
             <button
               type="button"
               @click="cancelRecording()"
-              class="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded-xl text-xs font-bold transition-all"
+              class="neo-btn neo-btn-paper px-3 py-1.5 text-xs font-bold"
             >
               Cancel
             </button>
             <button
               type="button"
               @click="stopRecording()"
-              class="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5"
+              class="neo-btn bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 text-xs font-bold"
             >
               <Square class="w-3.5 h-3.5 fill-current" />
               <span>{{ t('voice_stop_record', store.locale) }}</span>
@@ -635,18 +639,18 @@ function formatFieldValue(key: string, value: any): string {
         </div>
 
         <!-- TRANSCRIBING LOADER BAR -->
-        <div v-else-if="isTranscribing" class="p-3.5 bg-indigo-50 border-t border-indigo-200 flex items-center justify-center gap-2 text-xs font-bold text-indigo-900 animate-in fade-in">
-          <RefreshCw class="w-4 h-4 text-indigo-600 animate-spin" />
+        <div v-else-if="isTranscribing" class="p-3.5 bg-amber-50 border-t-[1.5px] border-[#0B132B] flex items-center justify-center gap-2 text-xs font-bold text-amber-950 animate-in fade-in">
+          <RefreshCw class="w-4 h-4 text-[#D97706] animate-spin" />
           <span>{{ t('voice_transcribing', store.locale) }}</span>
         </div>
 
         <!-- Normal Chat Input Form -->
-        <form v-else @submit.prevent="handleSendMessage" class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
+        <form v-else @submit.prevent="handleSendMessage" class="p-3 bg-white border-t-[1.5px] border-[#0B132B] flex items-center gap-2">
           <input
             v-model="inputMessage"
             type="text"
-            placeholder="Describe your age, college, location, income or caste..."
-            class="flex-1 text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Describe your age, college, location, income or caste in any language..."
+            class="flex-1 text-xs sm:text-sm px-4 py-2.5 rounded-xl border-[1.5px] border-[#0B132B] bg-[#FBFBFA] focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 font-medium"
           />
 
           <!-- Microphone Recording Button -->
@@ -654,7 +658,7 @@ function formatFieldValue(key: string, value: any): string {
             type="button"
             @click="startRecording()"
             :title="t('voice_start_record', store.locale)"
-            class="p-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-xl transition-all shadow-xs shrink-0 flex items-center justify-center"
+            class="neo-btn neo-btn-paper p-2.5 text-[#059669] shrink-0"
           >
             <Mic class="w-4 h-4" />
           </button>
@@ -662,7 +666,7 @@ function formatFieldValue(key: string, value: any): string {
           <button
             type="submit"
             :disabled="!inputMessage.trim() || store.isLoading"
-            class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white rounded-xl font-medium text-sm flex items-center gap-1.5 transition-colors shadow-xs shrink-0"
+            class="neo-btn neo-btn-navy px-4 py-2.5 text-xs sm:text-sm text-white shrink-0 disabled:opacity-50"
           >
             <span>Send</span>
             <Send class="w-4 h-4" />
@@ -672,46 +676,46 @@ function formatFieldValue(key: string, value: any): string {
 
       <!-- Real-Time Extracted Profile State & Action Card (5 cols) -->
       <div class="lg:col-span-5 space-y-4">
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
-          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="bg-white rounded-2xl border-[1.5px] border-[#0B132B] shadow-[3px_3px_0_0_#0B132B] p-5">
+          <div class="flex items-center justify-between pb-3 border-b-[1.5px] border-[#0B132B]/10">
             <div>
-              <h2 class="text-sm sm:text-base font-bold text-slate-900">Your Profile Summary</h2>
-              <p class="text-xs text-slate-500">Details used to match your eligible schemes</p>
+              <h2 class="text-sm sm:text-base font-black text-[#0B132B]">Live Verified Profile</h2>
+              <p class="text-xs text-slate-500 font-medium">Synchronized with statutory rules</p>
             </div>
             <span 
-              class="text-xs font-semibold px-2.5 py-0.5 rounded-full border flex items-center gap-1"
-              :class="isEligibilityReady ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-50 text-slate-600 border-slate-200'"
+              class="neo-stamp text-[10px]"
+              :class="isEligibilityReady ? 'neo-stamp-emerald' : 'neo-stamp-amber'"
             >
               <CheckCircle2 v-if="isEligibilityReady" class="w-3.5 h-3.5 text-emerald-600" />
-              <Cpu v-else class="w-3.5 h-3.5 text-indigo-600" />
+              <Cpu v-else class="w-3.5 h-3.5 text-[#D97706]" />
               {{ store.intakeState?.known_count || 0 }} Confirmed
             </span>
           </div>
 
           <!-- Structured Fields List -->
-          <div class="divide-y divide-slate-100 text-sm mt-1 max-h-[460px] overflow-y-auto pr-1">
+          <div class="divide-y divide-slate-100 text-sm mt-2 max-h-[460px] overflow-y-auto pr-1">
             <div 
               v-for="(label, key) in fieldLabels" 
               :key="key"
-              class="py-2.5 flex items-start justify-between gap-2"
+              class="py-2.5 flex items-start justify-between gap-2 border-[1.5px] border-[#0B132B]/15 bg-[#FBFBFA] rounded-xl p-2.5 my-1.5 hover:border-[#0B132B] transition-colors"
             >
               <div class="flex-1 min-w-0">
-                <div class="text-[11px] text-slate-500 font-medium">{{ label }}</div>
-                <div class="font-semibold text-slate-900 text-sm flex items-center gap-1.5 mt-0.5">
+                <div class="text-[11px] text-slate-500 font-bold uppercase tracking-wide">{{ label }}</div>
+                <div class="font-black text-slate-900 text-xs sm:text-sm flex items-center gap-1.5 mt-0.5">
                   <span class="truncate">{{ formatFieldValue(key, store.intakeState?.fields?.[key]?.value) }}</span>
                   
                   <!-- Clean Status Badges -->
                   <span 
                     v-if="store.intakeState?.fields?.[key]?.status === 'known'" 
-                    class="text-[10px] font-semibold px-1.5 py-0.2 rounded border bg-emerald-50 text-emerald-700 border-emerald-200"
+                    class="neo-stamp neo-stamp-emerald text-[9px] px-1 py-0.2"
                   >
-                    Saved
+                    Verified
                   </span>
                   <span 
                     v-else
                     class="text-[11px] text-slate-400 font-normal italic"
                   >
-                    Not provided yet
+                    Pending
                   </span>
                 </div>
               </div>
@@ -719,8 +723,8 @@ function formatFieldValue(key: string, value: any): string {
               <!-- Inline Edit Button -->
               <button
                 @click="openEditModal(key)"
-                class="p-1 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md transition-colors mt-1"
-                title="Edit this detail"
+                class="p-1.5 text-slate-600 hover:text-[#0B132B] hover:bg-white rounded-lg border border-slate-200 transition-colors mt-0.5 shadow-2xs"
+                title="Edit this statutory detail"
               >
                 <Edit3 class="w-3.5 h-3.5" />
               </button>
@@ -728,27 +732,27 @@ function formatFieldValue(key: string, value: any): string {
           </div>
 
           <!-- Action Buttons Area -->
-          <div class="mt-4 pt-3.5 border-t border-slate-100 space-y-2">
+          <div class="mt-4 pt-4 border-t-[1.5px] border-[#0B132B]/10 space-y-2">
             <button
               @click="proceedToSchemes"
-              class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-xs flex items-center justify-center gap-2 transition-all text-sm"
+              class="neo-btn neo-btn-saffron w-full py-3 text-sm font-black flex items-center justify-center gap-2"
             >
-              <span>View Recommended Schemes</span>
+              <span>Explore Matched Entitlements</span>
               <ArrowRight class="w-4 h-4" />
             </button>
-            <p class="text-[11px] text-center text-slate-500">
-              Matches official Maharashtra Government criteria.
+            <p class="text-[11px] text-center text-slate-500 font-medium">
+              100% deterministic evaluation based on Maharashtra Government Resolutions.
             </p>
           </div>
         </div>
 
         <!-- Privacy & Safety Note -->
-        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-start gap-2.5">
-          <ShieldCheck class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-          <div class="space-y-1">
-            <div class="font-bold text-slate-800">Safety & Privacy Guarantee</div>
-            <p class="text-slate-500 leading-normal">
-              This prototype evaluates sample profiles. Never enter your Aadhaar number or confidential financial passwords. Official applications take place directly on the MahaDBT government portal.
+        <div class="p-3.5 rounded-xl bg-[#FFFBEB] border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] text-xs text-amber-950 flex items-start gap-2.5">
+          <ShieldCheck class="w-5 h-5 text-[#D97706] shrink-0 mt-0.5" />
+          <div class="space-y-0.5">
+            <div class="font-black uppercase tracking-wider text-[11px]">Zero-Aadhaar Sovereign Policy</div>
+            <p class="text-amber-900 leading-normal font-medium text-[11px]">
+              YOJNAVIA never requests or records 12-digit Aadhaar numbers, OTPs, or bank passwords. All official filings occur on the official MahaDBT portal.
             </p>
           </div>
         </div>

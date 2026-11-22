@@ -552,51 +552,51 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 text-slate-800 pb-16">
+  <div class="min-h-screen bg-[#FBFBFA] text-slate-800 pb-16">
     <!-- Top CSC Center Header Strip -->
-    <header class="bg-white border-b border-slate-200 sticky top-16 z-30 shadow-xs">
+    <header class="bg-white border-b-[1.5px] border-[#0B132B] sticky top-16 z-30 shadow-[0_2px_0_0_#0B132B]/10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <!-- Kendra Info & Operator -->
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center shrink-0">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border-[1.5px] border-[#0B132B] text-amber-700 flex items-center justify-center shrink-0 shadow-[1.5px_1.5px_0_0_#0B132B]">
               <Building2 class="w-5 h-5" />
             </div>
             <div>
               <div class="flex items-center gap-2 flex-wrap">
-                <h1 class="text-base font-black tracking-tight text-slate-900">
+                <h1 class="text-base font-extrabold tracking-tight text-[#0B132B] font-heading">
                   {{ counselorUser?.center?.name || 'CSC Seva Kendra Assisted Desk' }}
                 </h1>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                <span class="neo-stamp neo-stamp-navy font-mono text-[9px]">
                   {{ counselorUser?.center?.code || 'CSC_SANGLI_412' }}
                 </span>
                 <span
-                  class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full"
-                  :class="counselorUser?.role === 'CENTER_SUPERVISOR' ? 'bg-purple-100 text-purple-800 border border-purple-200' : 'bg-emerald-100 text-emerald-800 border border-emerald-200'"
+                  class="neo-stamp text-[9px]"
+                  :class="counselorUser?.role === 'CENTER_SUPERVISOR' ? 'neo-stamp-amber' : 'neo-stamp-emerald'"
                 >
                   {{ counselorUser?.role?.replace('_', ' ') || 'Counselor' }}
                 </span>
               </div>
-              <p class="text-xs text-slate-500 flex items-center gap-2 mt-0.5">
-                <span>VLE ID: <strong class="text-slate-700">{{ counselorUser?.center?.vle_id || 'VLE-MH-SNG-412' }}</strong></span>
+              <p class="text-xs text-slate-600 flex items-center gap-2 mt-0.5 font-medium">
+                <span>VLE ID: <strong class="text-[#0B132B] font-mono">{{ counselorUser?.center?.vle_id || 'VLE-MH-SNG-412' }}</strong></span>
                 <span>•</span>
-                <span>Operator: <strong class="text-slate-700">{{ counselorUser?.name || 'Suresh Patil' }}</strong></span>
+                <span>Operator: <strong class="text-[#0B132B]">{{ counselorUser?.name || 'Suresh Patil' }}</strong></span>
                 <span>•</span>
-                <span>Taluka: <strong class="text-slate-700">{{ counselorUser?.center?.taluka || 'Miraj' }}, {{ counselorUser?.center?.district || 'Sangli' }}</strong></span>
+                <span>Taluka: <strong class="text-[#0B132B]">{{ counselorUser?.center?.taluka || 'Miraj' }}, {{ counselorUser?.center?.district || 'Sangli' }}</strong></span>
               </p>
             </div>
           </div>
 
           <!-- Account Switcher & Actions -->
           <div class="flex items-center gap-2 flex-wrap">
-            <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider hidden sm:block">Demo Switch:</div>
-            <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+            <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider hidden sm:block">Demo Switch:</div>
+            <div class="flex items-center gap-1 bg-[#F5F5F3] p-1 rounded-xl border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B]">
               <button
                 v-for="acc in DEMO_ACCOUNTS"
                 :key="acc.username"
                 @click="handleDemoLogin(acc.username)"
-                class="px-2.5 py-1 text-xs font-semibold rounded-lg transition-all"
-                :class="counselorUser?.username === acc.username ? 'bg-white text-amber-700 shadow-xs font-bold border border-slate-200' : 'text-slate-600 hover:text-slate-900'"
+                class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer"
+                :class="counselorUser?.username === acc.username ? 'bg-[#0B132B] text-white shadow-xs' : 'text-slate-700 hover:text-black'"
               >
                 {{ acc.name.split(' ')[0] }} ({{ acc.role === 'Center Supervisor' ? 'Sup.' : acc.code.split('_')[1] }})
               </button>
@@ -604,7 +604,7 @@ onMounted(async () => {
 
             <button
               @click="fetchCenterData"
-              class="p-2 text-slate-500 hover:text-slate-800 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
+              class="p-2 text-slate-700 hover:text-black bg-white border-[1.5px] border-[#0B132B] rounded-xl shadow-[1.5px_1.5px_0_0_#0B132B] transition-transform active:translate-x-0.5 active:translate-y-0.5"
               title="Refresh Center Data"
             >
               <RefreshCw class="w-4 h-4" :class="isLoadingCases ? 'animate-spin' : ''" />
@@ -612,7 +612,7 @@ onMounted(async () => {
 
             <button
               @click="handleLogout"
-              class="p-2 text-slate-500 hover:text-red-700 bg-white border border-slate-200 rounded-xl hover:bg-red-50 transition-colors"
+              class="p-2 text-slate-700 hover:text-red-700 bg-white border-[1.5px] border-[#0B132B] rounded-xl shadow-[1.5px_1.5px_0_0_#0B132B] transition-transform active:translate-x-0.5 active:translate-y-0.5"
               title="Sign Out of Counselor Desk"
             >
               <LogOut class="w-4 h-4" />
@@ -624,58 +624,58 @@ onMounted(async () => {
 
     <!-- Logged Out Sign-in State -->
     <div v-if="!counselorUser" class="max-w-md mx-auto px-4 pt-16">
-      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-md text-center space-y-4">
-        <div class="w-12 h-12 bg-amber-500/10 text-amber-600 rounded-2xl flex items-center justify-center mx-auto">
+      <div class="neo-box bg-white p-6 text-center space-y-4">
+        <div class="w-12 h-12 bg-amber-500/10 text-amber-700 border-[1.5px] border-[#0B132B] rounded-2xl flex items-center justify-center mx-auto shadow-[2px_2px_0_0_#0B132B]">
           <Building2 class="w-6 h-6" />
         </div>
         <div>
-          <h2 class="text-lg font-black text-slate-900">CSC Counselor Assisted Desk</h2>
-          <p class="text-xs text-slate-500 mt-1">Sign in with your Kendra credentials or choose a demo operator.</p>
+          <h2 class="text-lg font-extrabold text-[#0B132B] font-heading">CSC Counselor Assisted Desk</h2>
+          <p class="text-xs text-slate-600 mt-1 font-medium">Sign in with your Kendra credentials or choose a demo operator.</p>
         </div>
 
-        <div v-if="loginError" class="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
+        <div v-if="loginError" class="p-3 bg-red-50 border-[1.5px] border-[#0B132B] text-red-900 text-xs rounded-xl font-bold shadow-[2px_2px_0_0_#0B132B]">
           {{ loginError }}
         </div>
 
         <!-- 1-Click Demo Select -->
         <div class="space-y-2 pt-2">
-          <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Quick Demo Operator</div>
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Quick Demo Operator</div>
           <button
             v-for="acc in DEMO_ACCOUNTS"
             :key="acc.username"
             @click="handleDemoLogin(acc.username)"
-            class="w-full py-2 px-3 bg-slate-50 hover:bg-amber-50 hover:border-amber-300 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center justify-between transition-colors"
+            class="neo-btn neo-btn-paper w-full py-2 px-3 text-xs font-bold text-slate-800 flex items-center justify-between"
           >
             <span>{{ acc.name }} ({{ acc.role }})</span>
-            <span class="text-[10px] text-slate-400 font-mono">{{ acc.code }}</span>
+            <span class="text-[10px] text-slate-500 font-mono">{{ acc.code }}</span>
           </button>
         </div>
 
         <!-- Or Manual Login Form -->
-        <form @submit.prevent="handleCustomLogin" class="pt-4 border-t border-slate-100 space-y-3 text-left">
-          <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Custom Operator Login</div>
+        <form @submit.prevent="handleCustomLogin" class="pt-4 border-t-[1.5px] border-[#0B132B]/15 space-y-3 text-left">
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Custom Operator Login</div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">Username</label>
+            <label class="block text-xs font-bold text-[#0B132B] mb-1">Username</label>
             <input
               v-model="loginUsername"
               type="text"
               placeholder="e.g. counselor_sangli"
-              class="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden"
+              class="neo-input w-full px-3 py-1.5 text-xs"
             />
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
+            <label class="block text-xs font-bold text-[#0B132B] mb-1">Password</label>
             <input
               v-model="loginPassword"
               type="password"
               placeholder="••••••••"
-              class="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden"
+              class="neo-input w-full px-3 py-1.5 text-xs"
             />
           </div>
           <button
             type="submit"
             :disabled="isLoggingIn"
-            class="w-full py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors disabled:opacity-50"
+            class="neo-btn neo-btn-saffron w-full py-2 text-xs font-bold disabled:opacity-50"
           >
             {{ isLoggingIn ? 'Signing in...' : 'Sign In with Credentials' }}
           </button>
@@ -685,16 +685,16 @@ onMounted(async () => {
 
     <!-- Cross-Center Block Alert (Demonstrates Partition Integrity) -->
     <div v-if="crossCenterWarning" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-      <div class="bg-red-50 border border-red-200 text-red-800 p-4 rounded-2xl flex items-start gap-3 shadow-xs">
-        <AlertTriangle class="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+      <div class="neo-box bg-[#FFF1F2] text-red-950 p-4 flex items-start gap-3">
+        <AlertTriangle class="w-5 h-5 text-red-700 shrink-0 mt-0.5" />
         <div class="flex-1">
-          <h4 class="text-sm font-bold text-red-900">Security Boundary Enforced (HTTP 403 Forbidden)</h4>
-          <p class="text-xs text-red-700 mt-0.5">{{ crossCenterWarning }}</p>
-          <p class="text-[11px] text-red-600 mt-1 font-mono">
+          <h4 class="text-sm font-extrabold text-[#0B132B]">Security Boundary Enforced (HTTP 403 Forbidden)</h4>
+          <p class="text-xs text-red-900 mt-0.5 font-medium">{{ crossCenterWarning }}</p>
+          <p class="text-[11px] text-red-700 mt-1 font-mono font-bold">
             Audit Event: UNAUTHORIZED_ACCESS_BLOCKED • Kendra partition strictly prevents cross-taluka profile tampering.
           </p>
         </div>
-        <button @click="crossCenterWarning = ''" class="text-red-500 hover:text-red-700">
+        <button @click="crossCenterWarning = ''" class="text-red-700 hover:text-black font-bold">
           <X class="w-4 h-4" />
         </button>
       </div>
@@ -704,79 +704,79 @@ onMounted(async () => {
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
       
       <!-- Top Analytics Strip (Aggregated, Zero PII) -->
-      <section class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
-        <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 flex-wrap gap-2">
+      <section class="neo-box bg-white p-5">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b-[1.5px] border-[#0B132B]/15 flex-wrap gap-2">
           <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+            <h2 class="text-xs font-extrabold text-[#0B132B] uppercase tracking-wider font-heading">
               Kendra Assisted Performance Metrics
             </h2>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-[11px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full font-semibold flex items-center gap-1">
-              <ShieldCheck class="w-3.5 h-3.5 text-emerald-600" />
+            <span class="neo-stamp neo-stamp-emerald text-[10px]">
+              <ShieldCheck class="w-3.5 h-3.5 text-emerald-700" />
               Zero-PII Aggregation • Privacy Guaranteed
             </span>
           </div>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-          <div class="bg-slate-50 border border-slate-100 rounded-xl p-3">
+          <div class="bg-[#FBFBFA] border-[1.5px] border-[#0B132B] rounded-xl p-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
             <div class="text-[11px] font-bold text-slate-500">Total Cases</div>
-            <div class="text-xl font-black text-slate-900 mt-1">
+            <div class="text-xl font-extrabold text-[#0B132B] mt-1 font-heading">
               {{ analyticsData?.metrics?.total_cases_handled ?? '—' }}
             </div>
-            <div class="text-[10px] text-slate-400 mt-0.5">Assisted to date</div>
+            <div class="text-[10px] text-slate-500 mt-0.5 font-medium">Assisted to date</div>
           </div>
 
-          <div class="bg-amber-50/60 border border-amber-100 rounded-xl p-3">
-            <div class="text-[11px] font-bold text-amber-800">Intake Pending</div>
-            <div class="text-xl font-black text-amber-900 mt-1">
+          <div class="bg-amber-50 border-[1.5px] border-[#0B132B] rounded-xl p-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
+            <div class="text-[11px] font-bold text-amber-900">Intake Pending</div>
+            <div class="text-xl font-extrabold text-amber-950 mt-1 font-heading">
               {{ analyticsData?.metrics?.intake_pending ?? '—' }}
             </div>
-            <div class="text-[10px] text-amber-700/80 mt-0.5">Needs interview</div>
+            <div class="text-[10px] text-amber-800 mt-0.5 font-medium">Needs interview</div>
           </div>
 
-          <div class="bg-blue-50/60 border border-blue-100 rounded-xl p-3">
-            <div class="text-[11px] font-bold text-blue-800">Eligibility Found</div>
-            <div class="text-xl font-black text-blue-900 mt-1">
+          <div class="bg-blue-50 border-[1.5px] border-[#0B132B] rounded-xl p-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
+            <div class="text-[11px] font-bold text-blue-900">Eligibility Found</div>
+            <div class="text-xl font-extrabold text-blue-950 mt-1 font-heading">
               {{ analyticsData?.metrics?.eligibility_discovered ?? '—' }}
             </div>
-            <div class="text-[10px] text-blue-700/80 mt-0.5">Schemes identified</div>
+            <div class="text-[10px] text-blue-800 mt-0.5 font-medium">Schemes identified</div>
           </div>
 
-          <div class="bg-orange-50/60 border border-orange-100 rounded-xl p-3">
-            <div class="text-[11px] font-bold text-orange-800">Docs Pending</div>
-            <div class="text-xl font-black text-orange-900 mt-1">
+          <div class="bg-orange-50 border-[1.5px] border-[#0B132B] rounded-xl p-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
+            <div class="text-[11px] font-bold text-orange-900">Docs Pending</div>
+            <div class="text-xl font-extrabold text-orange-950 mt-1 font-heading">
               {{ analyticsData?.metrics?.documents_pending ?? '—' }}
             </div>
-            <div class="text-[10px] text-orange-700/80 mt-0.5">Awaiting certificates</div>
+            <div class="text-[10px] text-orange-800 mt-0.5 font-medium">Awaiting certificates</div>
           </div>
 
-          <div class="bg-emerald-50/60 border border-emerald-100 rounded-xl p-3">
-            <div class="text-[11px] font-bold text-emerald-800">Ready to Apply</div>
-            <div class="text-xl font-black text-emerald-900 mt-1">
+          <div class="bg-emerald-50 border-[1.5px] border-[#0B132B] rounded-xl p-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
+            <div class="text-[11px] font-bold text-emerald-900">Ready to Apply</div>
+            <div class="text-xl font-extrabold text-emerald-950 mt-1 font-heading">
               {{ analyticsData?.metrics?.ready_for_application ?? '—' }}
             </div>
-            <div class="text-[10px] text-emerald-700/80 mt-0.5">Preflight passed</div>
+            <div class="text-[10px] text-emerald-800 mt-0.5 font-medium">Preflight passed</div>
           </div>
 
-          <div class="bg-purple-50/60 border border-purple-100 rounded-xl p-3">
-            <div class="text-[11px] font-bold text-purple-800">Supervisor Escalated</div>
-            <div class="text-xl font-black text-purple-900 mt-1">
+          <div class="bg-purple-50 border-[1.5px] border-[#0B132B] rounded-xl p-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
+            <div class="text-[11px] font-bold text-purple-900">Supervisor Escalated</div>
+            <div class="text-xl font-extrabold text-purple-950 mt-1 font-heading">
               {{ analyticsData?.metrics?.escalated_to_supervisor ?? '—' }}
             </div>
-            <div class="text-[10px] text-purple-700/80 mt-0.5">Under VLE review</div>
+            <div class="text-[10px] text-purple-800 mt-0.5 font-medium">Under VLE review</div>
           </div>
         </div>
 
         <!-- Top Scheme Categories Banner -->
-        <div v-if="analyticsData?.top_categories?.length" class="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2 flex-wrap">
-          <span class="text-xs font-semibold text-slate-500">Frequently Requested Streams:</span>
+        <div v-if="analyticsData?.top_categories?.length" class="mt-4 pt-3 border-t-[1.5px] border-[#0B132B]/10 flex items-center gap-2 flex-wrap">
+          <span class="text-xs font-bold text-slate-600">Frequently Requested Streams:</span>
           <span
             v-for="cat in analyticsData.top_categories"
             :key="cat.target_scheme_category"
-            class="text-xs font-medium px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg border border-slate-200"
+            class="text-xs font-bold px-2.5 py-1 bg-[#F5F5F3] text-slate-800 rounded-lg border border-[#0B132B]/20"
           >
             {{ cat.target_scheme_category }} ({{ cat.count }})
           </span>
@@ -784,16 +784,16 @@ onMounted(async () => {
       </section>
 
       <!-- Citizen Case Registry Section -->
-      <section class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
+      <section class="neo-box bg-white p-5">
         
         <!-- Controls Bar: Title, Search, Filter & Register CTA -->
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b-[1.5px] border-[#0B132B]/15">
           <div>
-            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+            <h3 class="text-base font-extrabold text-[#0B132B] flex items-center gap-2 font-heading">
               <Users class="w-4 h-4 text-amber-600" />
               Citizen Case Desk
             </h3>
-            <p class="text-xs text-slate-500 mt-0.5">
+            <p class="text-xs text-slate-600 mt-0.5 font-medium">
               Assisted intake, scheme discovery, certificate checklists and preflight audit.
             </p>
           </div>
@@ -807,7 +807,7 @@ onMounted(async () => {
                 @keyup.enter="fetchCases"
                 type="text"
                 placeholder="Search citizen or case #..."
-                class="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
+                class="neo-input w-full pl-9 pr-3 py-1.5 text-xs"
               />
             </div>
 
@@ -815,7 +815,7 @@ onMounted(async () => {
             <select
               v-model="priorityFilter"
               @change="fetchCases"
-              class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-slate-700 focus:outline-hidden focus:ring-2 focus:ring-amber-500/20"
+              class="neo-input text-xs px-2.5 py-1.5 text-slate-700 font-bold"
             >
               <option value="ALL">All Priorities</option>
               <option value="URGENT">Urgent (&lt;7 Days)</option>
@@ -827,7 +827,7 @@ onMounted(async () => {
             <!-- Register New Citizen Case Button -->
             <button
               @click="openRegisterModal"
-              class="flex items-center gap-1.5 px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors"
+              class="neo-btn neo-btn-saffron px-3 py-1.5 text-xs font-bold"
             >
               <Plus class="w-4 h-4" />
               <span>Register Citizen</span>
@@ -836,7 +836,7 @@ onMounted(async () => {
         </div>
 
         <!-- Status Filter Tabs -->
-        <div class="flex items-center gap-1 mt-3 overflow-x-auto pb-1 text-xs">
+        <div class="flex items-center gap-1.5 mt-3 overflow-x-auto pb-1 text-xs">
           <button
             v-for="st in [
               { key: 'ALL', label: 'All Cases' },
@@ -849,8 +849,8 @@ onMounted(async () => {
             ]"
             :key="st.key"
             @click="statusFilter = st.key; fetchCases();"
-            class="px-3 py-1.5 rounded-lg font-bold whitespace-nowrap transition-all"
-            :class="statusFilter === st.key ? 'bg-amber-100 text-amber-900 border border-amber-200' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'"
+            class="neo-btn px-3 py-1.5 text-xs font-bold"
+            :class="statusFilter === st.key ? 'neo-btn-navy' : 'neo-btn-paper text-slate-700'"
           >
             {{ st.label }}
           </button>

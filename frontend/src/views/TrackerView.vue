@@ -118,21 +118,24 @@ async function handleReEvaluateApp(schemeCode: string) {
     <!-- Page Title Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2">
-          <CheckCircle2 class="w-3.5 h-3.5 text-emerald-600" />
-          Step 5 of 5: Application Progress & Milestone Follow-Up Tracker
+        <div class="inline-flex items-center gap-2 mb-1.5">
+          <span class="neo-stamp neo-stamp-navy text-[10px]">
+            <CheckCircle2 class="w-3 h-3 text-emerald-400" />
+            Milestone Follow-Up Log
+          </span>
+          <span class="text-xs text-slate-500 font-mono">Stage 5 of 5</span>
         </div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B132B] tracking-tight">
           My Saved Applications & Milestone Tracker
         </h1>
-        <p class="text-sm text-slate-600 mt-1 max-w-3xl">
+        <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl font-medium">
           Track your progress across self-reported offline and online milestones (from Aaple Sarkar certificate procurement to MahaDBT College Clerk submission).
         </p>
       </div>
 
       <router-link
         to="/schemes"
-        class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs sm:text-sm font-bold transition-colors flex items-center gap-1.5 shadow-xs shrink-0 self-start md:self-auto"
+        class="neo-btn neo-btn-navy px-4 py-2.5 text-xs sm:text-sm font-bold shrink-0 self-start md:self-auto"
       >
         <span>Discover & Save Schemes</span>
         <ArrowRight class="w-4 h-4" />
@@ -140,33 +143,33 @@ async function handleReEvaluateApp(schemeCode: string) {
     </div>
 
     <!-- MANDATORY LEGAL / USER-REPORTED NOTICE (Requirements 4 & 5) -->
-    <div class="p-4 rounded-2xl bg-blue-50 border border-blue-200 text-blue-950 text-xs sm:text-sm font-medium flex items-start gap-3 shadow-xs">
-      <Info class="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+    <div class="p-4 rounded-xl border-[1.5px] border-[#0B132B] bg-[#FFFBEB] text-amber-950 text-xs sm:text-sm font-medium flex items-start gap-3 shadow-[2px_2px_0_0_#0B132B]">
+      <Info class="w-5 h-5 text-amber-800 shrink-0 mt-0.5" />
       <div>
-        <strong class="font-bold block text-blue-900 mb-0.5">User-Reported Application Status Notice (Self-Managed):</strong>
-        <span>"This tracker is a personal planning and document-readiness log. YOJNAVIA does not integrate with internal government sanction databases and does not claim official departmental application status. All milestone stages, application dates, and reference numbers are user-reported."</span>
+        <strong class="font-bold block text-amber-950 mb-0.5">User-Reported Application Status Notice (Self-Managed):</strong>
+        <span class="text-amber-900 font-medium">"This tracker is a personal planning and document-readiness log. YOJNAVIA does not integrate with internal government sanction databases and does not claim official departmental application status. All milestone stages, application dates, and reference numbers are user-reported."</span>
       </div>
     </div>
 
     <!-- REJECTION RECOVERY & GRIEVANCE NAVIGATOR BANNER -->
-    <div class="p-4 rounded-2xl bg-gradient-to-r from-rose-50 to-orange-50 border border-rose-200 text-rose-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+    <div class="neo-box p-4 bg-[#FFF1F2] text-rose-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
       <div class="flex items-start gap-3">
-        <div class="p-2 bg-rose-100 rounded-xl text-rose-700 shrink-0 mt-0.5">
+        <div class="p-2 bg-rose-200 rounded-lg border border-[#0B132B] text-rose-900 shrink-0 mt-0.5 shadow-[1.5px_1.5px_0_0_#0B132B]">
           <RotateCcw class="w-5 h-5" />
         </div>
         <div>
-          <div class="font-bold text-rose-900 text-sm flex items-center gap-2">
+          <div class="font-extrabold text-[#0B132B] text-sm flex items-center gap-2">
             <span>MahaDBT Scrutiny Query or Application Rejected?</span>
-            <span class="text-[10px] bg-rose-200 text-rose-900 px-2 py-0.5 rounded-full font-bold">15-Day Resubmission Window</span>
+            <span class="neo-stamp neo-stamp-rose text-[9px]">15-Day Resubmission Window</span>
           </div>
-          <p class="text-xs text-rose-800 mt-0.5">
+          <p class="text-xs text-rose-900 mt-0.5 font-medium">
             Translate confusing scrutiny remarks into plain language, verify your 15-day resubmission window, and discover verified statutory appeal routes under the Maharashtra RTS Act 2015.
           </p>
         </div>
       </div>
       <button 
         @click="openRejectionNavigator()" 
-        class="px-4 py-2 bg-rose-700 hover:bg-rose-800 text-white font-bold text-xs rounded-xl shadow-xs shrink-0 flex items-center gap-1.5 transition-colors self-start sm:self-auto"
+        class="neo-btn neo-btn-rose px-4 py-2 text-xs font-bold shrink-0 self-start sm:self-auto"
       >
         <span>Launch Rejection Navigator</span>
         <ArrowRight class="w-3.5 h-3.5" />
@@ -174,24 +177,24 @@ async function handleReEvaluateApp(schemeCode: string) {
     </div>
 
     <!-- WHATSAPP & SMS DEADLINE REMINDERS BANNER -->
-    <div class="p-4 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-indigo-50 border border-emerald-200 text-emerald-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+    <div class="neo-box p-4 bg-[#ECFDF5] text-emerald-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
       <div class="flex items-start gap-3">
-        <div class="p-2 bg-emerald-100 rounded-xl text-emerald-700 shrink-0 mt-0.5">
+        <div class="p-2 bg-emerald-200 rounded-lg border border-[#0B132B] text-emerald-900 shrink-0 mt-0.5 shadow-[1.5px_1.5px_0_0_#0B132B]">
           <Bell class="w-5 h-5" />
         </div>
         <div>
-          <div class="font-bold text-emerald-900 text-sm flex items-center gap-2">
+          <div class="font-extrabold text-[#0B132B] text-sm flex items-center gap-2">
             <span>Automated WhatsApp & SMS Deadline Reminders</span>
-            <span class="text-[10px] bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded-full font-bold">Consent-Driven</span>
+            <span class="neo-stamp neo-stamp-emerald text-[9px]">Consent-Driven</span>
           </div>
-          <p class="text-xs text-emerald-800 mt-0.5">
+          <p class="text-xs text-emerald-900 mt-0.5 font-medium">
             Receive verified portal cutoff alerts (7d/2d/0d), missing document SLA warnings, 15-day scrutiny resubmission clocks, and annual March 31 renewals directly to WhatsApp or SMS.
           </p>
         </div>
       </div>
       <router-link 
         to="/notifications" 
-        class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-xs shrink-0 flex items-center gap-1.5 transition-colors self-start sm:self-auto"
+        class="neo-btn neo-btn-emerald px-4 py-2 text-xs font-bold shrink-0 self-start sm:self-auto"
       >
         <MessageSquare class="w-3.5 h-3.5" />
         <span>Manage Notification Alerts</span>
@@ -204,28 +207,28 @@ async function handleReEvaluateApp(schemeCode: string) {
       <div 
         v-for="app in store.trackedApplications" 
         :key="app.id"
-        class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-7 overflow-hidden space-y-5"
+        class="neo-box p-6 sm:p-7 overflow-hidden space-y-5 bg-white"
       >
         <!-- RULE CHANGE ALERT (Rule Change Handling 2, 3, 4) -->
         <div 
           v-if="app.needs_re_evaluation" 
-          class="p-4 rounded-2xl bg-amber-500/10 border-2 border-amber-500 text-amber-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 animate-in fade-in"
+          class="p-4 rounded-xl border-[1.5px] border-[#0B132B] bg-amber-50 text-amber-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-[2px_2px_0_0_#0B132B] animate-in fade-in"
         >
           <div class="flex items-start gap-3">
-            <AlertTriangle class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+            <AlertTriangle class="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
             <div>
-              <div class="font-bold text-amber-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+              <div class="font-bold text-amber-950 text-xs uppercase tracking-wider flex items-center gap-1.5">
                 <span>Statutory Eligibility Rule Revision Detected</span>
-                <span class="text-[10px] bg-amber-200 text-amber-900 px-2 py-0.2 rounded-full font-bold">Action Needed</span>
+                <span class="neo-stamp neo-stamp-amber text-[9px]">Action Needed</span>
               </div>
-              <p class="text-xs text-amber-900 mt-1">
+              <p class="text-xs text-amber-900 mt-1 font-medium">
                 {{ app.re_evaluation_reason || 'Eligibility criteria for this scheme were recently updated by the department.' }}
               </p>
             </div>
           </div>
           <button
             @click="handleReEvaluateApp(app.scheme_code)"
-            class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-xs shrink-0 flex items-center gap-1.5 transition-transform active:scale-95"
+            class="neo-btn neo-btn-saffron px-4 py-2 text-xs font-bold shrink-0"
           >
             <RotateCcw class="w-3.5 h-3.5" />
             <span>Re-Evaluate Rules</span>
@@ -233,54 +236,54 @@ async function handleReEvaluateApp(schemeCode: string) {
         </div>
 
         <!-- Application Top Header -->
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b-[1.5px] border-[#0B132B]/15">
           <div>
             <div class="flex flex-wrap items-center gap-2">
-              <span class="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded">
+              <span class="neo-stamp neo-stamp-navy font-mono text-[10px]">
                 {{ app.scheme_code }}
               </span>
-              <span class="text-xs text-indigo-700 font-semibold bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-100">
+              <span class="neo-stamp text-[10px] bg-indigo-50 text-indigo-900">
                 {{ app.portal_name }}
               </span>
-              <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium">
+              <span class="text-[10px] bg-[#F5F5F3] text-slate-700 px-2 py-0.5 rounded border border-[#0B132B]/20 font-bold">
                 User-Reported (Self-Managed)
               </span>
             </div>
-            <h2 class="text-xl font-bold text-slate-900 mt-1.5">{{ app.scheme_name }}</h2>
-            <div class="text-xs font-bold text-emerald-700 font-mono mt-0.5">{{ app.scheme_benefit }}</div>
+            <h2 class="text-xl font-extrabold text-[#0B132B] mt-1.5">{{ app.scheme_name }}</h2>
+            <div class="text-xs font-extrabold text-emerald-800 font-mono mt-0.5">{{ app.scheme_benefit }}</div>
           </div>
 
-          <div class="flex items-center gap-2 shrink-0">
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
             <button
               @click="openLifecycleRoadmap(app.scheme_code, app.scheme_name)"
-              class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors"
+              class="neo-btn neo-btn-paper px-3.5 py-2 text-xs font-bold text-[#0B132B]"
             >
-              <MapPin class="w-3.5 h-3.5 text-emerald-600" />
+              <MapPin class="w-3.5 h-3.5 text-amber-600" />
               <span>Lifecycle Roadmap 🗺️</span>
             </button>
 
             <button
               v-if="app.status === 'REJECTED' || app.status === 'UNDER_REVIEW'"
               @click="openRejectionNavigator(app.scheme_code, app.notes)"
-              class="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors"
+              class="neo-btn neo-btn-rose px-3.5 py-2 text-xs font-bold"
             >
-              <RotateCcw class="w-3.5 h-3.5 text-rose-600" />
+              <RotateCcw class="w-3.5 h-3.5" />
               <span>Diagnose Query</span>
             </button>
 
             <button
               @click="openEditModal(app)"
-              class="px-3.5 py-2 border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition-colors"
+              class="neo-btn neo-btn-paper px-3.5 py-2 text-xs font-bold text-[#0B132B]"
             >
-              <Edit2 class="w-3.5 h-3.5 text-slate-500" />
-              <span>Record Reference & Date</span>
+              <Edit2 class="w-3.5 h-3.5 text-slate-600" />
+              <span>Record Ref & Date</span>
             </button>
 
             <a 
               :href="app.official_portal_url"
               target="_blank" 
               rel="noopener noreferrer"
-              class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors"
+              class="neo-btn neo-btn-navy px-4 py-2 text-xs font-bold"
             >
               <span>Open {{ app.portal_name }}</span>
               <ExternalLink class="w-3.5 h-3.5" />
@@ -289,12 +292,12 @@ async function handleReEvaluateApp(schemeCode: string) {
         </div>
 
         <!-- Next Immediate Action Box -->
-        <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-300 flex items-start gap-3">
-          <AlertCircle class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+        <div class="p-4 rounded-xl border-[1.5px] border-[#0B132B] bg-[#FFFBEB] text-amber-950 flex items-start gap-3 shadow-[2px_2px_0_0_#0B132B]">
+          <AlertCircle class="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
           <div class="space-y-0.5">
-            <div class="text-xs font-bold text-amber-900 uppercase tracking-wider">Your Next Immediate Action:</div>
-            <p class="text-sm font-bold text-amber-950">{{ app.next_immediate_action }}</p>
-            <p class="text-xs text-amber-800">
+            <div class="text-xs font-bold text-amber-950 uppercase tracking-wider">Your Next Immediate Action:</div>
+            <p class="text-sm font-extrabold text-[#0B132B]">{{ app.next_immediate_action }}</p>
+            <p class="text-xs text-amber-900 font-medium">
               Handover of physical attested documents to your college scholarship clerk is mandatory under Maharashtra Government rules.
             </p>
           </div>
@@ -302,78 +305,78 @@ async function handleReEvaluateApp(schemeCode: string) {
 
         <!-- 7 Canonical Status Pipeline Buttons (Requirement 2) -->
         <div>
-          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center justify-between">
-            <span>Status Pipeline (Click to update milestone):</span>
-            <span class="text-slate-400 font-normal">7 Canonical Stages</span>
+          <div class="text-xs font-bold text-[#0B132B] uppercase tracking-wider mb-2 flex items-center justify-between">
+            <span>Status Pipeline (Click to advance milestone):</span>
+            <span class="text-slate-500 font-mono text-[11px]">7 Canonical Stages</span>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
             <button
               v-for="stg in statuses"
               :key="stg.key"
               @click="quickAdvanceStatus(app, stg.key)"
-              class="p-2.5 rounded-xl border text-xs font-bold transition-all text-center flex flex-col items-center justify-center gap-1"
+              class="p-2.5 rounded-xl border-[1.5px] border-[#0B132B] text-xs font-bold transition-all text-center flex flex-col items-center justify-center gap-1 cursor-pointer"
               :class="app.status === stg.key 
-                ? 'bg-indigo-600 text-white border-indigo-600 shadow-md ring-2 ring-indigo-300' 
-                : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'"
+                ? 'bg-[#0B132B] text-white shadow-[2px_2px_0_0_#D97706] ring-2 ring-amber-500 translate-y-[-1px]' 
+                : 'bg-white text-slate-700 hover:bg-slate-50 shadow-[1.5px_1.5px_0_0_#0B132B]'"
             >
-              <Check v-if="app.status === stg.key" class="w-3.5 h-3.5 text-white" />
+              <Check v-if="app.status === stg.key" class="w-3.5 h-3.5 text-amber-400" />
               <span>{{ stg.label }}</span>
             </button>
           </div>
         </div>
 
         <!-- Application Metadata Strip (Requirement 3) -->
-        <div class="pt-4 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-slate-600">
+        <div class="pt-4 border-t-[1.5px] border-[#0B132B]/10 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-slate-600">
           <div>
-            <span class="text-slate-400 block text-[11px]">Application Reference:</span>
-            <span class="font-mono font-bold text-slate-900 text-sm mt-0.5 block truncate">
+            <span class="text-slate-500 block text-[11px] font-bold">Application Reference:</span>
+            <span class="font-mono font-bold text-[#0B132B] text-sm mt-0.5 block truncate">
               {{ app.application_reference_number || 'Pending Submission' }}
             </span>
           </div>
 
           <div>
-            <span class="text-slate-400 block text-[11px]">Date Applied:</span>
-            <span class="font-bold text-slate-800 text-sm mt-0.5 block">
+            <span class="text-slate-500 block text-[11px] font-bold">Date Applied:</span>
+            <span class="font-bold text-[#0B132B] text-sm mt-0.5 block">
               {{ app.applied_date ? new Date(app.applied_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Not yet applied' }}
             </span>
           </div>
 
           <div>
-            <span class="text-slate-400 block text-[11px]">Submission Mode:</span>
-            <span class="font-medium text-slate-800 text-xs mt-0.5 block">
+            <span class="text-slate-500 block text-[11px] font-bold">Submission Mode:</span>
+            <span class="font-semibold text-slate-800 text-xs mt-0.5 block">
               {{ app.submission_mode || 'Online Portal' }}
             </span>
           </div>
 
           <div>
-            <span class="text-slate-400 block text-[11px]">Last Updated:</span>
-            <span class="text-slate-600 text-xs mt-0.5 block">
+            <span class="text-slate-500 block text-[11px] font-bold">Last Updated:</span>
+            <span class="text-slate-700 text-xs mt-0.5 block font-mono">
               {{ new Date(app.updated_at).toLocaleDateString() }}
             </span>
           </div>
         </div>
 
-        <div v-if="app.notes" class="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
-          <strong>Student Notes:</strong> {{ app.notes }}
+        <div v-if="app.notes" class="text-xs text-slate-700 bg-[#FBFBFA] p-3 rounded-xl border-[1.5px] border-[#0B132B]/20 font-medium">
+          <strong class="text-[#0B132B]">Student Notes:</strong> {{ app.notes }}
         </div>
 
       </div>
     </div>
 
     <!-- Empty State (Requirement 1) -->
-    <div v-else class="text-center py-16 bg-white rounded-3xl border border-slate-200 p-8 shadow-xs space-y-4">
-      <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
+    <div v-else class="neo-box text-center py-16 p-8 space-y-4 bg-white">
+      <div class="w-14 h-14 rounded-2xl bg-amber-50 border-[1.5px] border-[#0B132B] text-amber-700 flex items-center justify-center mx-auto shadow-[2px_2px_0_0_#0B132B]">
         <CheckCircle2 class="w-8 h-8" />
       </div>
       <div>
-        <h2 class="text-xl font-bold text-slate-900">No Saved Applications in Your Tracker Yet</h2>
-        <p class="text-xs text-slate-500 max-w-md mx-auto mt-1">
+        <h2 class="text-xl font-extrabold text-[#0B132B] font-heading">No Saved Applications in Your Tracker Yet</h2>
+        <p class="text-xs text-slate-600 max-w-md mx-auto mt-1 font-medium">
           Explore eligible scholarships under Step 3 and click "Save to Application Tracker" to generate your actionable milestone checklist.
         </p>
       </div>
       <router-link
         to="/schemes"
-        class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm transition-colors shadow-xs"
+        class="neo-btn neo-btn-saffron px-6 py-3 text-sm font-bold"
       >
         <span>Discover Matched Schemes</span>
         <ArrowRight class="w-4 h-4" />
@@ -381,53 +384,53 @@ async function handleReEvaluateApp(schemeCode: string) {
     </div>
 
     <!-- MODAL: EDIT APPLICATION REFERENCE & DATES (Requirement 3) -->
-    <div v-if="isEditModalOpen" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-      <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+    <div v-if="isEditModalOpen" class="fixed inset-0 z-50 bg-[#0B132B]/60 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="neo-box bg-white max-w-lg w-full p-6 shadow-[5px_5px_0_0_#0B132B] space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b-[1.5px] border-[#0B132B]/15">
           <div>
-            <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
-              <Edit2 class="w-4 h-4 text-indigo-600" />
+            <h2 class="text-base font-extrabold text-[#0B132B] flex items-center gap-2 font-heading">
+              <Edit2 class="w-4 h-4 text-amber-600" />
               Update Tracker Record ({{ editingApp?.scheme_code }})
             </h2>
-            <p class="text-xs text-slate-500">Record self-reported application reference, submission date, and notes.</p>
+            <p class="text-xs text-slate-500 font-medium">Record self-reported application reference, submission date, and notes.</p>
           </div>
-          <button @click="isEditModalOpen = false" class="text-slate-400 hover:text-slate-600">
+          <button @click="isEditModalOpen = false" class="text-slate-400 hover:text-slate-700 p-1 font-bold">
             <X class="w-5 h-5" />
           </button>
         </div>
 
         <form @submit.prevent="handleSaveDetails" class="space-y-4 text-xs">
           <div>
-            <label class="block font-semibold text-slate-700 mb-1">Status Milestone</label>
-            <select v-model="editStatus" class="w-full px-3 py-2 border border-slate-300 rounded-xl bg-white font-bold">
+            <label class="block font-bold text-[#0B132B] mb-1">Status Milestone</label>
+            <select v-model="editStatus" class="neo-input w-full px-3 py-2 bg-white font-bold text-xs">
               <option v-for="stg in statuses" :key="stg.key" :value="stg.key">{{ stg.label }}</option>
             </select>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-semibold text-slate-700 mb-1">Application Reference No.</label>
+              <label class="block font-bold text-[#0B132B] mb-1">Application Reference No.</label>
               <input
                 v-model="editRefNo"
                 type="text"
                 placeholder="e.g. MHD-2024-889900"
-                class="w-full px-3 py-2 border border-slate-300 rounded-xl font-mono"
+                class="neo-input w-full px-3 py-2 font-mono text-xs"
               />
             </div>
 
             <div>
-              <label class="block font-semibold text-slate-700 mb-1">Date Submitted / Applied</label>
+              <label class="block font-bold text-[#0B132B] mb-1">Date Submitted / Applied</label>
               <input
                 v-model="editAppliedDate"
                 type="date"
-                class="w-full px-3 py-2 border border-slate-300 rounded-xl font-mono"
+                class="neo-input w-full px-3 py-2 font-mono text-xs"
               />
             </div>
           </div>
 
           <div>
-            <label class="block font-semibold text-slate-700 mb-1">Submission Mode / Channel</label>
-            <select v-model="editSubmissionMode" class="w-full px-3 py-2 border border-slate-300 rounded-xl bg-white">
+            <label class="block font-bold text-[#0B132B] mb-1">Submission Mode / Channel</label>
+            <select v-model="editSubmissionMode" class="neo-input w-full px-3 py-2 bg-white text-xs font-medium">
               <option value="Online MahaDBT Portal">Online MahaDBT Portal</option>
               <option value="College Scholarship Clerk Desk">College Scholarship Clerk Desk</option>
               <option value="Aaple Sarkar Seva Kendra (Offline CSC)">Aaple Sarkar Seva Kendra (Offline CSC)</option>
@@ -436,30 +439,30 @@ async function handleReEvaluateApp(schemeCode: string) {
           </div>
 
           <div>
-            <label class="block font-semibold text-slate-700 mb-1">Personal Follow-Up Notes</label>
+            <label class="block font-bold text-[#0B132B] mb-1">Personal Follow-Up Notes</label>
             <textarea
               v-model="editNotes"
               rows="3"
               placeholder="e.g. Handover done to Clerk Mr. Deshmukh on 18th Nov. Awaiting principal signature."
-              class="w-full px-3 py-2 border border-slate-300 rounded-xl"
+              class="neo-input w-full px-3 py-2 text-xs"
             ></textarea>
           </div>
 
-          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-500">
-            <strong>Notice:</strong> All statuses and dates saved here are for personal student follow-up. This tool does not claim or reflect official government sanction approval.
+          <div class="p-3 rounded-xl border border-[#0B132B]/20 bg-[#FBFBFA] text-[11px] text-slate-600 font-medium">
+            <strong class="text-[#0B132B]">Notice:</strong> All statuses and dates saved here are for personal student follow-up. This tool does not claim or reflect official government sanction approval.
           </div>
 
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+          <div class="pt-3 border-t-[1.5px] border-[#0B132B]/15 flex items-center justify-end gap-2">
             <button
               type="button"
               @click="isEditModalOpen = false"
-              class="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 font-semibold"
+              class="neo-btn neo-btn-paper px-4 py-2 text-xs font-bold text-[#0B132B]"
             >
               Cancel
             </button>
             <button
               type="submit"
-              class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-xs"
+              class="neo-btn neo-btn-saffron px-5 py-2 text-xs font-bold"
             >
               Save Tracker Details
             </button>

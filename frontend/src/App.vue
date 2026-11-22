@@ -23,7 +23,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+  <div class="min-h-screen bg-[#FBFBFA] flex flex-col font-sans selection:bg-[#D97706] selection:text-white">
     <!-- Main Top Navbar -->
     <Navbar />
 
@@ -33,11 +33,11 @@ onMounted(async () => {
     </main>
 
     <!-- Mobile Bottom Navigation Bar (Visible only on < md screens) -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-1.5 flex items-center justify-around shadow-lg">
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#FBFBFA]/95 backdrop-blur-md border-t-[1.5px] border-[#0B132B] px-2 py-1.5 flex items-center justify-around shadow-lg">
       <router-link
         to="/"
-        class="flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-colors"
-        :class="route.path === '/' ? 'text-indigo-600 bg-indigo-50/80' : 'text-slate-500 hover:text-slate-800'"
+        class="flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-all"
+        :class="route.path === '/' ? 'text-[#D97706] font-black' : 'text-slate-600 hover:text-slate-900'"
       >
         <Sparkles class="w-4 h-4 mb-0.5" />
         <span>{{ t('nav_discovery', store.locale) }}</span>
@@ -45,8 +45,8 @@ onMounted(async () => {
 
       <router-link
         to="/review"
-        class="flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-colors relative"
-        :class="route.path === '/review' ? 'text-indigo-600 bg-indigo-50/80' : 'text-slate-500 hover:text-slate-800'"
+        class="flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-all relative"
+        :class="route.path === '/review' ? 'text-[#D97706] font-black' : 'text-slate-600 hover:text-slate-900'"
       >
         <UserCheck class="w-4 h-4 mb-0.5" />
         <span>{{ t('nav_profile', store.locale) }}</span>
@@ -55,20 +55,20 @@ onMounted(async () => {
 
       <router-link
         to="/schemes"
-        class="flex flex-col items-center py-1 px-2 rounded-xl text-[10px] font-bold transition-colors relative"
-        :class="route.path === '/schemes' ? 'text-indigo-600 bg-indigo-50/80' : 'text-slate-500 hover:text-slate-800'"
+        class="flex flex-col items-center py-1 px-2 rounded-xl text-[10px] font-bold transition-all relative"
+        :class="route.path === '/schemes' ? 'text-[#D97706] font-black' : 'text-slate-600 hover:text-slate-900'"
       >
         <Award class="w-4 h-4 mb-0.5" />
         <span>{{ t('nav_schemes', store.locale) }}</span>
-        <span v-if="store.evaluationSummary?.likely_eligible" class="text-[9px] px-1 bg-emerald-500 text-white font-black rounded-full absolute -top-0.5 right-1">
+        <span v-if="store.evaluationSummary?.likely_eligible" class="text-[9px] px-1 bg-[#059669] text-white font-black rounded-full absolute -top-0.5 right-1">
           {{ store.evaluationSummary.likely_eligible }}
         </span>
       </router-link>
 
       <router-link
         to="/family"
-        class="flex flex-col items-center py-1 px-2 rounded-xl text-[10px] font-bold transition-colors"
-        :class="route.path === '/family' ? 'text-indigo-600 bg-indigo-50/80' : 'text-slate-500 hover:text-slate-800'"
+        class="flex flex-col items-center py-1 px-2 rounded-xl text-[10px] font-bold transition-all"
+        :class="route.path === '/family' ? 'text-[#D97706] font-black' : 'text-slate-600 hover:text-slate-900'"
       >
         <Users class="w-4 h-4 mb-0.5" />
         <span>Family</span>
@@ -76,8 +76,8 @@ onMounted(async () => {
 
       <router-link
         to="/documents"
-        class="flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-colors"
-        :class="route.path === '/documents' ? 'text-indigo-600 bg-indigo-50/80' : 'text-slate-500 hover:text-slate-800'"
+        class="flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-all"
+        :class="route.path === '/documents' ? 'text-[#D97706] font-black' : 'text-slate-600 hover:text-slate-900'"
       >
         <FileText class="w-4 h-4 mb-0.5" />
         <span>{{ t('nav_documents', store.locale) }}</span>
@@ -85,35 +85,35 @@ onMounted(async () => {
 
       <router-link
         to="/tracker"
-        class="flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-colors relative"
-        :class="route.path === '/tracker' ? 'text-indigo-600 bg-indigo-50/80' : 'text-slate-500 hover:text-slate-800'"
+        class="flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-all relative"
+        :class="route.path === '/tracker' ? 'text-[#D97706] font-black' : 'text-slate-600 hover:text-slate-900'"
       >
         <CheckCircle2 class="w-4 h-4 mb-0.5" />
         <span>{{ t('nav_tracker', store.locale) }}</span>
-        <span v-if="store.trackedApplications.length > 0" class="text-[9px] px-1 bg-indigo-600 text-white font-black rounded-full absolute -top-0.5 right-1">
+        <span v-if="store.trackedApplications.length > 0" class="text-[9px] px-1 bg-[#0B132B] text-white font-black rounded-full absolute -top-0.5 right-1">
           {{ store.trackedApplications.length }}
         </span>
       </router-link>
     </nav>
 
     <!-- Civic Tech Footer -->
-    <footer class="bg-white border-t border-slate-200 mt-12 py-8">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-        <div class="flex items-center gap-2">
-          <span class="font-bold text-slate-800">YOJNAVIA</span>
+    <footer class="bg-white border-t-[1.5px] border-[#0B132B] mt-12 py-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600 font-medium">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="font-black text-[#0B132B] tracking-tight">YOJNAVIA</span>
           <span>•</span>
-          <span>{{ t('brand_subtitle', store.locale) }}</span>
+          <span class="font-bold text-slate-800">{{ t('brand_subtitle', store.locale) }}</span>
           <span>•</span>
-          <span class="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 font-medium">
-            <ShieldCheck class="w-3 h-3 text-emerald-600" />
-            Zero-PII Advisory Assistant
+          <span class="neo-stamp neo-stamp-emerald">
+            <ShieldCheck class="w-3.5 h-3.5 text-emerald-600" />
+            Zero-PII Sovereign Advisory
           </span>
         </div>
 
-        <div class="flex items-center gap-4">
-          <span>Official GR citations from MahaDBT & Aaple Sarkar</span>
+        <div class="flex items-center gap-3 text-slate-600">
+          <span class="font-semibold">Official MahaDBT & Aaple Sarkar GRs</span>
           <span>•</span>
-          <span>Built for Maharashtra Higher Education</span>
+          <span class="font-bold text-[#0B132B]">Maharashtra Public Services (RTS) Act 2015</span>
         </div>
       </div>
     </footer>

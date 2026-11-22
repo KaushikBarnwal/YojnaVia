@@ -120,3 +120,9 @@ graphify-out/
 .user_uploaded/
 scratch/
 backend/check_log.py
+
+# 10. AI Agent Customizations, Skills & Cache
+.agents/
+.agent/
+.taste-skill/
+*/.taste-skill/
