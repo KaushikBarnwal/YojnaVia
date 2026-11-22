@@ -136,7 +136,57 @@ class IntakeChatView(APIView):
                 apply_extraction(conv, heuristic_values, "heuristic", 0.6)
 
             nq = next_question(conv, relevant)
-            eligibility = evaluate(conv, relevant) if nq is None else None
+
+            # Essential scholarship fields for Maharashtra welfare eligibility
+            edu_entry = (conv.fields or {}).get("education_level") or {}
+            social_entry = (conv.fields or {}).get("social_category") or {}
+            edu_known = edu_entry.get("status") == "known" and bool(edu_entry.get("value"))
+            social_known = social_entry.get("status") == "known" and bool(social_entry.get("value"))
+
+            # Enforce that essential scholarship fields are NEVER bypassed before closing
+            if not edu_known and not social_known:
+                nq = {
+                    "field": "education_level",
+                    "text": "Are you currently in school, college, or an ITI/polytechnic course, and do you belong to any reserved category (OBC/SC/ST/EWS)?",
+                    "suggested_answers": [
+                        "12th / School",
+                        "Diploma / ITI",
+                        "Undergraduate Degree",
+                        "Postgraduate",
+                        "OBC",
+                        "SC",
+                        "ST",
+                        "EWS / Open",
+                    ],
+                }
+            elif not edu_known:
+                nq = {
+                    "field": "education_level",
+                    "text": "What is your highest or current education level (e.g. 10th, 12th, Diploma, ITI, Undergraduate, Postgraduate)?",
+                    "suggested_answers": [
+                        "Below 10th",
+                        "10th pass",
+                        "12th pass",
+                        "Diploma / ITI",
+                        "Undergraduate",
+                        "Postgraduate",
+                    ],
+                }
+            elif not social_known:
+                nq = {
+                    "field": "social_category",
+                    "text": "Which category do you belong to (e.g. General/Open, OBC, SC, ST, EWS)?",
+                    "suggested_answers": [
+                        "General / Open",
+                        "OBC",
+                        "SC",
+                        "ST",
+                        "EWS",
+                        "VJNT",
+                    ],
+                }
+
+            eligibility = evaluate(conv, relevant) if (nq is None and edu_known and social_known) else None
 
             GREETING_WORDS = {"hi", "hello", "hey", "namaste", "pranam", "greetings"}
             msg_clean = message.strip().lower()
@@ -188,7 +238,51 @@ class IntakeChatView(APIView):
                 "social_category": "aap kaunsi category se belong karte hain (jaise General/Open, OBC, SC, ST, EWS)?",
             }
 
-            if nq is None:
+            if is_pure_greeting and not llm_values and not heuristic_values:
+                if user_lang == "marathi":
+                    q_text = FRIENDLY_PROMPTS_MR.get(nq.get("field"), nq.get("text", "")) if nq else "आपले शिक्षण व प्रवर्ग सांगा."
+                    reply = f"नमस्कार! YOJNAVIA मध्ये आपले स्वागत आहे. आपल्यासाठी योग्य शासकीय योजना शोधण्यासाठी, {q_text}"
+                elif user_lang == "hindi":
+                    q_text = FRIENDLY_PROMPTS_HI.get(nq.get("field"), nq.get("text", "")) if nq else "अपनी पढ़ाई और वर्ग बताएं।"
+                    reply = f"नमस्ते! YOJNAVIA में आपका स्वागत है। आपके लिए सही सरकारी योजनाएं खोजने के लिए, {q_text}"
+                elif user_lang == "hinglish":
+                    q_text = FRIENDLY_PROMPTS_HINGLISH.get(nq.get("field"), nq.get("text", "")) if nq else "apni padhai aur category batayein."
+                    reply = f"Namaste! YOJNAVIA me aapka swagat hai. Sahi government schemes dhoondhne ke liye, {q_text}"
+                else:
+                    raw_text = nq.get("text", "") if nq else "could you tell me your course and category?"
+                    q_text = raw_text.lower() if raw_text and raw_text[0].isupper() else raw_text
+                    reply = (
+                        "Namaste! Welcome to YOJNAVIA. To help you discover the right scholarships and government schemes in Maharashtra, "
+                        f"could you tell me a little about yourself—to start with, {q_text}"
+                    )
+            elif not edu_known and not social_known:
+                if user_lang == "marathi":
+                    reply = "नोंद घेतली! महाराष्ट्र शासकीय शिष्यवृत्तींची अचूक पात्रता तपासण्यासाठी: आपण सध्या शाळा, कॉलेज किंवा आयटीआय/पॉलिटेक्निक करत आहात का, आणि आपण कोणत्याही आरक्षित प्रवर्गात (OBC/SC/ST/EWS/खुला) मोडता का?"
+                elif user_lang == "hindi":
+                    reply = "विवरण दर्ज कर लिया गया है! महाराष्ट्र छात्रवृत्ति योजनाओं की सटीक पात्रता जाँचने के लिए: क्या आप अभी स्कूल, कॉलेज या ITI/पॉलिटेक्निक में पढ़ रहे हैं, और क्या आप किसी आरक्षित वर्ग (OBC/SC/ST/EWS/General) से आते हैं?"
+                elif user_lang == "hinglish":
+                    reply = "Details note kar liye hain! Maharashtra scholarships ki sahi eligibility check karne ke liye: Kya aap abhi school, college ya ITI/polytechnic me padh rahe hain, aur kya aap kisi reserved category (OBC/SC/ST/EWS/General) se belong karte hain?"
+                else:
+                    reply = "Details recorded! To evaluate your Maharashtra government scholarship eligibility accurately: Are you currently in school, college, or an ITI/polytechnic course, and do you belong to any reserved category (OBC/SC/ST/EWS)?"
+            elif not edu_known:
+                if user_lang == "marathi":
+                    reply = "उत्तम! योजना पात्रता निश्चित करण्यासाठी, आपले सध्याचे किंवा सर्वोच्च शिक्षण काय आहे (उदा. १०वी, १२वी, डिप्लोमा, आयटीआय, पदवी)?"
+                elif user_lang == "hindi":
+                    reply = "बहुत अच्छा! सरकारी छात्रवृत्ति जाँचने के लिए, आपकी वर्तमान या उच्चतम शिक्षा क्या है (जैसे 10वीं, 12वीं, डिप्लोमा, ITI, ग्रेजुएशन)?"
+                elif user_lang == "hinglish":
+                    reply = "Acha! Scholarships check karne ke liye, aapki current ya highest education kya hai (jaise 10th, 12th, Diploma, ITI, Graduation)?"
+                else:
+                    reply = "Great! To determine which scholarships fit you, what is your current or highest education level (e.g. 10th, 12th, Diploma, ITI, Undergraduate, Postgraduate)?"
+            elif not social_known:
+                if user_lang == "marathi":
+                    reply = "आपल्या शैक्षणिक माहितीची नोंद झाली. फी सवलत व शिष्यवृत्तींसाठी, आपण कोणत्या सामाजिक प्रवर्गात मोडता (उदा. खुला/Open, OBC, SC, ST, EWS)?"
+                elif user_lang == "hindi":
+                    reply = "आपकी शिक्षा दर्ज हो गई है। छात्रवृत्ति और शुल्क छूट के लिए, आप किस सामाजिक वर्ग से आते हैं (जैसे General/Open, OBC, SC, ST, EWS)?"
+                elif user_lang == "hinglish":
+                    reply = "Aapki education record ho gayi hai. Fee waiver scholarships ke liye, aap kaunsi social category se belong karte hain (jaise General/Open, OBC, SC, ST, EWS)?"
+                else:
+                    reply = "Your educational details are saved. To check reservation fee waivers and scholarships, which social category do you belong to (e.g. General/Open, OBC, SC, ST, EWS)?"
+            elif nq is None:
                 if user_lang == "marathi":
                     reply = "छान! मला सर्व महत्त्वाचे तपशील मिळाले आहेत. आपल्या माहितीच्या आधारे मी अधिकृत महाराष्ट्र शासन योजनांची पात्रता तपासली आहे."
                 elif user_lang == "hindi":
@@ -199,23 +293,6 @@ class IntakeChatView(APIView):
                     reply = DONE_REPLY
             elif natural_reply and not natural_reply.lower().startswith("thanks."):
                 reply = natural_reply
-            elif is_pure_greeting and not llm_values and not heuristic_values:
-                if user_lang == "marathi":
-                    q_text = FRIENDLY_PROMPTS_MR.get(nq.get("field"), nq.get("text", ""))
-                    reply = f"नमस्कार! YOJNAVIA मध्ये आपले स्वागत आहे. आपल्यासाठी योग्य शासकीय योजना शोधण्यासाठी, {q_text}"
-                elif user_lang == "hindi":
-                    q_text = FRIENDLY_PROMPTS_HI.get(nq.get("field"), nq.get("text", ""))
-                    reply = f"नमस्ते! YOJNAVIA में आपका स्वागत है। आपके लिए सही सरकारी योजनाएं खोजने के लिए, {q_text}"
-                elif user_lang == "hinglish":
-                    q_text = FRIENDLY_PROMPTS_HINGLISH.get(nq.get("field"), nq.get("text", ""))
-                    reply = f"Namaste! YOJNAVIA me aapka swagat hai. Sahi government schemes dhoondhne ke liye, {q_text}"
-                else:
-                    raw_text = nq.get("text", "")
-                    q_text = raw_text.lower() if raw_text and raw_text[0].isupper() else raw_text
-                    reply = (
-                        "Namaste! Welcome to YOJNAVIA. To help you discover the right scholarships and government schemes in Maharashtra, "
-                        f"could you tell me a little about yourself—to start with, {q_text}"
-                    )
             else:
                 raw_text = nq.get("text", "")
                 if user_lang == "marathi":

@@ -6,6 +6,7 @@ import { t } from '../utils/i18n';
 import PersonaBar from '../components/PersonaBar.vue';
 import StatutoryModal from '../components/StatutoryModal.vue';
 import type { EvaluatedScheme } from '../types';
+import { speakText, stopSpeaking, isSpeaking, speakingId, speakingLang } from '../utils/speech';
 import { 
   CheckCircle2, 
   AlertTriangle, 
@@ -23,7 +24,8 @@ import {
   BookmarkPlus, 
   RotateCcw, 
   Check,
-  Sliders 
+  Sliders,
+  Volume2
 } from '@lucide/vue';
 
 const store = useStudentStore();
@@ -174,6 +176,24 @@ async function handleReEvaluateAll() {
   await store.acknowledgeReEvaluation();
   await store.evaluateEligibility();
   alert("Re-evaluation complete! Your scheme match results have been refreshed against the latest statutory rules.");
+}
+
+function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
+  let textToSpeak = '';
+  const reason = s.passed_criteria?.[0]?.reason || s.brief_description || '';
+  const deadlineStr = s.application_deadline 
+    ? new Date(s.application_deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) 
+    : 'Rolling admissions cycle';
+
+  if (lang === 'mr') {
+    const title = s.name_marathi || s.name;
+    textToSpeak = `योजना: ${title}। थेट लाभ: ${s.benefit_amount_text}। पात्रता निकष: ${reason}। अधिकृत शासन निर्णय: ${s.statutory_gr}। अर्ज करण्याची अंतिम मुदत: ${deadlineStr}।`;
+  } else if (lang === 'hi') {
+    textToSpeak = `योजना: ${s.name}। प्रत्यक्ष लाभ: ${s.benefit_amount_text}। मुख्य पात्रता: ${reason}। अंतिम तिथि: ${deadlineStr}।`;
+  } else {
+    textToSpeak = `Scheme: ${s.name}. Direct Benefit: ${s.benefit_amount_text}. Eligibility: ${reason}. Official Source: ${s.statutory_gr}. Application Deadline: ${deadlineStr}.`;
+  }
+  speakText(textToSpeak, lang, `scheme-${s.code}`);
 }
 </script>
 
@@ -579,6 +599,56 @@ async function handleReEvaluateAll() {
               <div class="flex items-center gap-1">
                 <Clock class="w-3.5 h-3.5 text-amber-600" />
                 <span>Deadline: <strong class="text-amber-900">{{ s.application_deadline ? new Date(s.application_deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Rolling' }}</strong></span>
+              </div>
+            </div>
+
+            <!-- Audio TTS Listen Controls -->
+            <div class="pt-2 flex flex-wrap items-center justify-between gap-2 text-xs border-t border-[#0B132B]/10">
+              <div class="flex items-center gap-1.5">
+                <Volume2 class="w-3.5 h-3.5" :class="isSpeaking && speakingId === 'scheme-' + s.code ? 'text-[#D97706] animate-pulse' : 'text-slate-500'" />
+                <span class="font-bold text-[10px] uppercase tracking-wider text-slate-700">
+                  {{ isSpeaking && speakingId === 'scheme-' + s.code ? 'Speaking' : 'Listen:' }}
+                </span>
+              </div>
+              <div class="flex items-center gap-1">
+                <button
+                  @click="listenScheme(s, 'en')"
+                  class="px-2 py-0.5 rounded text-[10px] font-black border transition-all cursor-pointer"
+                  :class="isSpeaking && speakingId === 'scheme-' + s.code && speakingLang === 'en'
+                    ? 'bg-[#D97706] text-white border-[#D97706] shadow-xs'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'"
+                  title="Listen in English"
+                >
+                  English
+                </button>
+                <button
+                  @click="listenScheme(s, 'hi')"
+                  class="px-2 py-0.5 rounded text-[10px] font-black border transition-all cursor-pointer"
+                  :class="isSpeaking && speakingId === 'scheme-' + s.code && speakingLang === 'hi'
+                    ? 'bg-[#D97706] text-white border-[#D97706] shadow-xs'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'"
+                  title="हिंदी में सुनें"
+                >
+                  हिंदी
+                </button>
+                <button
+                  @click="listenScheme(s, 'mr')"
+                  class="px-2 py-0.5 rounded text-[10px] font-black border transition-all cursor-pointer"
+                  :class="isSpeaking && speakingId === 'scheme-' + s.code && speakingLang === 'mr'
+                    ? 'bg-[#D97706] text-white border-[#D97706] shadow-xs'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'"
+                  title="मराठीत ऐका"
+                >
+                  मराठी
+                </button>
+                <button
+                  v-if="isSpeaking && speakingId === 'scheme-' + s.code"
+                  @click="stopSpeaking"
+                  class="ml-1 px-1.5 py-0.5 rounded text-[10px] font-black bg-red-600 text-white border border-red-700 hover:bg-red-700 cursor-pointer"
+                  title="Stop speaking"
+                >
+                  ⏹️
+                </button>
               </div>
             </div>
           </div>

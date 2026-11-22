@@ -195,8 +195,8 @@ class IntakeEndToEndTests(IntakeTestBase):
     def test_eligibility_invoked_when_all_relevant_fields_known(self):
         # Provide age, state, income_band directly
         response, _ = self._chat(
-            "I am 21, Maharashtra domicile, income 2 lakh",
-            ({"age": 21, "state": "Maharashtra", "income_band": "1_to_2_5_lakh"}, None, None)
+            "I am 21, Maharashtra domicile, income 2 lakh, studying BTech, OBC category",
+            ({"age": 21, "state": "Maharashtra", "income_band": "1_to_2_5_lakh", "education_level": "undergraduate", "social_category": "obc"}, None, None)
         )
         self.assertEqual(response.status_code, 200)
         data = response.json()
@@ -204,6 +204,33 @@ class IntakeEndToEndTests(IntakeTestBase):
             self.assertIsNotNone(data["eligibility"])
             self.assertIn("summary", data["eligibility"])
             self.assertIn("results", data["eligibility"])
+
+    def test_essential_scholarship_fields_enforced_before_concluding(self):
+        # Even if age, state, district, and income band are known,
+        # assistant must not conclude until education_level and social_category are asked!
+        response, _ = self._chat(
+            "I am 22 from Pune, income 3 lakh",
+            ({"age": 22, "state": "Maharashtra", "district": "Pune", "income_band": "2_5_to_5_lakh"}, None, None)
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIsNotNone(data["next_question"])
+        self.assertIn("education_level", [data["next_question"]["field"], "education_level"])
+        # Must not say it has all key details yet
+        self.assertNotIn("Great, I have all the key details", data["reply"])
+        self.assertTrue(
+            "school" in data["reply"].lower() or 
+            "college" in data["reply"].lower() or 
+            "iti" in data["reply"].lower() or 
+            "category" in data["reply"].lower()
+        )
+
+    def test_heuristic_extracts_education_and_social_category(self):
+        from apps.ai_assistant.service import heuristic_extract
+        res = heuristic_extract("I completed ITI and I am OBC from Pune")
+        self.assertEqual(res.get("education_level"), "diploma")
+        self.assertEqual(res.get("social_category"), "obc")
+        self.assertEqual(res.get("district"), "Pune")
 
 
 class GovernmentResolutionInterpreterTests(TestCase):

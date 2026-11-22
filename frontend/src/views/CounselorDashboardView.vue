@@ -715,7 +715,7 @@ onMounted(async () => {
           <div class="flex items-center gap-2">
             <span class="neo-stamp neo-stamp-emerald text-[10px]">
               <ShieldCheck class="w-3.5 h-3.5 text-emerald-700" />
-              Zero-PII Aggregation • Privacy Guaranteed
+              Zero-PII Aggregation • Privacy Protected
             </span>
           </div>
         </div>

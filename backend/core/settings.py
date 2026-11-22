@@ -99,11 +99,10 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # Default: SQLite (existing db.sqlite3) when DATABASE_URL is unset; set DATABASE_URL to use PostgreSQL.
+_db_env = os.environ.get("DATABASE_URL", "").strip()
+_default_db_url = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-    )
+    'default': dj_database_url.parse(_db_env or _default_db_url, conn_max_age=600)
 }
 
 # Password validation

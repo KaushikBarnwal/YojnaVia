@@ -132,10 +132,22 @@ _PLAIN_AMOUNT_RE = re.compile(
 )
 _EDUCATION_RULES = (
     (re.compile(r"\bmca\b|\bm\.?\s?tech\b|\bmba\b|\bm\.?\s?sc\b|\bpost-?graduate\b|\bmaster'?s\b|\bपदव्युत्तर\b|\bमास्टर्स\b", re.IGNORECASE), "postgraduate"),
-    (re.compile(r"\bb\.?\s?tech\b|\bb\.?\s?sc\b|\bb\.?\s?com\b|\bbachelor'?s?\b|\bundergraduate\b|\bgraduate\b|\bपदवी\b|\bइंजिनिअरिंग\b|\bअभियांत्रिकी\b|\bग्रॅज्युएट\b", re.IGNORECASE), "undergraduate"),
-    (re.compile(r"\bdiploma\b|\bpolytechnic\b|\bडिप्लोमा\b|\bपॉलीटेक्निक\b", re.IGNORECASE), "diploma"),
+    (re.compile(r"\bb\.?\s?tech\b|\bb\.?\s?sc\b|\bb\.?\s?com\b|\bbachelor'?s?\b|\bundergraduate\b|\bgraduate\b|\bdegree\b|\bcollege\b|\bपदवी\b|\bइंजिनिअरिंग\b|\bअभियांत्रिकी\b|\bग्रॅज्युएट\b", re.IGNORECASE), "undergraduate"),
+    (re.compile(r"\bdiploma\b|\bpolytechnic\b|\biti\b|\bindustrial training\b|\bडिप्लोमा\b|\bपॉलीटेक्निक\b|\bआयटीआय\b", re.IGNORECASE), "diploma"),
     (re.compile(r"\b12th\b|\bhsc\b|\bjunior college\b|\bबारावी\b|\b१२वी\b|\b12वी\b", re.IGNORECASE), "12th_pass"),
-    (re.compile(r"\b10th\b|\bssc\b|\bदहावी\b|\b१०वी\b|\b10वी\b", re.IGNORECASE), "10th_pass"),
+    (re.compile(r"\b10th\b|\bssc\b|\bschool\b|\bदहावी\b|\b१०वी\b|\b10वी\b|\bशाळा\b", re.IGNORECASE), "10th_pass"),
+    (re.compile(r"\bbelow 10th\b|\bprimary\b|\b८वी\b|\b९वी\b|\b8th\b|\b9th\b", re.IGNORECASE), "below_10th"),
+)
+
+_CATEGORY_RULES = (
+    (re.compile(r"\b(obc|other backward class|इतर मागास|ओबीसी)\b", re.IGNORECASE), "obc"),
+    (re.compile(r"\b(sc|scheduled caste|अनुसूचित जाती|एससी)\b", re.IGNORECASE), "sc"),
+    (re.compile(r"\b(st|scheduled tribe|अनुसूचित जमाती|एसटी)\b", re.IGNORECASE), "st"),
+    (re.compile(r"\b(ews|economically weaker section|ईडब्ल्यूएस|आर्थिक दुर्बल)\b", re.IGNORECASE), "ews"),
+    (re.compile(r"\b(vjnt|vj|nt|nt-a|nt-b|nt-c|nt-d|विमुक्त जाती|भटक्या जमाती)\b", re.IGNORECASE), "vjnt"),
+    (re.compile(r"\b(sbc|विशेष मागास प्रवर्ग)\b", re.IGNORECASE), "sbc"),
+    (re.compile(r"\b(general|open|खुला|सर्वसाधारण|जनरल|ओपन|maratha|मराठा)\b", re.IGNORECASE), "general"),
+    (re.compile(r"\b(prefer not to say|सांगू इच्छित नाही)\b", re.IGNORECASE), "prefer_not_to_say"),
 )
 
 DEVANAGARI_DIGITS_MAP = str.maketrans("०१२३४५६७८९", "0123456789")
@@ -145,6 +157,15 @@ INDIC_NUMBER_WORDS = {
     "सहा": 6.0, "छह": 6.0, "सात": 7.0, "आठ": 8.0, "नऊ": 9.0, "नौ": 9.0, "दहा": 10.0, "दस": 10.0,
     "दीड": 1.5, "डेढ": 1.5, "अडीच": 2.5, "ढाई": 2.5
 }
+
+MAHARASHTRA_DISTRICTS_ENGLISH = (
+    "Pune", "Nagpur", "Thane", "Nashik", "Chhatrapati Sambhajinagar", "Aurangabad",
+    "Solapur", "Kolhapur", "Amravati", "Nanded", "Sangli", "Jalgaon", "Akola",
+    "Latur", "Dhule", "Ahmednagar", "Satara", "Beed", "Chandrapur", "Parbhani",
+    "Jalna", "Raigad", "Sindhudurg", "Ratnagiri", "Palghar", "Wardha", "Bhandara",
+    "Gondia", "Gadchiroli", "Washim", "Hingoli", "Nandurbar", "Yavatmal", "Osmanabad",
+    "Dharashiv", "Mumbai", "Mumbai Suburban", "Mumbai City",
+)
 
 MAHARASHTRA_DISTRICTS_INDIC = {
     "पुणे": "Pune", "पुण्यात": "Pune",
@@ -418,13 +439,21 @@ def heuristic_extract(message: str) -> dict:
         if best:
             raw["state"] = best[1]
 
-    # Indic district detection
-    for indic_key, mapped_dist in MAHARASHTRA_DISTRICTS_INDIC.items():
-        if re.search(r"\b" + re.escape(indic_key) + r"\b", text, re.IGNORECASE) or indic_key in text:
-            raw["district"] = mapped_dist
+    # English & Indic district detection
+    for eng_dist in MAHARASHTRA_DISTRICTS_ENGLISH:
+        if re.search(r"\b" + re.escape(eng_dist) + r"\b", text, re.IGNORECASE):
+            raw["district"] = "Chhatrapati Sambhajinagar" if eng_dist.lower() == "aurangabad" else eng_dist
             if "state" not in raw:
                 raw["state"] = "Maharashtra"
             break
+
+    if "district" not in raw:
+        for indic_key, mapped_dist in MAHARASHTRA_DISTRICTS_INDIC.items():
+            if re.search(r"\b" + re.escape(indic_key) + r"\b", text, re.IGNORECASE) or indic_key in text:
+                raw["district"] = mapped_dist
+                if "state" not in raw:
+                    raw["state"] = "Maharashtra"
+                break
 
     band = _income_band_from_text(text)
     if band:
@@ -433,6 +462,11 @@ def heuristic_extract(message: str) -> dict:
     for pattern, level in _EDUCATION_RULES:
         if pattern.search(norm) or pattern.search(text):
             raw["education_level"] = level
+            break
+
+    for pattern, cat in _CATEGORY_RULES:
+        if pattern.search(norm) or pattern.search(text):
+            raw["social_category"] = cat
             break
 
     return parse_extraction(raw)[0]

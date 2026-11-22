@@ -25,8 +25,10 @@ import {
   CheckSquare,
   Square,
   Sparkles,
-  BookmarkCheck
+  BookmarkCheck,
+  Volume2
 } from '@lucide/vue';
+import { speakText, stopSpeaking, isSpeaking, speakingId, speakingLang } from '../utils/speech';
 
 const route = useRoute();
 const router = useRouter();
@@ -102,6 +104,26 @@ async function trackThisScheme() {
   if (!scheme.value) return;
   await store.updateTrackerStage(scheme.value.code, 'DOCUMENTS_PREPARATION');
   router.push('/tracker');
+}
+
+function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
+  if (!scheme.value) return;
+  const s = scheme.value;
+  let textToSpeak = '';
+  const reason = s.passed_criteria?.[0]?.reason || s.brief_description || '';
+  const deadlineStr = s.application_deadline 
+    ? new Date(s.application_deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) 
+    : 'Rolling academic cycle';
+
+  if (lang === 'mr') {
+    const title = s.name_marathi || s.name;
+    textToSpeak = `योजनेचे नाव: ${title}। विभाग: ${s.department}। थेट लाभ: ${s.benefit_amount_text}। तपशील: ${s.brief_description}। मुख्य पात्रता: ${reason}। अधिकृत शासन निर्णय: ${s.statutory_gr}। अर्ज करण्याची अंतिम मुदत: ${deadlineStr}।`;
+  } else if (lang === 'hi') {
+    textToSpeak = `योजना: ${s.name}। विभाग: ${s.department}। सीधा लाभ: ${s.benefit_amount_text}। विवरण: ${s.brief_description}। मुख्य पात्रता: ${reason}। अंतिम तिथि: ${deadlineStr}।`;
+  } else {
+    textToSpeak = `Scheme Name: ${s.name}. Department: ${s.department}. Direct Benefit: ${s.benefit_amount_text}. Description: ${s.brief_description}. Key Eligibility: ${reason}. Official Source: ${s.statutory_gr}. Deadline: ${deadlineStr}.`;
+  }
+  speakText(textToSpeak, lang, `detail-${s.code}`);
 }
 </script>
 
@@ -193,6 +215,51 @@ async function trackThisScheme() {
             <p class="text-xs sm:text-sm text-slate-700 leading-relaxed max-w-3xl pt-1 font-medium">
               {{ scheme.brief_description }}
             </p>
+
+            <!-- Audio TTS Listen Controls -->
+            <div class="pt-3 border-t border-[#0B132B]/10 flex flex-wrap items-center gap-2">
+              <div class="flex items-center gap-1.5 text-xs text-slate-700 font-bold">
+                <Volume2 class="w-4 h-4" :class="isSpeaking && speakingId === 'detail-' + scheme.code ? 'text-[#D97706] animate-pulse' : 'text-slate-500'" />
+                <span>{{ isSpeaking && speakingId === 'detail-' + scheme.code ? 'Speaking Scheme Details:' : 'Listen to Scheme Details:' }}</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button
+                  @click="listenDetailScheme('en')"
+                  class="px-2.5 py-1 rounded-lg text-xs font-black border transition-all cursor-pointer"
+                  :class="isSpeaking && speakingId === 'detail-' + scheme.code && speakingLang === 'en'
+                    ? 'bg-[#D97706] text-white border-[#D97706] shadow-xs'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'"
+                >
+                  English
+                </button>
+                <button
+                  @click="listenDetailScheme('hi')"
+                  class="px-2.5 py-1 rounded-lg text-xs font-black border transition-all cursor-pointer"
+                  :class="isSpeaking && speakingId === 'detail-' + scheme.code && speakingLang === 'hi'
+                    ? 'bg-[#D97706] text-white border-[#D97706] shadow-xs'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'"
+                >
+                  हिंदी
+                </button>
+                <button
+                  @click="listenDetailScheme('mr')"
+                  class="px-2.5 py-1 rounded-lg text-xs font-black border transition-all cursor-pointer"
+                  :class="isSpeaking && speakingId === 'detail-' + scheme.code && speakingLang === 'mr'
+                    ? 'bg-[#D97706] text-white border-[#D97706] shadow-xs'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'"
+                >
+                  मराठी
+                </button>
+                <button
+                  v-if="isSpeaking && speakingId === 'detail-' + scheme.code"
+                  @click="stopSpeaking"
+                  class="ml-1 px-2 py-1 rounded-lg text-xs font-black bg-red-600 text-white border border-red-700 hover:bg-red-700 cursor-pointer"
+                  title="Stop speaking"
+                >
+                  ⏹️ Stop
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- Quick Metadata Box -->

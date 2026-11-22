@@ -117,7 +117,7 @@ class GroqChatAssistant:
                 greeting_analysis = {
                     "understanding": "Citizen greeting received. Awaiting educational and financial criteria.",
                     "key_statutory_finding": "Eligible for multiple Maharashtra Higher Education & MahaDBT fee waivers upon sharing basic details.",
-                    "simple_explanation": "Namaste! Welcome to YOJNAVIA. You can speak or type your course, district, category, and family income to unlock guaranteed government schemes.",
+                    "simple_explanation": "Namaste! Welcome to YOJNAVIA. You can speak or type your course, district, category, and family income to discover likely eligible government schemes.",
                     "steps": [
                         "1. Share your current course or education level",
                         "2. State your district in Maharashtra",
@@ -238,6 +238,9 @@ class GroqChatAssistant:
             "- If the user asks in English, reply in clear English text.\n"
             "- Match the language in BOTH 'natural_reply' and the text inside 'structured_analysis'.\n"
             "- When asking a question for missing criteria, always end it with a '?' character.\n\n"
+            "ESSENTIAL SCHOLARSHIP CRITERIA RULE:\n"
+            "- Maharashtra scholarships strictly require education_level (course/degree e.g. 10th, 12th, Diploma, ITI, Degree) and social_category (reservation/open e.g. OBC, SC, ST, EWS, General).\n"
+            "- NEVER say you have all details if education_level or social_category are missing. If either is missing, proactively ask for it (e.g. 'Are you currently in school, college, or an ITI/polytechnic course, and do you belong to any reserved category (OBC/SC/ST/EWS)?').\n\n"
             "Rules for extraction:\n"
             "- Extract ONLY what the user explicitly stated. Never infer caste, income, or eligibility.\n"
             "- Never ask for or output Aadhaar numbers, OTPs, or bank passwords.\n"

@@ -47,7 +47,7 @@ export const useStudentStore = defineStore('student', {
             '2. Provide annual family income range and social category',
             '3. Review preflight document checklist & RTS Act processing SLAs'
           ],
-          final_recommendation: 'Awaiting your criteria to calculate guaranteed welfare benefits.',
+          final_recommendation: 'Awaiting your criteria to calculate likely eligible welfare schemes.',
           next_action: 'Tap the mic or enter your details below.',
           engine_used: 'Groq Llama-3.3 (Primary) · Gemini Flash (Fallback)'
         }
