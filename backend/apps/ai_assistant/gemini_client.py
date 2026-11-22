@@ -61,8 +61,16 @@ class GeminiIntakeAssistant:
 
         # Performance Fast-Path: Pure greeting bypasses remote LLM to save tokens and eliminate latency
         msg_tokens = [w.strip("!.,?:;") for w in message.lower().split() if w.strip("!.,?:;")]
-        if msg_tokens and len(msg_tokens) <= 2 and msg_tokens[0] in {"hi", "hello", "hey", "namaste", "pranam", "greetings"}:
-            return {}, None, None, "Namaste! Welcome to YOJNAVIA. Tell me about your education, district, category and family income to discover your eligible scholarships."
+        if msg_tokens and len(msg_tokens) <= 2 and msg_tokens[0] in {"hi", "hello", "hey", "namaste", "pranam", "greetings", "namaskar", "ram ram"}:
+            from .schema import detect_message_language
+            detected = detect_message_language(message)
+            if detected == "marathi":
+                greeting = "नमस्कार! YOJNAVIA मध्ये आपले स्वागत आहे. आपले शिक्षण, जिल्हा, जात प्रवर्ग आणि कौटुंबिक उत्पन्नाबद्दल सांगा."
+            elif detected in ("hindi", "hinglish"):
+                greeting = "नमस्ते! YOJNAVIA में आपका स्वागत है। अपने कोर्स, ज़िला, वर्ग (Category) और पारिवारिक आय के बारे में बताएं।"
+            else:
+                greeting = "Namaste! Welcome to YOJNAVIA. Tell me about your education, district, category and family income to discover your eligible scholarships."
+            return {}, None, None, greeting
 
         last_exc = None
         for model_name in MODEL_CANDIDATES:
@@ -117,6 +125,11 @@ class GeminiIntakeAssistant:
         return (
             "You are YOJNAVIA, an empathetic, helpful benefits guide assisting students and families in Maharashtra.\n"
             "You extract structured profile fields for government scheme matching AND generate a warm, human, conversational reply.\n\n"
+            "LANGUAGE MIRRORING RULES (MANDATORY):\n"
+            "- If the user message is in Hindi or Hinglish (e.g. 'meri umar 21 saal hai', 'mai pune me rehta hu', or Devanagari Hindi), reply in natural Hindi or Hinglish matching the user's phrasing!\n"
+            "- If the user message is in Marathi (e.g. 'माझं वय २४ वर्ष आहे', 'मी पुण्यात राहतो', or Roman Marathi), reply in authentic Marathi script (मराठी देवनागरी)!\n"
+            "- If the user message is in English, reply in clean English text.\n"
+            "- Always end questions asking for criteria with a '?' character.\n\n"
             "Rules for extraction:\n"
             "- Extract only what the user explicitly stated.\n"
             "- Never infer any field from name, surname, region, appearance, religion, or stereotypes.\n"
@@ -126,10 +139,10 @@ class GeminiIntakeAssistant:
             "- Value formats:\n"
             f"{field_lines}\n\n"
             "Rules for natural_reply:\n"
-            "- If the user greeted (e.g. 'hi', 'hello', 'namaste'), greet back warmly like a friendly, encouraging mentor.\n"
+            "- If the user greeted (e.g. 'hi', 'hello', 'namaste'), greet back warmly like a friendly, encouraging mentor in the user's language.\n"
             "- Never sound robotic, artificial, or like a cold automated form. Never start replies with 'Thanks.'\n"
-            "- Naturally acknowledge what details the user volunteered (e.g. 'Nice to meet you! Studying B.Tech in Sangli is fantastic.').\n"
-            "- Weave in a natural question asking for the next missing detail from the requested keys, or encourage them to share their situation.\n"
+            "- Naturally acknowledge what details the user volunteered in the user's language.\n"
+            "- Weave in a natural question asking for the next missing detail from the requested keys in the user's language.\n"
             "- Keep it concise, natural and warm (1-2 sentences).\n"
             'Output a single JSON object of the form: {"extracted": {...}, "natural_reply": "..."}'
         )

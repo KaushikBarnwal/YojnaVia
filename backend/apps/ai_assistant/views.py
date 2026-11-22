@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 
 from .gemini_client import GeminiIntakeAssistant
 from .models import IntakeConversation
-from .schema import ALL_FIELDS, looks_like_sensitive_identifier
+from .schema import ALL_FIELDS, detect_message_language, looks_like_sensitive_identifier
 from .service import (
     apply_extraction,
     evaluate,
@@ -146,30 +146,98 @@ class IntakeChatView(APIView):
                 or (len(msg_clean.split()) <= 2 and any(msg_clean.startswith(w) for w in GREETING_WORDS))
             )
 
+            user_lang = detect_message_language(message)
+
+            FRIENDLY_PROMPTS_EN = {
+                "age": "could you tell me how old you are?",
+                "state": "which state do you currently live in?",
+                "district": "which district in Maharashtra do you reside in?",
+                "occupation": "what do you currently do (e.g. student, farmer, employed)?",
+                "education_level": "what is your current or highest education level?",
+                "income_band": "roughly what is your family's annual household income?",
+            }
+
+            FRIENDLY_PROMPTS_MR = {
+                "age": "आपले वय किती वर्षे आहे ते सांगू शकाल का?",
+                "state": "आपण सध्या कोणत्या राज्यात राहता?",
+                "district": "आपण महाराष्ट्रातील कोणत्या जिल्ह्यात राहता?",
+                "occupation": "आपण सध्या काय करता (उदा. विद्यार्थी, शेतकरी, नोकरदार)?",
+                "education_level": "आपले सध्याचे किंवा सर्वोच्च शिक्षण काय आहे?",
+                "income_band": "आपल्या कुटुंबाचे अंदाजे वार्षिक उत्पन्न किती आहे?",
+            }
+
+            FRIENDLY_PROMPTS_HI = {
+                "age": "कृपया बताएं कि आपकी उम्र कितने वर्ष है?",
+                "state": "आप वर्तमान में किस राज्य में रहते हैं?",
+                "district": "आप महाराष्ट्र के किस ज़िले में रहते हैं?",
+                "occupation": "आप वर्तमान में क्या करते हैं (जैसे छात्र, किसान, कार्यरत)?",
+                "education_level": "आपकी वर्तमान या उच्चतम शिक्षा क्या है?",
+                "income_band": "आपके परिवार की कुल वार्षिक आय लगभग कितनी है?",
+            }
+
+            FRIENDLY_PROMPTS_HINGLISH = {
+                "age": "kripya batayein aapki umar kitne saal hai?",
+                "state": "aap abhi kaunse state me rehte hain?",
+                "district": "aap Maharashtra ke kaunse district me rehte hain?",
+                "occupation": "aap abhi kya karte hain (jaise student, farmer, employed)?",
+                "education_level": "aapki current ya highest education level kya hai?",
+                "income_band": "aapke family ki lagbhag annual household income kitni hai?",
+            }
+
             if nq is None:
-                reply = DONE_REPLY
+                if user_lang == "marathi":
+                    reply = "छान! मला सर्व महत्त्वाचे तपशील मिळाले आहेत. आपल्या माहितीच्या आधारे मी अधिकृत महाराष्ट्र शासन योजनांची पात्रता तपासली आहे."
+                elif user_lang == "hindi":
+                    reply = "बहुत बढ़िया! मुझे सभी महत्वपूर्ण विवरण मिल गए हैं। आपकी प्रोफ़ाइल के आधार पर मैंने आधिकारिक महाराष्ट्र सरकारी योजनाओं की पात्रता जाँची है।"
+                elif user_lang == "hinglish":
+                    reply = "Bohot badhiya! Saare zaroori details mil gaye hain. Aapki profile ke mutabik maine official Maharashtra government schemes ki eligibility check kar li hai."
+                else:
+                    reply = DONE_REPLY
             elif natural_reply and not natural_reply.lower().startswith("thanks."):
                 reply = natural_reply
             elif is_pure_greeting and not llm_values and not heuristic_values:
-                reply = (
-                    "Namaste! Welcome to YOJNAVIA. To help you discover the right scholarships and government schemes in Maharashtra, "
-                    f"could you tell me a little about yourself—to start with, {nq['text'].lower()}"
-                )
-            else:
-                FRIENDLY_PROMPTS = {
-                    "age": "could you tell me how old you are?",
-                    "state": "which state do you currently live in?",
-                    "district": "which district in Maharashtra do you reside in?",
-                    "occupation": "what do you currently do (e.g. student, farmer, employed)?",
-                    "education_level": "what is your current or highest education level?",
-                    "income_band": "roughly what is your family's annual household income?",
-                }
-                raw_text = nq.get("text", "")
-                q_text = FRIENDLY_PROMPTS.get(nq.get("field"), raw_text.lower() if raw_text and raw_text[0].isupper() else raw_text)
-                if llm_values or heuristic_values:
-                    reply = f"Got it, recorded! To check your scheme eligibility, {q_text}"
+                if user_lang == "marathi":
+                    q_text = FRIENDLY_PROMPTS_MR.get(nq.get("field"), nq.get("text", ""))
+                    reply = f"नमस्कार! YOJNAVIA मध्ये आपले स्वागत आहे. आपल्यासाठी योग्य शासकीय योजना शोधण्यासाठी, {q_text}"
+                elif user_lang == "hindi":
+                    q_text = FRIENDLY_PROMPTS_HI.get(nq.get("field"), nq.get("text", ""))
+                    reply = f"नमस्ते! YOJNAVIA में आपका स्वागत है। आपके लिए सही सरकारी योजनाएं खोजने के लिए, {q_text}"
+                elif user_lang == "hinglish":
+                    q_text = FRIENDLY_PROMPTS_HINGLISH.get(nq.get("field"), nq.get("text", ""))
+                    reply = f"Namaste! YOJNAVIA me aapka swagat hai. Sahi government schemes dhoondhne ke liye, {q_text}"
                 else:
-                    reply = f"To check what scholarships apply to you, {q_text}"
+                    raw_text = nq.get("text", "")
+                    q_text = raw_text.lower() if raw_text and raw_text[0].isupper() else raw_text
+                    reply = (
+                        "Namaste! Welcome to YOJNAVIA. To help you discover the right scholarships and government schemes in Maharashtra, "
+                        f"could you tell me a little about yourself—to start with, {q_text}"
+                    )
+            else:
+                raw_text = nq.get("text", "")
+                if user_lang == "marathi":
+                    q_text = FRIENDLY_PROMPTS_MR.get(nq.get("field"), raw_text)
+                    if llm_values or heuristic_values:
+                        reply = f"उत्तम, नोंद घेतली! योजना पात्रता तपासण्यासाठी, {q_text}"
+                    else:
+                        reply = f"आपल्यासाठी योग्य शिष्यवृत्ती तपासण्यासाठी, {q_text}"
+                elif user_lang == "hindi":
+                    q_text = FRIENDLY_PROMPTS_HI.get(nq.get("field"), raw_text)
+                    if llm_values or heuristic_values:
+                        reply = f"ठीक है, नोट कर लिया! योजना पात्रता जाँचने के लिए, {q_text}"
+                    else:
+                        reply = f"आपके लिए सही छात्रवृत्ति जाँचने के लिए, {q_text}"
+                elif user_lang == "hinglish":
+                    q_text = FRIENDLY_PROMPTS_HINGLISH.get(nq.get("field"), raw_text)
+                    if llm_values or heuristic_values:
+                        reply = f"Got it, note kar liya! Scheme eligibility check karne ke liye, {q_text}"
+                    else:
+                        reply = f"Aapke liye sahi scholarships check karne ke liye, {q_text}"
+                else:
+                    q_text = FRIENDLY_PROMPTS_EN.get(nq.get("field"), raw_text.lower() if raw_text and raw_text[0].isupper() else raw_text)
+                    if llm_values or heuristic_values:
+                        reply = f"Got it, recorded! To check your scheme eligibility, {q_text}"
+                    else:
+                        reply = f"To check what scholarships apply to you, {q_text}"
 
             conv.history = (list(conv.history or []) + [
                 {"role": "user", "text": message},

@@ -77,22 +77,58 @@ class GroqChatAssistant:
 
         # Fast path for greetings
         msg_tokens = [w.strip("!.,?:;") for w in message.lower().split() if w.strip("!.,?:;")]
-        if msg_tokens and len(msg_tokens) <= 2 and msg_tokens[0] in {"hi", "hello", "hey", "namaste", "pranam", "greetings", "ram ram"}:
-            greeting_analysis = {
-                "understanding": "Citizen greeting received. Awaiting educational and financial criteria.",
-                "key_statutory_finding": "Eligible for multiple Maharashtra Higher Education & MahaDBT fee waivers upon sharing basic details.",
-                "simple_explanation": "Namaste! Welcome to YOJNAVIA. You can speak or type your course, district, category, and family income to unlock guaranteed government schemes.",
-                "steps": [
-                    "1. Share your current course or education level",
-                    "2. State your district in Maharashtra",
-                    "3. Mention annual household income and category",
-                    "4. Review pre-qualified schemes and document checklists",
-                ],
-                "final_recommendation": "Ready to discover eligible welfare schemes.",
-                "next_action": "Tell me about your studies, college, or family income.",
-                "engine_used": "Groq Llama-3.3 (Fast Greeting Dispatch)",
-            }
-            return {}, None, None, "Namaste! Welcome to YOJNAVIA. Tell me about your education, district, category, and family income to discover your eligible scholarships.", greeting_analysis
+        if msg_tokens and len(msg_tokens) <= 2 and msg_tokens[0] in {"hi", "hello", "hey", "namaste", "pranam", "greetings", "ram ram", "namaskar"}:
+            from .schema import detect_message_language
+            detected = detect_message_language(message)
+            if detected == "marathi":
+                greeting_reply = "नमस्कार! YOJNAVIA मध्ये आपले स्वागत आहे. आपले शिक्षण, जिल्हा, जात प्रवर्ग आणि कौटुंबिक उत्पन्नाबद्दल सांगा."
+                greeting_analysis = {
+                    "understanding": "नागरिकाचे अभिवादन प्राप्त झाले. शैक्षणिक व आर्थिक माहितीची प्रतीक्षा आहे.",
+                    "key_statutory_finding": "मूलभूत तपशील दिल्यावर अनेक महाराष्ट्र उच्च शिक्षण व महाडीबीटी शिष्यवृत्तींसाठी पात्र.",
+                    "simple_explanation": "नमस्कार! YOJNAVIA मध्ये आपले स्वागत आहे. शासकीय योजना जाणून घेण्यासाठी आपला अभ्यासक्रम, जिल्हा आणि उत्पन्न सांगा.",
+                    "steps": [
+                        "१. आपले सध्याचे शिक्षण सांगा",
+                        "२. महाराष्ट्रातील आपला जिल्हा सांगा",
+                        "३. वार्षिक कौटुंबिक उत्पन्न व प्रवर्ग सांगा",
+                        "४. योजना व कागदपत्रांची यादी तपासा"
+                    ],
+                    "final_recommendation": "पात्र शासकीय योजना शोधण्यासाठी तयार.",
+                    "next_action": "आपल्या शिक्षण किंवा उत्पन्नाबद्दल सांगा.",
+                    "engine_used": "Groq Llama-3.3 (मराठी)",
+                }
+            elif detected in ("hindi", "hinglish"):
+                greeting_reply = "नमस्ते! YOJNAVIA में आपका स्वागत है। अपने कोर्स, ज़िला, वर्ग (Category) और पारिवारिक आय के बारे में बताएं।"
+                greeting_analysis = {
+                    "understanding": "नागरिक का अभिवादन प्राप्त हुआ। शैक्षणिक और वित्तीय जानकारी की प्रतीक्षा है।",
+                    "key_statutory_finding": "सामान्य विवरण साझा करने पर महाराष्ट्र उच्च शिक्षा और महाडीबीटी शुल्क छूट के लिए पात्र।",
+                    "simple_explanation": "नमस्ते! YOJNAVIA में आपका स्वागत है। सरकारी छात्रवृत्ति खोजने के लिए अपनी पढ़ाई, ज़िला और आय बताएं।",
+                    "steps": [
+                        "1. अपनी वर्तमान कक्षा या डिग्री बताएं",
+                        "2. महाराष्ट्र में अपना ज़िला बताएं",
+                        "3. वार्षिक पारिवारिक आय और वर्ग बताएं",
+                        "4. योग्य योजनाएं और दस्तावेज़ चेकलिस्ट देखें"
+                    ],
+                    "final_recommendation": "सरकारी योजनाओं की पात्रता जाँचने के लिए तैयार।",
+                    "next_action": "अपनी पढ़ाई, कॉलेज या पारिवारिक आय के बारे में बताएं।",
+                    "engine_used": "Groq Llama-3.3 (हिंदी / Hinglish)",
+                }
+            else:
+                greeting_reply = "Namaste! Welcome to YOJNAVIA. Tell me about your education, district, category, and family income to discover your eligible scholarships."
+                greeting_analysis = {
+                    "understanding": "Citizen greeting received. Awaiting educational and financial criteria.",
+                    "key_statutory_finding": "Eligible for multiple Maharashtra Higher Education & MahaDBT fee waivers upon sharing basic details.",
+                    "simple_explanation": "Namaste! Welcome to YOJNAVIA. You can speak or type your course, district, category, and family income to unlock guaranteed government schemes.",
+                    "steps": [
+                        "1. Share your current course or education level",
+                        "2. State your district in Maharashtra",
+                        "3. Mention annual household income and category",
+                        "4. Review pre-qualified schemes and document checklists",
+                    ],
+                    "final_recommendation": "Ready to discover eligible welfare schemes.",
+                    "next_action": "Tell me about your studies, college, or family income.",
+                    "engine_used": "Groq Llama-3.3 (Fast Greeting Dispatch)",
+                }
+            return {}, None, None, greeting_reply, greeting_analysis
 
         # 1. Try Groq Primary
         if self.is_configured():
@@ -195,7 +231,13 @@ class GroqChatAssistant:
         keys = ", ".join(requested)
         return (
             "You are YOJNAVIA, an empathetic, sovereign benefits guide for citizens in Maharashtra, India.\n"
-            "You extract structured profile facts for deterministic government scheme matching AND produce structured, Gurukul-style guidance.\n\n"
+            "You extract structured profile facts for deterministic government scheme matching AND produce structured, empathetic guidance.\n\n"
+            "CRITICAL LANGUAGE MIRRORING RULES (MANDATORY):\n"
+            "- If the user asks in Hindi or Hinglish (e.g. 'meri umar 21 saal hai', 'mai pune me rehta hu', or Devanagari Hindi), reply in natural Hindi or Hinglish matching their register!\n"
+            "- If the user asks in Marathi (e.g. 'माझं वय २४ वर्ष आहे', 'मी पुण्यात राहतो', or Roman Marathi), reply in authentic Marathi script (मराठी देवनागरी)!\n"
+            "- If the user asks in English, reply in clear English text.\n"
+            "- Match the language in BOTH 'natural_reply' and the text inside 'structured_analysis'.\n"
+            "- When asking a question for missing criteria, always end it with a '?' character.\n\n"
             "Rules for extraction:\n"
             "- Extract ONLY what the user explicitly stated. Never infer caste, income, or eligibility.\n"
             "- Never ask for or output Aadhaar numbers, OTPs, or bank passwords.\n"
@@ -204,14 +246,14 @@ class GroqChatAssistant:
             "Output JSON format:\n"
             "{\n"
             '  "extracted": { ... },\n'
-            '  "natural_reply": "Warm conversational 1-2 sentence response.",\n'
+            '  "natural_reply": "Warm conversational 1-2 sentence response in the user\'s language.",\n'
             '  "structured_analysis": {\n'
-            '    "understanding": "Clear summary of citizen facts understood from the query",\n'
-            '    "key_statutory_finding": "Direct, decisive takeaway on income limits, reservation, or scheme eligibility",\n'
-            '    "simple_explanation": "Plain, friendly explanation in English/Hinglish/Marathi",\n'
+            '    "understanding": "Clear summary of citizen facts in the user\'s language",\n'
+            '    "key_statutory_finding": "Direct, decisive takeaway on income limits, reservation, or scheme eligibility in the user\'s language",\n'
+            '    "simple_explanation": "Plain, friendly explanation in the user\'s language",\n'
             '    "steps": ["Step 1: ...", "Step 2: ...", "Step 3: ..."],\n'
-            '    "final_recommendation": "Decisive next entitlement or action",\n'
-            '    "next_action": "Specific next question or document needed"\n'
+            '    "final_recommendation": "Decisive next entitlement or action in the user\'s language",\n'
+            '    "next_action": "Specific next question or document needed in the user\'s language"\n'
             "  }\n"
             "}\n"
             "Output only valid JSON."

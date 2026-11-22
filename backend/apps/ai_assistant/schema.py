@@ -248,3 +248,52 @@ def looks_like_sensitive_identifier(text: str) -> bool:
     if _SENSITIVE_NUMBER_RE.search(text):
         return True
     return bool(_SENSITIVE_WORD_RE.search(text))
+
+
+def detect_message_language(text: str) -> str:
+    """
+    Detects language of citizen input:
+    - 'marathi': Marathi Devanagari or Romanized Marathi
+    - 'hindi': Hindi Devanagari
+    - 'hinglish': Romanized Hindi (conversational Hindi in Latin script)
+    - 'english': English text
+    """
+    if not text or not isinstance(text, str):
+        return "english"
+
+    # 1. Check Devanagari script presence
+    has_devanagari = any('\u0900' <= char <= '\u097F' for char in text)
+    if has_devanagari:
+        marathi_markers = {
+            "माझं", "माझे", "माझी", "आहे", "आहोत", "आहेत", "नाही", "राहतो", "राहते", "शिकतो",
+            "शिकते", "उत्पन्न", "लाख", "रुपये", "वय", "वर्ष", "कुटुंब", "कुटुंबाचे", "कुटुंबाचं",
+            "पुण्यात", "मुंबईत", "जिल्हा", "नमस्कार", "कसा", "कशी", "काय", "मध्ये", "झाले", "झाला"
+        }
+        words = set(re.findall(r'[\u0900-\u097F]+', text.lower()))
+        if any(w in marathi_markers for w in words):
+            return "marathi"
+        return "hindi"
+
+    # 2. Check Romanized / Latin text
+    text_lower = text.lower()
+    tokens = set(re.findall(r'[a-zA-Z]+', text_lower))
+
+    marathi_roman = {
+        "majhe", "majh", "mazha", "ahe", "rahto", "rahte", "shikto", "shikte",
+        "utpanna", "namaskar", "punyat", "kutumb", "varsh", "kiti", "shiku"
+    }
+    if any(tok in marathi_roman for tok in tokens):
+        return "marathi"
+
+    hinglish_markers = {
+        "mera", "meri", "mere", "hum", "mai", "main", "mujhe", "mujhko", "apna", "apni",
+        "hai", "hain", "ho", "hu", "hoon", "nahi", "nahin", "rehta", "rehti", "rehte",
+        "padhta", "padhti", "padh", "karta", "karti", "karte", "saal", "umar", "aay",
+        "pariwar", "parivar", "batao", "batayein", "kaise", "kya", "milega", "milegi",
+        "chahiye", "lagbhag", "namaste", "pranam", "karo", "karna", "baare"
+    }
+    hinglish_hits = sum(1 for tok in tokens if tok in hinglish_markers)
+    if hinglish_hits >= 2 or (len(tokens) <= 3 and hinglish_hits >= 1):
+        return "hinglish"
+
+    return "english"

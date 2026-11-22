@@ -383,3 +383,58 @@ class SarvamVoiceIntakeTests(TestCase):
                     SarvamSpeechService.transcribe(audio_file)
 
 
+class LanguageMirroringTests(TestCase):
+    def test_detect_message_language_accuracy(self):
+        from apps.ai_assistant.schema import detect_message_language
+
+        # Marathi
+        self.assertEqual(detect_message_language("माझं वय २४ वर्ष आहे. मी पुण्यात शिकतो."), "marathi")
+        self.assertEqual(detect_message_language("कुटुंबाचे वार्षिक उत्पन्न दोन लाख रुपये आहे"), "marathi")
+        self.assertEqual(detect_message_language("majhe utpanna 2 lakh ahe"), "marathi")
+
+        # Hindi (Devanagari)
+        self.assertEqual(detect_message_language("मेरी उम्र 21 साल है और मैं पुणे में रहता हूँ"), "hindi")
+        self.assertEqual(detect_message_language("नमस्ते, मुझे स्कॉलरशिप चाहिए"), "hindi")
+
+        # Hinglish (Romanized Hindi)
+        self.assertEqual(detect_message_language("meri umar 21 saal hai, mai pune me rehta hu"), "hinglish")
+        self.assertEqual(detect_message_language("pariwar ki annual income 2 lakh hai"), "hinglish")
+
+        # English
+        self.assertEqual(detect_message_language("I am 21 years old and studying in Pune"), "english")
+        self.assertEqual(detect_message_language("Hello, what scholarships are available?"), "english")
+
+    def test_marathi_chat_returns_marathi_reply(self):
+        response = self.client.post("/api/v1/intake/chat/", data=json.dumps({
+            "message": "माझं वय २१ वर्ष आहे",
+            "session_token": "token-lang-mr"
+        }), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIn("?", data["reply"])
+        # Should contain Marathi Devanagari characters
+        self.assertTrue(any('\u0900' <= c <= '\u097F' for c in data["reply"]))
+
+    def test_hinglish_chat_returns_hinglish_reply(self):
+        response = self.client.post("/api/v1/intake/chat/", data=json.dumps({
+            "message": "meri umar 21 saal hai, mai pune me rehta hu",
+            "session_token": "token-lang-hinglish"
+        }), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIn("?", data["reply"])
+        reply_lower = data["reply"].lower()
+        self.assertTrue(any(w in reply_lower for w in ["aapki", "kaunse", "rehte", "liye", "kripya", "note kar", "batayein"]))
+
+    def test_hindi_chat_returns_hindi_reply(self):
+        response = self.client.post("/api/v1/intake/chat/", data=json.dumps({
+            "message": "मेरी उम्र 21 साल है और मैं पुणे में रहता हूँ",
+            "session_token": "token-lang-hi"
+        }), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIn("?", data["reply"])
+        self.assertTrue(any('\u0900' <= c <= '\u097F' for c in data["reply"]))
+
+
+
