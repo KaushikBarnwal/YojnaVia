@@ -156,21 +156,24 @@ function getIcon(iconName: string) {
     <!-- Page Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-800 text-xs font-bold uppercase tracking-wider mb-2">
-          <Sparkles class="w-3.5 h-3.5 text-indigo-600" />
-          Interactive Future Planning Sandbox
+        <div class="inline-flex items-center gap-2 mb-1.5">
+          <span class="neo-stamp neo-stamp-navy text-[10px]">
+            <Sparkles class="w-3 h-3 text-amber-400" />
+            Interactive Future Planning Sandbox
+          </span>
+          <span class="text-xs text-slate-500 font-mono">AST Deterministic Modeling</span>
         </div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B132B] tracking-tight font-heading">
           What-If Eligibility Simulator
         </h1>
-        <p class="text-sm text-slate-600 mt-1 max-w-3xl">
+        <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl font-medium">
           Simulate how your government benefit entitlements change under future life events (enrolling in a degree, changing income, or moving to a hostel) without affecting your verified official profile.
         </p>
       </div>
 
       <router-link
         to="/schemes"
-        class="px-4 py-2 bg-slate-900 hover:bg-black text-white rounded-xl text-xs sm:text-sm font-bold transition-colors flex items-center gap-1.5 shadow-xs shrink-0 self-start md:self-auto"
+        class="neo-btn neo-btn-paper px-4 py-2 text-xs sm:text-sm font-bold text-[#0B132B] shrink-0 self-start md:self-auto"
       >
         <span>Back to Real Schemes</span>
         <ArrowRight class="w-4 h-4" />
@@ -178,22 +181,22 @@ function getIcon(iconName: string) {
     </div>
 
     <!-- MANDATORY LEGAL / ETHICAL GUARDRAIL NOTICE -->
-    <div class="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 text-xs sm:text-sm font-medium flex items-start gap-3 shadow-xs">
-      <AlertTriangle class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+    <div class="p-4 rounded-xl border-[1.5px] border-[#0B132B] bg-[#FFFBEB] text-amber-950 text-xs sm:text-sm font-medium flex items-start gap-3 shadow-[2px_2px_0_0_#0B132B]">
+      <AlertTriangle class="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
       <div>
-        <strong class="font-bold block text-amber-900 mb-0.5">Hypothetical Simulation & Integrity Notice:</strong>
-        <span>"This sandbox is an interactive planning tool to help you make informed educational and financial decisions. Never misrepresent current circumstances on official government portals. Legally valid, digitally signed civil certificates from competent revenue authorities are required for formal submissions."</span>
+        <strong class="font-bold block text-amber-950 mb-0.5">Hypothetical Simulation & Integrity Notice:</strong>
+        <span class="text-amber-900 font-medium">"This sandbox is an interactive planning tool to help you make informed educational and financial decisions. Never misrepresent current circumstances on official government portals. Legally valid, digitally signed civil certificates from competent revenue authorities are required for formal submissions."</span>
       </div>
     </div>
 
     <!-- 1-Click Preset Scenarios Grid -->
     <div class="space-y-3">
       <div class="flex items-center justify-between">
-        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
-          <Sparkles class="w-4 h-4 text-indigo-600" />
+        <h2 class="text-xs font-extrabold uppercase tracking-widest text-[#0B132B] flex items-center gap-2 font-heading">
+          <Sparkles class="w-4 h-4 text-amber-600" />
           <span>1-Click What-If Life Event Scenarios</span>
         </h2>
-        <span class="text-xs text-slate-500">Click any preset to simulate instantly</span>
+        <span class="text-xs text-slate-500 font-medium">Click any preset to simulate instantly</span>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -201,27 +204,27 @@ function getIcon(iconName: string) {
           v-for="preset in presets"
           :key="preset.id"
           @click="runPresetSimulation(preset.id)"
-          class="p-4 rounded-2xl border text-left transition-all flex flex-col justify-between gap-3"
+          class="neo-box-interactive p-4 text-left flex flex-col justify-between gap-3"
           :class="selectedPresetId === preset.id 
-            ? 'bg-indigo-50/80 border-indigo-400 ring-2 ring-indigo-300 shadow-md' 
-            : 'bg-white border-slate-200 hover:bg-slate-50/70 shadow-xs'"
+            ? '!bg-[#FEF3C7] !shadow-[3px_3px_0_0_#0B132B] ring-2 ring-amber-600' 
+            : 'bg-white'"
         >
           <div class="space-y-1.5">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                :class="selectedPresetId === preset.id ? 'bg-indigo-200 text-indigo-900' : 'bg-slate-100 text-slate-600'">
+              <span class="neo-stamp text-[9px]"
+                :class="selectedPresetId === preset.id ? 'neo-stamp-amber' : 'bg-[#F5F5F3] text-slate-700'">
                 {{ preset.category }}
               </span>
-              <component :is="getIcon(preset.icon)" class="w-4 h-4" :class="selectedPresetId === preset.id ? 'text-indigo-600' : 'text-slate-400'" />
+              <component :is="getIcon(preset.icon)" class="w-4 h-4" :class="selectedPresetId === preset.id ? 'text-amber-700' : 'text-slate-500'" />
             </div>
-            <h3 class="text-xs font-bold text-slate-900 line-clamp-2 leading-snug">
+            <h3 class="text-xs sm:text-sm font-extrabold text-[#0B132B] line-clamp-2 leading-snug font-heading">
               {{ preset.title }}
             </h3>
-            <p class="text-[11px] text-slate-600 leading-relaxed line-clamp-2">
+            <p class="text-[11px] text-slate-600 leading-relaxed line-clamp-2 font-medium">
               {{ preset.description }}
             </p>
           </div>
-          <div class="text-[11px] font-bold text-indigo-600 flex items-center gap-1 pt-1 border-t border-slate-100">
+          <div class="text-[11px] font-bold text-amber-800 flex items-center gap-1 pt-1 border-t border-[#0B132B]/10">
             <span>Simulate Scenario</span>
             <ArrowRight class="w-3 h-3" />
           </div>
@@ -230,15 +233,15 @@ function getIcon(iconName: string) {
     </div>
 
     <!-- Interactive Custom Sandbox Controls -->
-    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-5">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+    <div class="neo-box p-6 bg-white space-y-5">
+      <div class="flex items-center justify-between border-b-[1.5px] border-[#0B132B]/15 pb-3">
         <div class="flex items-center gap-2">
-          <Sliders class="w-5 h-5 text-indigo-600" />
-          <h2 class="text-base font-bold text-slate-900">Custom Parameter Simulation Sandbox</h2>
+          <Sliders class="w-5 h-5 text-amber-600" />
+          <h2 class="text-sm sm:text-base font-extrabold text-[#0B132B] font-heading">Custom Parameter Simulation Sandbox</h2>
         </div>
         <button 
           @click="runCustomSimulation"
-          class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 transition-colors"
+          class="neo-btn neo-btn-saffron px-4 py-2 text-xs font-bold"
         >
           <RotateCcw class="w-3.5 h-3.5" />
           <span>Run Custom Simulation</span>
@@ -248,11 +251,11 @@ function getIcon(iconName: string) {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
         <!-- Education Level -->
         <div class="space-y-1.5">
-          <label class="font-bold text-slate-700">Course / Degree Level</label>
+          <label class="font-bold text-[#0B132B]">Course / Degree Level</label>
           <select 
             v-model="customCourseLevel"
             @change="runCustomSimulation"
-            class="w-full p-2.5 rounded-xl border border-slate-300 bg-slate-50 font-medium focus:ring-2 focus:ring-indigo-500"
+            class="neo-input w-full p-2.5 bg-white font-medium"
           >
             <option v-for="opt in courseLevelOptions" :key="opt.value" :value="opt.value">
               {{ opt.label }}
@@ -262,11 +265,11 @@ function getIcon(iconName: string) {
 
         <!-- Accommodation Type -->
         <div class="space-y-1.5">
-          <label class="font-bold text-slate-700">Living Arrangement</label>
+          <label class="font-bold text-[#0B132B]">Living Arrangement</label>
           <select 
             v-model="customAccommodation"
             @change="runCustomSimulation"
-            class="w-full p-2.5 rounded-xl border border-slate-300 bg-slate-50 font-medium focus:ring-2 focus:ring-indigo-500"
+            class="neo-input w-full p-2.5 bg-white font-medium"
           >
             <option v-for="opt in accommodationOptions" :key="opt.value" :value="opt.value">
               {{ opt.label }}
@@ -276,11 +279,11 @@ function getIcon(iconName: string) {
 
         <!-- Admission Quota -->
         <div class="space-y-1.5">
-          <label class="font-bold text-slate-700">Admission Mode / Quota</label>
+          <label class="font-bold text-[#0B132B]">Admission Mode / Quota</label>
           <select 
             v-model="customQuota"
             @change="runCustomSimulation"
-            class="w-full p-2.5 rounded-xl border border-slate-300 bg-slate-50 font-medium focus:ring-2 focus:ring-indigo-500"
+            class="neo-input w-full p-2.5 bg-white font-medium"
           >
             <option v-for="opt in quotaOptions" :key="opt.value" :value="opt.value">
               {{ opt.label }}
@@ -290,9 +293,9 @@ function getIcon(iconName: string) {
 
         <!-- Annual Income Slider -->
         <div class="space-y-1.5">
-          <div class="flex items-center justify-between font-bold text-slate-700">
+          <div class="flex items-center justify-between font-bold text-[#0B132B]">
             <span>Annual Household Income:</span>
-            <span class="text-indigo-700 font-mono">₹{{ Number(customIncome).toLocaleString('en-IN') }}</span>
+            <span class="text-emerald-800 font-mono font-extrabold">₹{{ Number(customIncome).toLocaleString('en-IN') }}</span>
           </div>
           <input 
             type="range" 
@@ -301,9 +304,9 @@ function getIcon(iconName: string) {
             min="40000" 
             max="1000000" 
             step="20000"
-            class="w-full accent-indigo-600"
+            class="w-full accent-amber-600 cursor-pointer"
           />
-          <div class="flex justify-between text-[10px] text-slate-400">
+          <div class="flex justify-between text-[10px] text-slate-500 font-bold">
             <span>₹40k (BPL)</span>
             <span>₹1.5L</span>
             <span>₹8L (NCL Cap)</span>
@@ -314,56 +317,56 @@ function getIcon(iconName: string) {
     </div>
 
     <!-- Simulation Results & Impact Analysis -->
-    <div v-if="isLoading" class="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-3">
-      <Loader2 class="w-8 h-8 text-indigo-600 animate-spin mx-auto" />
-      <h3 class="text-base font-bold text-slate-800">Simulating Deterministic Criteria Impact...</h3>
-      <p class="text-xs text-slate-500">Re-evaluating all statutory Maharashtra schemes against modified AST parameters.</p>
+    <div v-if="isLoading" class="neo-box p-12 text-center space-y-3 bg-white">
+      <Loader2 class="w-8 h-8 text-amber-600 animate-spin mx-auto" />
+      <h3 class="text-base font-extrabold text-[#0B132B] font-heading">Simulating Deterministic Criteria Impact...</h3>
+      <p class="text-xs text-slate-600 font-medium">Re-evaluating all statutory Maharashtra schemes against modified AST parameters.</p>
     </div>
 
     <div v-else-if="simulationResult" class="space-y-6">
       <!-- Financial Impact Delta Banner -->
       <div 
-        class="p-6 rounded-3xl border shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+        class="neo-box p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
         :class="simulationResult.financial_impact.delta_inr > 0 
-          ? 'bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100/50 border-emerald-300' 
+          ? 'bg-[#ECFDF5]' 
           : simulationResult.financial_impact.delta_inr < 0 
-            ? 'bg-gradient-to-r from-rose-50 via-orange-50 to-rose-100/50 border-rose-300'
-            : 'bg-gradient-to-r from-slate-50 to-indigo-50/50 border-slate-300'"
+            ? 'bg-[#FFF1F2]'
+            : 'bg-[#FBFBFA]'"
       >
         <div class="space-y-1">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/80 border border-slate-200 text-slate-700">
+            <span class="neo-stamp neo-stamp-navy text-[9px]">
               Scenario: {{ simulationResult.scenario_title }}
             </span>
-            <span class="text-xs text-slate-500 font-medium">Impact Comparison</span>
+            <span class="text-xs text-slate-600 font-bold">Impact Comparison</span>
           </div>
-          <h3 class="text-xl sm:text-2xl font-black text-slate-900">
+          <h3 class="text-xl sm:text-2xl font-extrabold text-[#0B132B] font-heading">
             {{ simulationResult.financial_impact.delta_inr > 0 
                 ? 'Simulation Unlocks Additional Government Funding!' 
                 : simulationResult.financial_impact.delta_inr < 0 
                   ? 'Simulation Results in Loss of Mean-Tested Benefits.' 
                   : 'Eligibility and Funding Package Remain Unchanged.' }}
           </h3>
-          <p class="text-xs text-slate-600 max-w-2xl leading-relaxed">
+          <p class="text-xs text-slate-700 max-w-2xl leading-relaxed font-medium">
             Comparing your active profile against hypothetical parameters.
           </p>
         </div>
 
         <!-- Delta Numbers Box -->
-        <div class="bg-white/90 p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4 shrink-0">
-          <div class="text-center pr-4 border-r border-slate-200">
-            <span class="text-[10px] text-slate-400 block uppercase font-bold">Baseline Value</span>
-            <span class="text-base font-bold text-slate-700">₹{{ simulationResult.financial_impact.baseline_total_inr.toLocaleString('en-IN') }}</span>
+        <div class="bg-white p-4 rounded-xl border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] flex items-center gap-4 shrink-0">
+          <div class="text-center pr-4 border-r border-[#0B132B]/15">
+            <span class="text-[10px] text-slate-500 block uppercase font-bold">Baseline Value</span>
+            <span class="text-base font-bold text-slate-700 font-mono">₹{{ simulationResult.financial_impact.baseline_total_inr.toLocaleString('en-IN') }}</span>
           </div>
-          <div class="text-center pr-4 border-r border-slate-200">
-            <span class="text-[10px] text-slate-400 block uppercase font-bold">Simulated Value</span>
-            <span class="text-base font-bold text-slate-900">₹{{ simulationResult.financial_impact.simulated_total_inr.toLocaleString('en-IN') }}</span>
+          <div class="text-center pr-4 border-r border-[#0B132B]/15">
+            <span class="text-[10px] text-slate-500 block uppercase font-bold">Simulated Value</span>
+            <span class="text-base font-extrabold text-[#0B132B] font-mono">₹{{ simulationResult.financial_impact.simulated_total_inr.toLocaleString('en-IN') }}</span>
           </div>
           <div class="text-center">
-            <span class="text-[10px] text-slate-500 block uppercase font-bold">Net Financial Delta</span>
+            <span class="text-[10px] text-slate-600 block uppercase font-bold">Net Financial Delta</span>
             <span 
-              class="text-2xl font-black"
-              :class="simulationResult.financial_impact.delta_inr > 0 ? 'text-emerald-700' : simulationResult.financial_impact.delta_inr < 0 ? 'text-rose-700' : 'text-slate-700'"
+              class="text-2xl font-black font-mono font-heading"
+              :class="simulationResult.financial_impact.delta_inr > 0 ? 'text-emerald-800' : simulationResult.financial_impact.delta_inr < 0 ? 'text-rose-800' : 'text-[#0B132B]'"
             >
               {{ simulationResult.financial_impact.delta_formatted }}/yr
             </span>
@@ -373,32 +376,32 @@ function getIcon(iconName: string) {
 
       <!-- Section: Newly Unlocked Schemes -->
       <div v-if="simulationResult.newly_unlocked_schemes.length > 0" class="space-y-3">
-        <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
-          <CheckCircle2 class="w-4 h-4 text-emerald-600" />
+        <h3 class="text-xs font-extrabold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5 font-heading">
+          <CheckCircle2 class="w-4 h-4 text-emerald-700" />
           <span>Newly Unlocked Schemes ({{ simulationResult.newly_unlocked_schemes.length }})</span>
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div 
             v-for="s in simulationResult.newly_unlocked_schemes" 
             :key="s.code"
-            class="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-300 space-y-2.5 shadow-xs"
+            class="neo-box p-5 bg-[#ECFDF5] space-y-2.5"
           >
             <div class="flex items-start justify-between">
               <div>
-                <span class="text-[10px] font-mono font-bold bg-emerald-200/70 text-emerald-950 px-2 py-0.5 rounded">
+                <span class="neo-stamp neo-stamp-navy font-mono text-[9px]">
                   {{ s.code }}
                 </span>
-                <h4 class="text-sm font-bold text-slate-900 mt-1">{{ s.name }}</h4>
+                <h4 class="text-sm font-extrabold text-[#0B132B] mt-1 font-heading">{{ s.name }}</h4>
               </div>
-              <span class="text-xs font-extrabold text-emerald-900 bg-white px-2.5 py-1 rounded-lg border border-emerald-200">
+              <span class="neo-stamp neo-stamp-emerald text-xs">
                 {{ s.benefit_amount_text }}
               </span>
             </div>
 
-            <div class="p-2.5 bg-white/80 rounded-xl border border-emerald-200 text-xs text-emerald-950 space-y-1">
+            <div class="p-2.5 bg-white rounded-xl border border-[#0B132B]/20 text-xs text-emerald-950 space-y-1">
               <strong class="text-[11px] uppercase tracking-wider text-emerald-900 block font-bold">Why It Unlocked:</strong>
-              <div v-for="(crit, idx) in s.flipped_to_pass" :key="idx" class="flex items-center gap-1.5">
-                <CheckCircle2 class="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              <div v-for="(crit, idx) in s.flipped_to_pass" :key="idx" class="flex items-center gap-1.5 font-medium">
+                <CheckCircle2 class="w-3.5 h-3.5 text-emerald-700 shrink-0" />
                 <span>{{ crit.reason }}</span>
               </div>
             </div>
@@ -408,32 +411,32 @@ function getIcon(iconName: string) {
 
       <!-- Section: Lost Schemes -->
       <div v-if="simulationResult.lost_schemes.length > 0" class="space-y-3">
-        <h3 class="text-xs font-bold uppercase tracking-wider text-rose-800 flex items-center gap-1.5">
-          <XCircle class="w-4 h-4 text-rose-600" />
+        <h3 class="text-xs font-extrabold uppercase tracking-wider text-rose-800 flex items-center gap-1.5 font-heading">
+          <XCircle class="w-4 h-4 text-rose-700" />
           <span>Schemes With Ineligibility Under Simulation ({{ simulationResult.lost_schemes.length }})</span>
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div 
             v-for="s in simulationResult.lost_schemes" 
             :key="s.code"
-            class="p-5 rounded-2xl bg-rose-50/60 border border-rose-300 space-y-2.5 shadow-xs"
+            class="neo-box p-5 bg-[#FFF1F2] space-y-2.5"
           >
             <div class="flex items-start justify-between">
               <div>
-                <span class="text-[10px] font-mono font-bold bg-rose-200 text-rose-950 px-2 py-0.5 rounded">
+                <span class="neo-stamp neo-stamp-navy font-mono text-[9px]">
                   {{ s.code }}
                 </span>
-                <h4 class="text-sm font-bold text-slate-900 mt-1">{{ s.name }}</h4>
+                <h4 class="text-sm font-extrabold text-[#0B132B] mt-1 font-heading">{{ s.name }}</h4>
               </div>
-              <span class="text-xs font-bold text-rose-800 bg-white px-2.5 py-1 rounded-lg border border-rose-200">
+              <span class="neo-stamp neo-stamp-rose text-xs">
                 Ineligible
               </span>
             </div>
 
-            <div class="p-2.5 bg-white/80 rounded-xl border border-rose-200 text-xs text-rose-950 space-y-1">
+            <div class="p-2.5 bg-white rounded-xl border border-[#0B132B]/20 text-xs text-rose-950 space-y-1">
               <strong class="text-[11px] uppercase tracking-wider text-rose-900 block font-bold">Why Eligibility Was Lost:</strong>
-              <div v-for="(crit, idx) in s.flipped_to_fail" :key="idx" class="flex items-center gap-1.5">
-                <XCircle class="w-3.5 h-3.5 text-rose-600 shrink-0" />
+              <div v-for="(crit, idx) in s.flipped_to_fail" :key="idx" class="flex items-center gap-1.5 font-medium">
+                <XCircle class="w-3.5 h-3.5 text-rose-700 shrink-0" />
                 <span>{{ crit.reason }}</span>
               </div>
             </div>
@@ -442,12 +445,15 @@ function getIcon(iconName: string) {
       </div>
 
       <!-- Section: Detailed Criteria Diff Table -->
-      <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4">
+      <div class="neo-box p-6 space-y-4 bg-white">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <Scale class="w-5 h-5 text-indigo-600" />
-            <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">
+            <Scale class="w-5 h-5 text-amber-600" />
+            <h3 class="text-xs sm:text-sm font-extrabold text-[#0B132B] uppercase tracking-wider font-heading">
               Rule-by-Rule Criteria Impact Audit
+            </h3>
+          </div>
+        </div>
             </h3>
           </div>
           <span class="text-xs text-slate-500">Shows all evaluated schemes and status changes</span>

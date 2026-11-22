@@ -42,14 +42,17 @@ function printCounselorReport() {
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-2">
-          <Users class="w-3.5 h-3.5 text-indigo-600" />
-          Household-Level Benefits Discovery
+        <div class="inline-flex items-center gap-2 mb-1.5">
+          <span class="neo-stamp neo-stamp-navy text-[10px]">
+            <Users class="w-3 h-3 text-amber-400" />
+            Household-Level Benefits Discovery
+          </span>
+          <span class="text-xs text-slate-500 font-mono">Multi-Member Synthesis</span>
         </div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B132B] tracking-tight font-heading">
           Family Entitlement Package
         </h1>
-        <p class="text-sm text-slate-600 mt-1 max-w-2xl">
+        <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl font-medium">
           Schemes matched across your entire household—combining higher education scholarships, small farmer support, women's welfare, and universal family health insurance.
         </p>
       </div>
@@ -57,36 +60,36 @@ function printCounselorReport() {
       <div class="flex items-center gap-2 shrink-0">
         <button
           @click="printCounselorReport"
-          class="px-4 py-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs sm:text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-xs"
+          class="neo-btn neo-btn-paper px-4 py-2 text-xs sm:text-sm font-bold text-[#0B132B]"
         >
-          <Printer class="w-4 h-4 text-indigo-600" />
+          <Printer class="w-4 h-4 text-amber-600" />
           <span>Print / Export Counselor Summary</span>
         </button>
       </div>
     </div>
 
     <!-- Family Selection Tabs -->
-    <div class="bg-white rounded-2xl border border-slate-200 p-2 flex flex-wrap gap-2 shadow-xs">
+    <div class="neo-box p-2 flex flex-wrap gap-2 bg-white">
       <button
         @click="loadFamilyData('rohan_obc')"
-        class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
-        :class="activePersona === 'rohan_obc' ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-100'"
+        class="neo-btn px-3.5 py-1.5 text-xs font-bold"
+        :class="activePersona === 'rohan_obc' ? 'neo-btn-navy' : 'neo-btn-paper text-slate-700'"
       >
         <span>Gaikwad Family (OBC Small Farmer)</span>
       </button>
 
       <button
         @click="loadFamilyData('sneha_ebc')"
-        class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
-        :class="activePersona === 'sneha_ebc' ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-100'"
+        class="neo-btn px-3.5 py-1.5 text-xs font-bold"
+        :class="activePersona === 'sneha_ebc' ? 'neo-btn-navy' : 'neo-btn-paper text-slate-700'"
       >
         <span>Kulkarni Family (Open / EWS)</span>
       </button>
 
       <button
         @click="loadFamilyData('vikas_sc')"
-        class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
-        :class="activePersona === 'vikas_sc' ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-100'"
+        class="neo-btn px-3.5 py-1.5 text-xs font-bold"
+        :class="activePersona === 'vikas_sc' ? 'neo-btn-navy' : 'neo-btn-paper text-slate-700'"
       >
         <span>Kamble Family (SC Polytechnic)</span>
       </button>
@@ -94,38 +97,38 @@ function printCounselorReport() {
 
     <div v-if="familyData" class="space-y-6">
       <!-- Cumulative Family Value Card -->
-      <div class="rounded-3xl bg-gradient-to-r from-indigo-900 via-slate-900 to-emerald-950 p-6 sm:p-8 text-white shadow-lg border border-indigo-800/40">
+      <div class="neo-box bg-[#0B132B] p-6 sm:p-8 text-white shadow-[4px_4px_0_0_#D97706]">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div class="space-y-2">
             <div class="flex items-center gap-2">
-              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-400 text-emerald-950">
+              <span class="neo-stamp neo-stamp-emerald text-[9px]">
                 Verified Maharashtra Entitlements
               </span>
-              <span class="text-xs text-indigo-200">
+              <span class="text-xs text-amber-300 font-mono font-bold">
                 {{ familyData.district }} • {{ familyData.category }}
               </span>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-black">
+            <h2 class="text-2xl sm:text-3xl font-extrabold font-heading text-white">
               {{ familyData.family_name }} Household Package
             </h2>
-            <p class="text-xs sm:text-sm text-slate-300 max-w-xl">
+            <p class="text-xs sm:text-sm text-slate-300 max-w-xl font-medium">
               Annual household income: ₹{{ familyData.total_annual_income.toLocaleString('en-IN') }}/yr (Ration Card: {{ familyData.ration_card }})
             </p>
           </div>
 
           <!-- Highlight Metric Boxes -->
           <div class="flex flex-wrap items-center gap-3">
-            <div class="bg-white/10 backdrop-blur-xs p-4 rounded-2xl border border-white/20 min-w-[160px]">
-              <div class="text-xs text-emerald-300 font-semibold">Total Annual Direct Benefit</div>
-              <div class="text-2xl sm:text-3xl font-black text-white font-mono mt-1">
+            <div class="bg-white/10 p-4 rounded-xl border border-white/20 min-w-[160px]">
+              <div class="text-xs text-emerald-300 font-bold">Total Annual Direct Benefit</div>
+              <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono mt-1 font-heading">
                 ₹{{ familyData.total_annual_household_benefit_inr.toLocaleString('en-IN') }}
               </div>
               <div class="text-[11px] text-slate-300 mt-0.5">Direct Cash & Tuition Waivers</div>
             </div>
 
-            <div class="bg-white/10 backdrop-blur-xs p-4 rounded-2xl border border-white/20 min-w-[160px]">
-              <div class="text-xs text-indigo-300 font-semibold">Universal Family Health Cover</div>
-              <div class="text-2xl sm:text-3xl font-black text-white font-mono mt-1">
+            <div class="bg-white/10 p-4 rounded-xl border border-white/20 min-w-[160px]">
+              <div class="text-xs text-amber-300 font-bold">Universal Family Health Cover</div>
+              <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono mt-1 font-heading">
                 ₹5,00,000
               </div>
               <div class="text-[11px] text-slate-300 mt-0.5">MJPJAY Cashless Hospitalization</div>
@@ -136,8 +139,8 @@ function printCounselorReport() {
 
       <!-- Household Members Grid -->
       <div class="space-y-4">
-        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-          <Users class="w-4 h-4 text-indigo-600" />
+        <h3 class="text-base font-extrabold text-[#0B132B] flex items-center gap-2 font-heading">
+          <Users class="w-4 h-4 text-amber-600" />
           <span>Individual Member Entitlement Breakdown</span>
         </h3>
 
@@ -145,22 +148,22 @@ function printCounselorReport() {
           <div 
             v-for="member in familyData.members" 
             :key="member.id"
-            class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
+            class="neo-box p-5 bg-white flex flex-col justify-between"
           >
             <div class="space-y-3">
               <!-- Member Header -->
               <div class="flex items-start justify-between gap-3">
                 <div>
                   <div class="flex items-center gap-2">
-                    <span class="text-sm font-extrabold text-slate-900">{{ member.name }}</span>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                    <span class="text-sm font-extrabold text-[#0B132B]">{{ member.name }}</span>
+                    <span class="neo-stamp bg-[#F5F5F3] text-slate-700 text-[9px]">
                       {{ member.relation }}
                     </span>
                   </div>
-                  <p class="text-xs text-slate-500 mt-0.5">{{ member.details }}</p>
+                  <p class="text-xs text-slate-600 mt-0.5 font-medium">{{ member.details }}</p>
                 </div>
                 <div class="text-right shrink-0">
-                  <span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                  <span class="neo-stamp neo-stamp-emerald text-xs font-mono font-bold">
                     +₹{{ member.subtotal_annual_benefit.toLocaleString('en-IN') }}/yr
                   </span>
                 </div>
@@ -171,16 +174,16 @@ function printCounselorReport() {
                 <div 
                   v-for="scheme in member.matched_schemes" 
                   :key="scheme.code"
-                  class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1"
+                  class="p-3 rounded-xl border-[1.5px] border-[#0B132B] bg-[#FBFBFA] space-y-1 shadow-[1.5px_1.5px_0_0_#0B132B]"
                 >
                   <div class="flex items-center justify-between gap-2 text-xs">
-                    <span class="font-bold text-slate-900">{{ scheme.name }}</span>
-                    <span class="text-emerald-700 font-bold font-mono shrink-0">
+                    <span class="font-bold text-[#0B132B]">{{ scheme.name }}</span>
+                    <span class="text-emerald-800 font-extrabold font-mono shrink-0">
                       ₹{{ scheme.annual_value.toLocaleString('en-IN') }}
                     </span>
                   </div>
-                  <p class="text-[11px] text-slate-600">{{ scheme.benefit_text }}</p>
-                  <div class="text-[10px] text-slate-400 font-mono flex items-center justify-between pt-0.5">
+                  <p class="text-[11px] text-slate-700 font-medium">{{ scheme.benefit_text }}</p>
+                  <div class="text-[10px] text-slate-500 font-mono flex items-center justify-between pt-0.5 font-bold">
                     <span>{{ scheme.department }}</span>
                     <span>{{ scheme.statutory_gr }}</span>
                   </div>
@@ -189,37 +192,37 @@ function printCounselorReport() {
             </div>
 
             <!-- Footer -->
-            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-              <span>Status: <strong class="text-emerald-700 font-semibold">Likely Eligible</strong></span>
-              <span class="text-[11px] text-indigo-600 font-semibold">100% Rule Engine Matched</span>
+            <div class="mt-4 pt-3 border-t-[1.5px] border-[#0B132B]/10 flex items-center justify-between text-xs text-slate-600 font-medium">
+              <span>Status: <strong class="text-emerald-800 font-bold">Likely Eligible</strong></span>
+              <span class="text-[11px] text-amber-700 font-bold">100% Rule Engine Matched</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Shared Social Safety Net (Health & Housing) -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-5 space-y-3 shadow-xs">
-        <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
-          <HeartHandshake class="w-4 h-4 text-emerald-600" />
+      <div class="neo-box p-5 space-y-3 bg-white">
+        <h3 class="text-sm sm:text-base font-extrabold text-[#0B132B] flex items-center gap-2 font-heading">
+          <HeartHandshake class="w-4 h-4 text-emerald-700" />
           <span>Shared Family Social Safety Nets (Universal Maharashtra Cover)</span>
         </h3>
 
         <div 
           v-for="shared in familyData.shared_household_schemes" 
           :key="shared.code"
-          class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+          class="p-4 rounded-xl border-[1.5px] border-[#0B132B] bg-[#ECFDF5] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-[2px_2px_0_0_#0B132B]"
         >
           <div>
             <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Universal Family Protection</span>
-              <span class="text-[10px] bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded-full font-semibold">Zero Income Cap</span>
+              <span class="neo-stamp neo-stamp-emerald text-[9px]">Universal Family Protection</span>
+              <span class="neo-stamp bg-emerald-200 text-emerald-950 text-[9px]">Zero Income Cap</span>
             </div>
-            <h4 class="text-base font-bold text-emerald-950 mt-1">{{ shared.name }}</h4>
-            <p class="text-xs text-emerald-800 mt-0.5">{{ shared.benefit_text }}</p>
-            <p class="text-[11px] text-emerald-700 mt-1 font-mono">Authority: {{ shared.statutory_gr }}</p>
+            <h4 class="text-base font-extrabold text-emerald-950 mt-1 font-heading">{{ shared.name }}</h4>
+            <p class="text-xs text-emerald-900 mt-0.5 font-medium">{{ shared.benefit_text }}</p>
+            <p class="text-[11px] text-emerald-800 mt-1 font-mono font-bold">Authority: {{ shared.statutory_gr }}</p>
           </div>
           <div class="shrink-0 text-right">
-            <span class="text-xs font-bold px-3 py-1.5 rounded-xl bg-emerald-600 text-white shadow-xs inline-block">
+            <span class="neo-stamp neo-stamp-navy text-xs">
               All Family Members Covered
             </span>
           </div>
@@ -227,12 +230,12 @@ function printCounselorReport() {
       </div>
 
       <!-- Counselor / CSC Worker Action Notes -->
-      <div class="bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-2">
-        <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700">
-          <Building2 class="w-4 h-4 text-indigo-600" />
+      <div class="neo-box p-5 space-y-2 bg-[#FFFBEB]">
+        <div class="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[#0B132B] font-heading">
+          <Building2 class="w-4 h-4 text-amber-700" />
           <span>NGO / CSC Counselor Guidance Plan</span>
         </div>
-        <ul class="text-xs text-slate-600 space-y-1.5 pl-4 list-disc">
+        <ul class="text-xs text-amber-950 space-y-1.5 pl-4 list-disc font-medium">
           <li v-for="(note, idx) in familyData.counsellor_action_notes" :key="idx">
             {{ note }}
           </li>

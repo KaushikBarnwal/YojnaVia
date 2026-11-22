@@ -28,16 +28,16 @@ onMounted(async () => {
     <Navbar />
 
     <!-- Main View Content -->
-    <main class="flex-1 pb-16 md:pb-0">
+    <main class="flex-1" :class="route.path === '/' ? 'pb-0' : 'pb-16 md:pb-0'">
       <router-view />
     </main>
 
-    <!-- Mobile Bottom Navigation Bar (Visible only on < md screens) -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#FBFBFA]/95 backdrop-blur-md border-t-[1.5px] border-[#0B132B] px-2 py-1.5 flex items-center justify-around shadow-lg">
+    <!-- Mobile Bottom Navigation Bar (Visible only inside /app routes on < md screens) -->
+    <nav v-if="route.path !== '/'" class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#FBFBFA]/95 backdrop-blur-md border-t-[1.5px] border-[#0B132B] px-2 py-1.5 flex items-center justify-around shadow-lg">
       <router-link
-        to="/"
+        to="/app"
         class="flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-all"
-        :class="route.path === '/' ? 'text-[#D97706] font-black' : 'text-slate-600 hover:text-slate-900'"
+        :class="route.path === '/app' ? 'text-[#D97706] font-black' : 'text-slate-600 hover:text-slate-900'"
       >
         <Sparkles class="w-4 h-4 mb-0.5" />
         <span>{{ t('nav_discovery', store.locale) }}</span>

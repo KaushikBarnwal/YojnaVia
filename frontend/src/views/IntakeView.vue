@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, watch, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useStudentStore } from '../stores/studentStore';
 import PersonaBar from '../components/PersonaBar.vue';
 import { intakeApi } from '../services/api';
@@ -30,7 +30,14 @@ import {
 
 const store = useStudentStore();
 const router = useRouter();
+const route = useRoute();
 const inputMessage = ref('');
+
+onMounted(() => {
+  if (route.query.voice === 'true') {
+    startRecording();
+  }
+});
 
 // Edit field modal state
 const isEditModalOpen = ref(false);

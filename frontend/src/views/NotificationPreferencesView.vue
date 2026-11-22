@@ -427,19 +427,18 @@ onMounted(async () => {
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     
     <!-- HEADER & REGULATORY BADGES -->
-    <div class="bg-gradient-to-r from-emerald-900 via-teal-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
-      <div class="absolute -right-12 -top-12 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="bg-[#0B132B] text-white rounded-xl p-6 sm:p-8 border-[1.5px] border-[#0B132B] shadow-[3.5px_3.5px_0_0_#D97706] relative overflow-hidden">
       <div class="relative z-10 space-y-4">
         <div class="flex flex-wrap items-center gap-2">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-xs font-black bg-[#059669]/20 text-[#34D399] border border-[#059669]">
             <ShieldCheck class="w-3.5 h-3.5" />
             Consent-Driven (Zero Unsolicited Messages)
           </span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-400/30">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-xs font-black bg-[#2563EB]/20 text-[#60A5FA] border border-[#2563EB]">
             <CheckCircle2 class="w-3.5 h-3.5" />
             TRAI DLT Compliant (PE ID: 110155234000001)
           </span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-400/30">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-xs font-black bg-[#D97706]/20 text-[#FBBF24] border border-[#D97706]">
             <MessageSquare class="w-3.5 h-3.5" />
             Meta WhatsApp Cloud API v20.0
           </span>
@@ -448,8 +447,8 @@ onMounted(async () => {
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
-              <Bell class="w-8 h-8 text-emerald-400" />
-              WhatsApp & SMS Deadline Notification System
+              <Bell class="w-8 h-8 text-[#F59E0B]" />
+              WhatsApp & SMS <span class="bg-[#FDE047] text-[#0B132B] px-2 py-0.5 ml-1">Deadline Notification System</span>
             </h1>
             <p class="text-slate-300 text-sm sm:text-base max-w-3xl mt-1.5">
               Never miss a scholarship deadline, missing document SLA, 15-day scrutiny resubmission clock, or annual March 31 income certificate renewal.
@@ -460,7 +459,7 @@ onMounted(async () => {
           <div class="flex items-center gap-2 shrink-0">
             <button
               @click="toggleTelemetry()"
-              class="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all flex items-center gap-1.5"
+              class="px-3.5 py-2 rounded-lg text-xs font-bold bg-[#1C2541] hover:bg-[#253256] text-white border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer shadow-[1.5px_1.5px_0_0_#000]"
             >
               <Sliders class="w-3.5 h-3.5" />
               <span>Admin Telemetry</span>
@@ -471,35 +470,35 @@ onMounted(async () => {
     </div>
 
     <!-- ADMIN TELEMETRY DRAWER (IF TOGGLED) -->
-    <div v-if="showAdminTelemetry" class="p-6 bg-slate-900 text-slate-100 rounded-3xl border border-slate-800 shadow-xl space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+    <div v-if="showAdminTelemetry" class="p-6 bg-[#0B132B] text-slate-100 rounded-xl border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
         <div class="flex items-center gap-2">
-          <Sliders class="w-5 h-5 text-emerald-400" />
-          <h3 class="font-bold text-sm sm:text-base text-white">Live Notification Gateway Telemetry & Health</h3>
+          <Sliders class="w-5 h-5 text-[#34D399]" />
+          <h3 class="font-black text-sm sm:text-base text-white">Live Notification Gateway Telemetry & Health</h3>
         </div>
-        <button @click="showAdminTelemetry = false" class="text-xs text-slate-400 hover:text-white">Close ✕</button>
+        <button @click="showAdminTelemetry = false" class="text-xs text-slate-400 hover:text-white cursor-pointer font-bold">Close ✕</button>
       </div>
 
       <div v-if="telemetryData" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-        <div class="p-4 bg-slate-800/60 rounded-2xl border border-slate-700 space-y-2">
-          <div class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Meta WhatsApp Gateway</div>
-          <div class="text-sm font-bold text-emerald-400">Mode: {{ telemetryData.gateways?.whatsapp?.mode }}</div>
+        <div class="p-4 bg-[#1C2541] rounded-lg border border-slate-700 space-y-2">
+          <div class="text-[#FBBF24] font-black uppercase tracking-wider text-[10px]">Meta WhatsApp Gateway</div>
+          <div class="text-sm font-bold text-[#34D399]">Mode: {{ telemetryData.gateways?.whatsapp?.mode }}</div>
           <div class="text-slate-300">Phone ID: <code class="text-emerald-300">{{ telemetryData.gateways?.whatsapp?.phone_number_id }}</code></div>
           <div class="text-slate-400 text-[11px]">HMAC-SHA256 signature verification active on inbound webhooks.</div>
         </div>
 
-        <div class="p-4 bg-slate-800/60 rounded-2xl border border-slate-700 space-y-2">
-          <div class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Indian SMS DLT Gateway</div>
-          <div class="text-sm font-bold text-blue-400">Mode: {{ telemetryData.gateways?.sms?.mode }}</div>
+        <div class="p-4 bg-[#1C2541] rounded-lg border border-slate-700 space-y-2">
+          <div class="text-[#60A5FA] font-black uppercase tracking-wider text-[10px]">Indian SMS DLT Gateway</div>
+          <div class="text-sm font-bold text-[#60A5FA]">Mode: {{ telemetryData.gateways?.sms?.mode }}</div>
           <div class="text-slate-300">Entity ID: <code class="text-blue-300">{{ telemetryData.gateways?.sms?.dlt_entity_id }}</code></div>
           <div class="text-slate-400 text-[11px]">Commercial delivery blocked without registered DLT credentials.</div>
         </div>
 
-        <div class="p-4 bg-slate-800/60 rounded-2xl border border-slate-700 space-y-2">
-          <div class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Overall Telemetry Metrics</div>
+        <div class="p-4 bg-[#1C2541] rounded-lg border border-slate-700 space-y-2">
+          <div class="text-slate-400 font-black uppercase tracking-wider text-[10px]">Overall Telemetry Metrics</div>
           <div class="text-sm font-bold text-white">Total Messages: {{ telemetryData.summary?.total_notifications }}</div>
           <div class="flex flex-wrap gap-1 mt-1">
-            <span v-for="(count, stat) in telemetryData.summary?.by_status" :key="stat" class="px-1.5 py-0.5 rounded bg-slate-700 text-[10px] text-slate-200">
+            <span v-for="(count, stat) in telemetryData.summary?.by_status" :key="stat" class="px-1.5 py-0.5 rounded bg-slate-800 text-[10px] text-slate-200 border border-slate-700">
               {{ stat }}: {{ count }}
             </span>
           </div>
@@ -509,34 +508,34 @@ onMounted(async () => {
     </div>
 
     <!-- ERROR & SUCCESS ALERTS -->
-    <div v-if="saveSuccess" class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm font-bold flex items-center gap-2">
-      <CheckCircle2 class="w-4 h-4 text-emerald-600 shrink-0" />
+    <div v-if="saveSuccess" class="p-4 rounded-xl bg-[#ECFDF5] border-[1.5px] border-[#065F46] text-[#064E3B] text-xs sm:text-sm font-black flex items-center gap-2 shadow-[2px_2px_0_0_#065F46]">
+      <CheckCircle2 class="w-4 h-4 text-[#059669] shrink-0" />
       <span>Notification preferences updated and saved securely!</span>
     </div>
 
-    <div v-if="errorMessage" class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 text-xs sm:text-sm font-bold flex items-center gap-2">
-      <AlertCircle class="w-4 h-4 text-rose-600 shrink-0" />
+    <div v-if="errorMessage" class="p-4 rounded-xl bg-[#FEF2F2] border-[1.5px] border-[#DC2626] text-[#991B1B] text-xs sm:text-sm font-black flex items-center gap-2 shadow-[2px_2px_0_0_#DC2626]">
+      <AlertCircle class="w-4 h-4 text-[#DC2626] shrink-0" />
       <span>{{ errorMessage }}</span>
     </div>
 
     <!-- STEP 1: MOBILE NUMBER & OTP VERIFICATION CARD -->
-    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+    <div class="bg-[#FBFBFA] rounded-xl p-6 sm:p-8 border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-[1.5px] border-[#0B132B] pb-5">
         <div>
-          <div class="text-xs font-bold uppercase tracking-wider text-indigo-600">Step 1: Contact Identity</div>
-          <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2 mt-0.5">
-            <Phone class="w-5 h-5 text-indigo-600" />
+          <div class="text-xs font-black uppercase tracking-wider text-[#D97706]">Step 1: Contact Identity</div>
+          <h2 class="text-xl font-black text-[#0B132B] flex items-center gap-2 mt-0.5">
+            <Phone class="w-5 h-5 text-[#0B132B]" />
             Citizen Mobile Number & Verified Consent
           </h2>
-          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+          <p class="text-xs sm:text-sm text-[#475569] mt-1 font-medium">
             Under TRAI and Meta WhatsApp anti-spam policies, explicit phone ownership verification is required before sending deadline reminders.
           </p>
         </div>
 
         <button
           @click="openVerifyModal()"
-          class="px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs shrink-0 self-start sm:self-auto"
-          :class="prefs.is_mobile_verified ? 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300' : 'bg-emerald-600 hover:bg-emerald-700 text-white'"
+          class="px-4 py-2 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 shrink-0 self-start sm:self-auto cursor-pointer border-[1.5px]"
+          :class="prefs.is_mobile_verified ? 'bg-white hover:bg-slate-100 text-[#0B132B] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B]' : 'bg-[#D97706] hover:bg-[#B45309] text-white border-[#0B132B] shadow-[2px_2px_0_0_#0B132B]'"
         >
           <Phone class="w-3.5 h-3.5" />
           <span>{{ prefs.is_mobile_verified ? 'Change Mobile Number' : 'Verify Mobile Number Now' }}</span>
@@ -545,45 +544,45 @@ onMounted(async () => {
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Number Status -->
-        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+        <div class="p-4 rounded-xl bg-white border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] flex items-center justify-between">
           <div>
-            <div class="text-[11px] font-bold text-slate-500 uppercase">Registered Mobile</div>
-            <div class="text-base font-extrabold text-slate-900 mt-0.5">
+            <div class="text-[11px] font-black text-[#64748B] uppercase tracking-wider">Registered Mobile</div>
+            <div class="text-base font-black text-[#0B132B] mt-0.5 font-mono">
               {{ prefs.mobile_number || 'No number added' }}
             </div>
           </div>
           <div>
-            <span v-if="prefs.is_mobile_verified" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-              <CheckCircle2 class="w-3 h-3 text-emerald-600" />
+            <span v-if="prefs.is_mobile_verified" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-sm text-xs font-black bg-[#D1FAE5] text-[#065F46] border border-[#065F46]">
+              <CheckCircle2 class="w-3 h-3 text-[#059669]" />
               Verified
             </span>
-            <span v-else class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">
-              <AlertTriangle class="w-3 h-3 text-amber-600" />
+            <span v-else class="inline-flex items-center gap-1 px-2.5 py-1 rounded-sm text-xs font-black bg-[#FEF3C7] text-[#92400E] border border-[#D97706]">
+              <AlertTriangle class="w-3 h-3 text-[#D97706]" />
               Unverified
             </span>
           </div>
         </div>
 
         <!-- WhatsApp Consent Timestamp -->
-        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-          <div class="text-[11px] font-bold text-slate-500 uppercase">WhatsApp Opt-in Audit</div>
-          <div class="text-xs font-bold text-slate-800 mt-1 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full" :class="prefs.whatsapp_enabled ? 'bg-emerald-500' : 'bg-slate-400'"></span>
+        <div class="p-4 rounded-xl bg-white border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B]">
+          <div class="text-[11px] font-black text-[#64748B] uppercase tracking-wider">WhatsApp Opt-in Audit</div>
+          <div class="text-xs font-black text-[#0B132B] mt-1 flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full border border-[#0B132B]" :class="prefs.whatsapp_enabled ? 'bg-[#059669]' : 'bg-slate-300'"></span>
             <span>{{ prefs.whatsapp_enabled ? 'Opted In' : 'Opted Out / Inactive' }}</span>
           </div>
-          <div class="text-[11px] text-slate-500 mt-1">
+          <div class="text-[11px] text-[#64748B] mt-1 font-medium">
             {{ prefs.whatsapp_enabled ? 'Since: ' + formatDate(prefs.whatsapp_opt_in_at) : (prefs.whatsapp_opt_out_at ? 'Opted out: ' + formatDate(prefs.whatsapp_opt_out_at) : 'No opt-in record') }}
           </div>
         </div>
 
         <!-- SMS Consent Timestamp -->
-        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-          <div class="text-[11px] font-bold text-slate-500 uppercase">SMS Opt-in Audit</div>
-          <div class="text-xs font-bold text-slate-800 mt-1 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full" :class="prefs.sms_enabled ? 'bg-blue-500' : 'bg-slate-400'"></span>
+        <div class="p-4 rounded-xl bg-white border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B]">
+          <div class="text-[11px] font-black text-[#64748B] uppercase tracking-wider">SMS Opt-in Audit</div>
+          <div class="text-xs font-black text-[#0B132B] mt-1 flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full border border-[#0B132B]" :class="prefs.sms_enabled ? 'bg-[#2563EB]' : 'bg-slate-300'"></span>
             <span>{{ prefs.sms_enabled ? 'Opted In' : 'Opted Out / Inactive' }}</span>
           </div>
-          <div class="text-[11px] text-slate-500 mt-1">
+          <div class="text-[11px] text-[#64748B] mt-1 font-medium">
             {{ prefs.sms_enabled ? 'Since: ' + formatDate(prefs.sms_opt_in_at) : (prefs.sms_opt_out_at ? 'Opted out: ' + formatDate(prefs.sms_opt_out_at) : 'No opt-in record') }}
           </div>
         </div>
@@ -594,10 +593,10 @@ onMounted(async () => {
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       
       <!-- WHATSAPP CARD -->
-      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between space-y-4 relative overflow-hidden">
+      <div class="bg-white rounded-xl p-6 border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] flex flex-col justify-between space-y-4 relative overflow-hidden">
         <div class="space-y-3">
           <div class="flex items-center justify-between">
-            <div class="p-2.5 bg-emerald-50 text-emerald-700 rounded-2xl">
+            <div class="p-2.5 bg-[#ECFDF5] text-[#065F46] rounded-lg border border-[#065F46]">
               <MessageSquare class="w-6 h-6" />
             </div>
             <label class="relative inline-flex items-center cursor-pointer">
@@ -608,40 +607,40 @@ onMounted(async () => {
                 :disabled="!prefs.is_mobile_verified && !prefs.whatsapp_enabled"
                 class="sr-only peer"
               >
-              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:width-5 after:transition-all peer-checked:bg-emerald-600"></div>
+              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#0B132B] after:border after:rounded-full after:h-5 after:width-5 after:transition-all peer-checked:bg-[#059669] border border-[#0B132B]"></div>
             </label>
           </div>
 
           <div>
-            <h3 class="font-bold text-slate-900 text-base flex items-center gap-1.5">
+            <h3 class="font-black text-[#0B132B] text-base flex items-center gap-1.5">
               WhatsApp Notifications
-              <span class="text-[10px] px-2 py-0.5 rounded-full font-extrabold" :class="channelsAvailable.whatsapp.is_configured ? 'bg-emerald-100 text-emerald-800' : 'bg-indigo-100 text-indigo-800'">
+              <span class="text-[10px] px-2 py-0.5 rounded-sm font-black border border-[#0B132B]" :class="channelsAvailable.whatsapp.is_configured ? 'bg-[#D1FAE5] text-[#065F46]' : 'bg-[#E0E7FF] text-[#3730A3]'">
                 {{ channelsAvailable.whatsapp.provider_mode }}
               </span>
             </h3>
-            <p class="text-xs text-slate-500 mt-1">
+            <p class="text-xs text-[#475569] mt-1 font-medium leading-relaxed">
               Delivers rich alerts directly into your WhatsApp inbox for imminent deadlines, document SLAs, and scrutiny remarks.
             </p>
           </div>
         </div>
 
-        <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-500 space-y-1">
+        <div class="pt-3 border-t-[1.5px] border-[#0B132B] text-[11px] text-[#64748B] space-y-1 font-medium">
           <div class="flex items-center justify-between">
             <span>Provider:</span>
-            <strong class="text-slate-700">Meta Cloud API</strong>
+            <strong class="text-[#0B132B]">Meta Cloud API</strong>
           </div>
           <div class="flex items-center justify-between">
             <span>Anti-Spam Policy:</span>
-            <strong class="text-emerald-700">Instant Opt-Out Respected</strong>
+            <strong class="text-[#059669]">Instant Opt-Out Respected</strong>
           </div>
         </div>
       </div>
 
       <!-- SMS GATEWAY CARD -->
-      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between space-y-4 relative overflow-hidden">
+      <div class="bg-white rounded-xl p-6 border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] flex flex-col justify-between space-y-4 relative overflow-hidden">
         <div class="space-y-3">
           <div class="flex items-center justify-between">
-            <div class="p-2.5 bg-blue-50 text-blue-700 rounded-2xl">
+            <div class="p-2.5 bg-[#EFF6FF] text-[#1E40AF] rounded-lg border border-[#1E40AF]">
               <Phone class="w-6 h-6" />
             </div>
             <label class="relative inline-flex items-center cursor-pointer">
@@ -652,40 +651,40 @@ onMounted(async () => {
                 :disabled="!prefs.is_mobile_verified && !prefs.sms_enabled"
                 class="sr-only peer"
               >
-              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:width-5 after:transition-all peer-checked:bg-blue-600"></div>
+              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#0B132B] after:border after:rounded-full after:h-5 after:width-5 after:transition-all peer-checked:bg-[#2563EB] border border-[#0B132B]"></div>
             </label>
           </div>
 
           <div>
-            <h3 class="font-bold text-slate-900 text-base flex items-center gap-1.5">
+            <h3 class="font-black text-[#0B132B] text-base flex items-center gap-1.5">
               SMS Gateway Reminders
-              <span class="text-[10px] px-2 py-0.5 rounded-full font-extrabold" :class="channelsAvailable.sms.is_configured ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-800'">
+              <span class="text-[10px] px-2 py-0.5 rounded-sm font-black border border-[#0B132B]" :class="channelsAvailable.sms.is_configured ? 'bg-[#DBEAFE] text-[#1E40AF]' : 'bg-slate-100 text-slate-800'">
                 {{ channelsAvailable.sms.provider_mode }}
               </span>
             </h3>
-            <p class="text-xs text-slate-500 mt-1">
+            <p class="text-xs text-[#475569] mt-1 font-medium leading-relaxed">
               TRAI TCCCPR (2018) compliant text alerts for citizens in low-bandwidth rural talukas without active data connections.
             </p>
           </div>
         </div>
 
-        <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-500 space-y-1">
+        <div class="pt-3 border-t-[1.5px] border-[#0B132B] text-[11px] text-[#64748B] space-y-1 font-medium">
           <div class="flex items-center justify-between">
             <span>TRAI Header / ID:</span>
-            <strong class="text-slate-700">YOJNAV (DLT Approved)</strong>
+            <strong class="text-[#0B132B]">YOJNAV (DLT Approved)</strong>
           </div>
           <div class="flex items-center justify-between">
             <span>Status:</span>
-            <strong class="text-blue-700">{{ channelsAvailable.sms.is_configured ? 'Commercial Gateway Active' : 'Simulated Gateway Active' }}</strong>
+            <strong class="text-[#2563EB]">{{ channelsAvailable.sms.is_configured ? 'Commercial Gateway Active' : 'Simulated Gateway Active' }}</strong>
           </div>
         </div>
       </div>
 
       <!-- IN-APP CONSOLE & LANGUAGE -->
-      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+      <div class="bg-white rounded-xl p-6 border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] flex flex-col justify-between space-y-4">
         <div class="space-y-3">
           <div class="flex items-center justify-between">
-            <div class="p-2.5 bg-purple-50 text-purple-700 rounded-2xl">
+            <div class="p-2.5 bg-[#FAF5FF] text-[#6B21A8] rounded-lg border border-[#6B21A8]">
               <Bell class="w-6 h-6" />
             </div>
             <label class="relative inline-flex items-center cursor-pointer">
@@ -695,40 +694,40 @@ onMounted(async () => {
                 @change="handleChannelToggle('in_app')"
                 class="sr-only peer"
               >
-              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:width-5 after:transition-all peer-checked:bg-purple-600"></div>
+              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#0B132B] after:border after:rounded-full after:h-5 after:width-5 after:transition-all peer-checked:bg-[#7C3AED] border border-[#0B132B]"></div>
             </label>
           </div>
 
           <div>
-            <h3 class="font-bold text-slate-900 text-base">In-App Notification Console</h3>
-            <p class="text-xs text-slate-500 mt-1">
+            <h3 class="font-black text-[#0B132B] text-base">In-App Notification Console</h3>
+            <p class="text-xs text-[#475569] mt-1 font-medium leading-relaxed">
               Active alerts inside the web portal whenever you log in or check saved scholarship applications.
             </p>
           </div>
         </div>
 
         <!-- Language Selector -->
-        <div class="pt-3 border-t border-slate-100 space-y-1.5">
-          <label class="text-[11px] font-bold text-slate-500 uppercase">Notification Language Preference</label>
-          <div class="grid grid-cols-3 gap-1.5 bg-slate-100 p-1 rounded-xl">
+        <div class="pt-3 border-t-[1.5px] border-[#0B132B] space-y-1.5">
+          <label class="text-[11px] font-black text-[#0B132B] uppercase tracking-wider">Language Preference</label>
+          <div class="grid grid-cols-3 gap-1.5 bg-[#F1F5F9] p-1 rounded-lg border border-[#0B132B]">
             <button
               @click="prefs.preferred_language = 'en'; savePreferences();"
-              class="py-1 text-xs font-bold rounded-lg transition-all"
-              :class="prefs.preferred_language === 'en' ? 'bg-white text-indigo-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'"
+              class="py-1 text-xs font-bold rounded-sm transition-all cursor-pointer"
+              :class="prefs.preferred_language === 'en' ? 'bg-[#0B132B] text-white shadow-[1px_1px_0_0_#000]' : 'text-[#475569] hover:text-[#0B132B]'"
             >
               English
             </button>
             <button
               @click="prefs.preferred_language = 'mr'; savePreferences();"
-              class="py-1 text-xs font-bold rounded-lg transition-all"
-              :class="prefs.preferred_language === 'mr' ? 'bg-white text-indigo-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'"
+              class="py-1 text-xs font-bold rounded-sm transition-all cursor-pointer"
+              :class="prefs.preferred_language === 'mr' ? 'bg-[#0B132B] text-white shadow-[1px_1px_0_0_#000]' : 'text-[#475569] hover:text-[#0B132B]'"
             >
               मराठी
             </button>
             <button
               @click="prefs.preferred_language = 'hi'; savePreferences();"
-              class="py-1 text-xs font-bold rounded-lg transition-all"
-              :class="prefs.preferred_language === 'hi' ? 'bg-white text-indigo-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'"
+              class="py-1 text-xs font-bold rounded-sm transition-all cursor-pointer"
+              :class="prefs.preferred_language === 'hi' ? 'bg-[#0B132B] text-white shadow-[1px_1px_0_0_#000]' : 'text-[#475569] hover:text-[#0B132B]'"
             >
               हिंदी
             </button>
@@ -739,17 +738,17 @@ onMounted(async () => {
     </div>
 
     <!-- 1-CLICK CITIZEN TEST DRIVE SECTION -->
-    <div class="bg-gradient-to-r from-indigo-50 via-slate-50 to-emerald-50 rounded-3xl p-6 sm:p-8 border border-indigo-200 shadow-sm space-y-4">
+    <div class="bg-[#FEF3C7]/40 rounded-xl p-6 sm:p-8 border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span class="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-indigo-700">
+          <span class="inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wider text-[#92400E]">
             <Sparkles class="w-3.5 h-3.5" />
             Interactive Demonstration
           </span>
-          <h2 class="text-xl font-bold text-slate-900 mt-0.5">
+          <h2 class="text-xl font-black text-[#0B132B] mt-0.5">
             1-Click Citizen Test Drive
           </h2>
-          <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+          <p class="text-xs sm:text-sm text-[#475569] mt-0.5 font-medium">
             Test the transmission pipeline right now. Dispatches a verified sample alert in your preferred language ({{ prefs.preferred_language.toUpperCase() }}).
           </p>
         </div>
@@ -757,7 +756,7 @@ onMounted(async () => {
         <div class="flex items-center gap-2">
           <select 
             v-model="testChannel" 
-            class="px-3 py-2 bg-white rounded-xl text-xs font-bold border border-slate-300 text-slate-700 shadow-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="px-3 py-2 bg-white rounded-lg text-xs font-black border-[1.5px] border-[#0B132B] text-[#0B132B] shadow-[2px_2px_0_0_#0B132B] focus:outline-hidden"
           >
             <option value="WHATSAPP">WhatsApp 🟢</option>
             <option value="SMS">SMS Gateway 📱</option>
@@ -767,7 +766,7 @@ onMounted(async () => {
           <button
             @click="handleSendTest()"
             :disabled="isTesting"
-            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 disabled:opacity-50"
+            class="px-4 py-2 bg-[#D97706] hover:bg-[#B45309] text-white rounded-lg text-xs font-black transition-all shadow-[2px_2px_0_0_#0B132B] border-[1.5px] border-[#0B132B] flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
           >
             <Send class="w-3.5 h-3.5" />
             <span>{{ isTesting ? 'Transmitting...' : 'Send Test Reminder 🔔' }}</span>
@@ -776,16 +775,16 @@ onMounted(async () => {
       </div>
 
       <!-- Test Result Alert -->
-      <div v-if="testResult" class="p-4 rounded-2xl text-xs font-medium space-y-1" :class="testResult.success ? 'bg-emerald-100 text-emerald-950 border border-emerald-300' : 'bg-rose-100 text-rose-950 border border-rose-300'">
-        <div class="font-bold flex items-center gap-1.5">
-          <CheckCircle2 v-if="testResult.success" class="w-4 h-4 text-emerald-700" />
-          <AlertCircle v-else class="w-4 h-4 text-rose-700" />
+      <div v-if="testResult" class="p-4 rounded-xl text-xs font-medium space-y-1 border-[1.5px] shadow-[2px_2px_0_0_#0B132B]" :class="testResult.success ? 'bg-[#ECFDF5] text-[#064E3B] border-[#065F46]' : 'bg-[#FEF2F2] text-[#991B1B] border-[#DC2626]'">
+        <div class="font-black flex items-center gap-1.5">
+          <CheckCircle2 v-if="testResult.success" class="w-4 h-4 text-[#059669]" />
+          <AlertCircle v-else class="w-4 h-4 text-[#DC2626]" />
           <span>{{ testResult.message }}</span>
         </div>
-        <div v-if="testResult.notification" class="text-[11px] text-emerald-800 bg-white/70 p-2.5 rounded-xl border border-emerald-200 mt-2 font-mono">
+        <div v-if="testResult.notification" class="text-[11px] text-[#065F46] bg-white p-2.5 rounded-lg border border-[#065F46] mt-2 font-mono">
           <div>Provider: <strong>{{ testResult.notification.provider }}</strong></div>
           <div>Status: <strong>{{ testResult.notification.delivery_status }}</strong> (Message ID: {{ testResult.notification.provider_message_id }})</div>
-          <div class="mt-1 pt-1 border-t border-emerald-200 font-sans text-slate-800">
+          <div class="mt-1 pt-1 border-t border-[#065F46]/30 font-sans text-[#0B132B]">
             "{{ testResult.notification.message_body }}"
           </div>
         </div>
@@ -796,11 +795,11 @@ onMounted(async () => {
     <div class="space-y-4">
       <div class="flex items-center justify-between">
         <div>
-          <div class="text-xs font-bold uppercase tracking-wider text-indigo-600">Step 3: Alert Customization</div>
-          <h2 class="text-xl font-bold text-slate-900 mt-0.5">
+          <div class="text-xs font-black uppercase tracking-wider text-[#D97706]">Step 3: Alert Customization</div>
+          <h2 class="text-xl font-black text-[#0B132B] mt-0.5">
             The 6 Canonical Deadline & Milestone Event Types
           </h2>
-          <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+          <p class="text-xs sm:text-sm text-[#475569] mt-0.5 font-medium">
             All reminders are grounded strictly in verified scheme records and statutory dates. Customize which alerts you wish to receive:
           </p>
         </div>
@@ -810,11 +809,11 @@ onMounted(async () => {
         <div 
           v-for="evt in canonicalEvents" 
           :key="evt.key" 
-          class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between space-y-3"
+          class="bg-[#FBFBFA] rounded-xl p-5 border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] flex flex-col justify-between space-y-3"
         >
           <div class="space-y-2">
             <div class="flex items-start justify-between gap-2">
-              <h4 class="font-bold text-sm text-slate-900">
+              <h4 class="font-black text-sm text-[#0B132B]">
                 {{ evt.title[prefs.preferred_language] }}
               </h4>
               <label class="relative inline-flex items-center cursor-pointer shrink-0">
@@ -824,19 +823,19 @@ onMounted(async () => {
                   @change="savePreferences()"
                   class="sr-only peer"
                 >
-                <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"></div>
+                <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#0B132B] after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#059669] border border-[#0B132B]"></div>
               </label>
             </div>
 
-            <p class="text-[11px] text-slate-500">
-              <strong class="text-indigo-700">Trigger:</strong> {{ evt.trigger }}
+            <p class="text-[11px] text-[#475569]">
+              <strong class="text-[#0B132B]">Trigger:</strong> {{ evt.trigger }}
             </p>
 
             <!-- Trilingual WhatsApp Chat Bubble Preview -->
-            <div class="bg-[#e7fedb] border border-[#c4e6b5] p-3 rounded-2xl text-[11px] text-slate-800 leading-relaxed shadow-2xs relative">
-              <div class="flex items-center justify-between text-[10px] text-emerald-800 font-bold mb-1 pb-1 border-b border-emerald-200/50">
+            <div class="bg-[#ECFDF5] border-[1.5px] border-[#059669] p-3 rounded-lg text-[11px] text-[#064E3B] leading-relaxed shadow-[1px_1px_0_0_#059669] relative">
+              <div class="flex items-center justify-between text-[10px] text-[#065F46] font-black mb-1 pb-1 border-b border-[#059669]/30">
                 <span>YOJNAVIA Verified Alert ({{ prefs.preferred_language.toUpperCase() }})</span>
-                <span class="flex items-center gap-0.5 text-emerald-700">
+                <span class="flex items-center gap-0.5 text-[#059669]">
                   <CheckCircle2 class="w-2.5 h-2.5" />
                   Official
                 </span>
@@ -849,15 +848,15 @@ onMounted(async () => {
     </div>
 
     <!-- STEP 4: NOTIFICATION DELIVERY HISTORY & TELEMETRY TABLE -->
-    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+    <div class="bg-[#FBFBFA] rounded-xl p-6 sm:p-8 border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-[1.5px] border-[#0B132B] pb-5">
         <div>
-          <div class="text-xs font-bold uppercase tracking-wider text-indigo-600">Telemetry & Audit Log</div>
-          <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2 mt-0.5">
-            <Clock class="w-5 h-5 text-indigo-600" />
+          <div class="text-xs font-black uppercase tracking-wider text-[#D97706]">Telemetry & Audit Log</div>
+          <h2 class="text-xl font-black text-[#0B132B] flex items-center gap-2 mt-0.5">
+            <Clock class="w-5 h-5 text-[#0B132B]" />
             Notification Delivery History
           </h2>
-          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+          <p class="text-xs sm:text-sm text-[#475569] mt-1 font-medium">
             Immutable log of all reminders dispatched, simulated, or suppressed due to opt-out policies.
           </p>
         </div>
@@ -867,7 +866,7 @@ onMounted(async () => {
           <select 
             v-model="historyFilterChannel" 
             @change="fetchHistory()"
-            class="px-2.5 py-1.5 bg-slate-50 rounded-xl text-xs font-bold border border-slate-200 text-slate-700 focus:outline-none"
+            class="px-2.5 py-1.5 bg-white rounded-lg text-xs font-black border-[1.5px] border-[#0B132B] text-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] focus:outline-hidden"
           >
             <option value="ALL">All Channels</option>
             <option value="WHATSAPP">WhatsApp</option>
@@ -878,7 +877,7 @@ onMounted(async () => {
           <select 
             v-model="historyFilterStatus" 
             @change="fetchHistory()"
-            class="px-2.5 py-1.5 bg-slate-50 rounded-xl text-xs font-bold border border-slate-200 text-slate-700 focus:outline-none"
+            class="px-2.5 py-1.5 bg-white rounded-lg text-xs font-black border-[1.5px] border-[#0B132B] text-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] focus:outline-hidden"
           >
             <option value="ALL">All Statuses</option>
             <option value="SIMULATED">Simulated</option>
@@ -891,7 +890,7 @@ onMounted(async () => {
           <button
             @click="fetchHistory()"
             :disabled="isHistoryLoading"
-            class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+            class="p-2 rounded-lg bg-white hover:bg-slate-100 text-[#0B132B] border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] transition-colors cursor-pointer"
             title="Refresh logs"
           >
             <RefreshCw class="w-3.5 h-3.5" :class="{ 'animate-spin': isHistoryLoading }" />
@@ -900,18 +899,18 @@ onMounted(async () => {
       </div>
 
       <!-- History Table -->
-      <div v-if="historyLogs.length === 0" class="text-center py-12 text-slate-400 space-y-2">
-        <Bell class="w-10 h-10 mx-auto text-slate-300" />
-        <div class="text-sm font-bold text-slate-600">No notifications sent yet</div>
-        <p class="text-xs text-slate-400 max-w-sm mx-auto">
+      <div v-if="historyLogs.length === 0" class="text-center py-12 text-[#64748B] space-y-2">
+        <Bell class="w-10 h-10 mx-auto text-[#CBD5E1]" />
+        <div class="text-sm font-black text-[#0B132B]">No notifications sent yet</div>
+        <p class="text-xs text-[#64748B] max-w-sm mx-auto font-medium">
           Click "Send Test Reminder 🔔" above or run the background scanner to trigger scheduled reminders.
         </p>
       </div>
 
-      <div v-else class="overflow-x-auto">
-        <table class="w-full text-left text-xs border-collapse">
+      <div v-else class="overflow-x-auto border-[1.5px] border-[#0B132B] rounded-lg">
+        <table class="w-full text-left text-xs bg-white">
           <thead>
-            <tr class="border-b border-slate-200 text-slate-400 uppercase text-[10px] font-bold">
+            <tr class="border-b-[1.5px] border-[#0B132B] bg-[#F1F5F9] text-[#0B132B] uppercase text-[10px] font-black">
               <th class="py-2.5 px-3">Channel</th>
               <th class="py-2.5 px-3">Event Type</th>
               <th class="py-2.5 px-3">Recipient</th>
@@ -922,32 +921,158 @@ onMounted(async () => {
               <th class="py-2.5 px-3 text-right">Details</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-100 font-medium">
+          <tbody class="divide-y divide-[#E2E8F0] font-medium text-[#334155]">
             <template v-for="log in historyLogs" :key="log.id">
-              <tr class="hover:bg-slate-50/80 transition-colors">
+              <tr class="hover:bg-[#F8FAFC] transition-colors">
                 <td class="py-3 px-3">
-                  <span class="inline-flex items-center gap-1 font-bold text-slate-800">
+                  <span class="inline-flex items-center gap-1 font-bold text-[#0B132B]">
                     <span v-if="log.channel === 'WHATSAPP'">🟢 WA</span>
                     <span v-else-if="log.channel === 'SMS'">📱 SMS</span>
                     <span v-else>🔔 InApp</span>
                   </span>
                 </td>
-                <td class="py-3 px-3 font-bold text-slate-900">
+                <td class="py-3 px-3 font-black text-[#0B132B]">
                   {{ log.event_type }}
                 </td>
-                <td class="py-3 px-3 font-mono text-slate-600 text-[11px]">
+                <td class="py-3 px-3 font-mono text-[#64748B] text-[11px]">
                   {{ log.recipient }}
                 </td>
                 <td class="py-3 px-3">
-                  <span class="px-1.5 py-0.5 rounded bg-slate-100 text-[10px] font-bold uppercase text-slate-700">
+                  <span class="px-1.5 py-0.5 rounded-sm bg-[#F1F5F9] text-[10px] font-black uppercase text-[#0B132B] border border-[#CBD5E1]">
                     {{ log.language }}
                   </span>
                 </td>
                 <td class="py-3 px-3">
                   <span 
-                    class="px-2 py-0.5 rounded-full text-[10px] font-extrabold border"
+                    class="px-2 py-0.5 rounded-sm text-[10px] font-black border border-[#0B132B]"
                     :class="getStatusBadgeClass(log.delivery_status)"
                   >
+                    {{ log.delivery_status }}
+                  </span>
+                </td>
+                <td class="py-3 px-3 font-mono text-[#64748B] text-[10px]">
+                  {{ log.provider_message_id || '—' }}
+                </td>
+                <td class="py-3 px-3 text-[#64748B] whitespace-nowrap font-mono text-[11px]">
+                  {{ formatDate(log.sent_at || log.created_at) }}
+                </td>
+                <td class="py-3 px-3 text-right">
+                  <button
+                    @click="expandedLogId = expandedLogId === log.id ? null : log.id"
+                    class="text-[#D97706] hover:text-[#B45309] font-black cursor-pointer"
+                  >
+                    {{ expandedLogId === log.id ? 'Hide' : 'View' }}
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Expanded Log Message View -->
+              <tr v-if="expandedLogId === log.id" class="bg-[#FFFBEB]">
+                <td colspan="8" class="p-4 space-y-2 text-xs border-y border-[#FCD34D]">
+                  <div class="font-black text-[#78350F] flex items-center justify-between">
+                    <span>Message Subject: {{ log.title }}</span>
+                    <span class="text-[10px] text-[#64748B] font-mono">Idempotency Key: {{ log.idempotency_key }}</span>
+                  </div>
+                  <div class="p-3 bg-white rounded-lg border border-[#FCD34D] text-[#0B132B] font-sans leading-relaxed">
+                    {{ log.message_body }}
+                  </div>
+                  <div v-if="log.error_message" class="text-[#DC2626] font-black text-[11px]">
+                    Error: {{ log.error_message }}
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MOBILE NUMBER VERIFICATION MODAL -->
+    <div v-if="isVerifyModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0B132B]/70 backdrop-blur-xs">
+      <div class="bg-[#FBFBFA] rounded-xl max-w-md w-full p-6 sm:p-8 shadow-[4px_4px_0_0_#0B132B] border-[2px] border-[#0B132B] space-y-6">
+        <div class="flex items-center justify-between border-b-[1.5px] border-[#0B132B] pb-3">
+          <h3 class="font-black text-[#0B132B] text-lg flex items-center gap-2">
+            <Phone class="w-5 h-5 text-[#0B132B]" />
+            Verify Citizen Mobile Number
+          </h3>
+          <button @click="isVerifyModalOpen = false" class="text-[#64748B] hover:text-[#0B132B] font-bold text-sm cursor-pointer">✕</button>
+        </div>
+
+        <div v-if="verifyError" class="p-3 rounded-lg bg-[#FEF2F2] border border-[#DC2626] text-[#991B1B] text-xs font-black">
+          {{ verifyError }}
+        </div>
+
+        <!-- Phone input step -->
+        <div v-if="!otpSent" class="space-y-4">
+          <p class="text-xs text-[#475569] font-medium leading-relaxed">
+            Enter your 10-digit Indian mobile number to enable WhatsApp and SMS deadline alerts.
+          </p>
+
+          <div class="space-y-1">
+            <label class="text-[11px] font-black text-[#0B132B] uppercase tracking-wider">Mobile Number</label>
+            <div class="flex items-center">
+              <span class="px-3 py-2.5 bg-[#F1F5F9] border-[1.5px] border-r-0 border-[#0B132B] rounded-l-lg text-xs font-black text-[#0B132B]">+91</span>
+              <input 
+                type="text" 
+                v-model="inputPhone"
+                placeholder="9876543210"
+                class="w-full px-3 py-2.5 bg-white border-[1.5px] border-[#0B132B] rounded-r-lg text-xs font-bold text-[#0B132B] focus:outline-hidden"
+              >
+            </div>
+          </div>
+
+          <button
+            @click="handleSendOtp()"
+            :disabled="isVerifying"
+            class="w-full py-2.5 bg-[#D97706] hover:bg-[#B45309] text-white rounded-lg text-xs font-black transition-all border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] disabled:opacity-50 cursor-pointer"
+          >
+            {{ isVerifying ? 'Sending Code...' : 'Send Verification OTP' }}
+          </button>
+        </div>
+
+        <!-- OTP verification step -->
+        <div v-else class="space-y-4">
+          <p class="text-xs text-[#475569] font-medium">
+            A 6-digit verification code has been sent to <strong>+91 {{ inputPhone }}</strong>.
+          </p>
+
+          <div v-if="demoOtpCode" class="p-3 bg-[#FEF3C7] border border-[#D97706] rounded-lg text-xs text-[#92400E]">
+            <strong>Demo Mode OTP:</strong> Use code <code class="font-black text-[#0B132B] bg-white px-1.5 py-0.5 rounded border border-[#0B132B]">{{ demoOtpCode }}</code> (or standard code <code>123456</code>).
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-[11px] font-black text-[#0B132B] uppercase tracking-wider">6-Digit Code</label>
+            <input 
+              type="text" 
+              v-model="inputOtp"
+              placeholder="123456"
+              maxlength="6"
+              class="w-full px-3 py-2.5 bg-white border-[1.5px] border-[#0B132B] rounded-lg text-center text-lg font-mono font-black tracking-widest text-[#0B132B] focus:outline-hidden shadow-[2px_2px_0_0_#0B132B]"
+            >
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button
+              @click="otpSent = false"
+              class="w-1/2 py-2.5 bg-white hover:bg-slate-100 text-[#0B132B] rounded-lg text-xs font-black transition-all border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] cursor-pointer"
+            >
+              Back
+            </button>
+            <button
+              @click="handleVerifyOtp()"
+              :disabled="isVerifying"
+              class="w-1/2 py-2.5 bg-[#059669] hover:bg-[#047857] text-white rounded-lg text-xs font-black transition-all border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] disabled:opacity-50 cursor-pointer"
+            >
+              {{ isVerifying ? 'Verifying...' : 'Confirm & Activate' }}
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</template>
                     {{ log.delivery_status }}
                   </span>
                 </td>

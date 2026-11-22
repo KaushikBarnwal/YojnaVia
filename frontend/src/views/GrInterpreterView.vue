@@ -93,24 +93,27 @@ onMounted(async () => {
     <PersonaBar />
 
     <!-- Page Header -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b-[1.5px] border-[#0B132B]/15">
       <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2">
-          <BookOpen class="w-3.5 h-3.5 text-emerald-600" />
-          Statutory Document Grounding Engine
+        <div class="inline-flex items-center gap-2 mb-1.5">
+          <span class="neo-stamp neo-stamp-navy text-[10px]">
+            <BookOpen class="w-3 h-3 text-amber-400" />
+            Statutory Document Grounding Engine
+          </span>
+          <span class="text-xs text-slate-500 font-mono">Gazette Rule Decoder</span>
         </div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B132B] tracking-tight font-heading">
           Government Language-to-Action Interpreter 📜
         </h1>
-        <p class="text-sm text-slate-600 mt-1 max-w-3xl">
+        <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl font-medium">
           Paste complex Maharashtra Government Resolutions (GRs), Gazette notifications, or circulars. YOJNAVIA decodes them into simple-language eligibility rules, required documents, and step-by-step citizen actions—with every single requirement linked directly back to its verbatim source passage.
         </p>
       </div>
 
       <!-- Evidence Certification Badge -->
       <div class="flex items-center gap-2 shrink-0">
-        <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-slate-900 text-white text-xs font-bold shadow-xs">
-          <ShieldCheck class="w-4 h-4 text-emerald-400" />
+        <span class="neo-stamp neo-stamp-emerald text-xs">
+          <ShieldCheck class="w-4 h-4 text-emerald-700" />
           Evidence-Preserving AI
         </span>
       </div>
@@ -118,59 +121,59 @@ onMounted(async () => {
 
     <!-- 1-Click Sample GR Templates Bar -->
     <div class="space-y-2">
-      <div class="flex items-center justify-between text-xs font-bold text-slate-700">
+      <div class="flex items-center justify-between text-xs font-bold text-[#0B132B]">
         <span>Try Authentic Maharashtra Government Resolutions (1-Click Presets):</span>
-        <span class="text-slate-400 font-normal">Official Department Notifications</span>
+        <span class="text-slate-500 font-mono text-[11px]">Official Department Notifications</span>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
         <button
           v-for="sample in sampleGrs"
           :key="sample.id"
           @click="selectSample(sample)"
-          class="p-3 rounded-2xl border text-left transition-all flex flex-col justify-between gap-2"
+          class="neo-box-interactive p-3 text-left flex flex-col justify-between gap-2"
           :class="selectedSampleId === sample.id 
-            ? 'bg-indigo-50 border-indigo-500 shadow-sm ring-2 ring-indigo-200' 
-            : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-700'"
+            ? '!bg-[#FEF3C7] !shadow-[3px_3px_0_0_#0B132B] ring-2 ring-amber-600' 
+            : 'bg-white'"
         >
           <div>
-            <div class="text-[10px] font-mono font-bold text-indigo-700 uppercase tracking-wider">{{ sample.gr_number }}</div>
-            <div class="text-xs font-bold text-slate-900 mt-0.5 line-clamp-1">{{ sample.title }}</div>
+            <div class="text-[10px] font-mono font-bold text-amber-800 uppercase tracking-wider">{{ sample.gr_number }}</div>
+            <div class="text-xs font-extrabold text-[#0B132B] mt-0.5 line-clamp-1 font-heading">{{ sample.title }}</div>
           </div>
-          <div class="text-[10px] text-slate-500 flex items-center justify-between">
+          <div class="text-[10px] text-slate-600 flex items-center justify-between font-medium">
             <span>{{ sample.date }}</span>
-            <span class="font-semibold text-indigo-600">Select & Decode →</span>
+            <span class="font-bold text-amber-700">Select & Decode →</span>
           </div>
         </button>
       </div>
     </div>
 
     <!-- Custom Textarea & Action Bar -->
-    <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-3">
+    <div class="neo-box bg-white p-5 space-y-3">
       <div class="flex items-center justify-between">
-        <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-          <FileText class="w-4 h-4 text-slate-600" />
+        <label class="text-xs font-bold text-[#0B132B] flex items-center gap-1.5">
+          <FileText class="w-4 h-4 text-amber-600" />
           <span>Official Resolution Text or Gazette Excerpt (Marathi or English):</span>
         </label>
-        <span class="text-[11px] text-slate-400">Paste official departmental clauses</span>
+        <span class="text-[11px] text-slate-500 font-medium">Paste official departmental clauses</span>
       </div>
 
       <textarea
         v-model="inputText"
         rows="6"
         placeholder="Paste a paragraph from an official government resolution, scheme circular, or notification..."
-        class="w-full p-4 text-xs font-mono border border-slate-300 rounded-2xl bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-hidden leading-relaxed"
+        class="neo-input w-full p-4 text-xs font-mono leading-relaxed"
       ></textarea>
 
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
-        <div class="text-[11px] text-slate-500 flex items-center gap-1.5">
-          <ShieldCheck class="w-3.5 h-3.5 text-emerald-600" />
+        <div class="text-[11px] text-slate-600 font-medium flex items-center gap-1.5">
+          <ShieldCheck class="w-3.5 h-3.5 text-emerald-700" />
           <span>Zero-hallucination guarantee: All extracted items include exact quote citations.</span>
         </div>
 
         <button
           @click="handleInterpret"
           :disabled="isLoading || !inputText.trim()"
-          class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 disabled:opacity-50"
+          class="neo-btn neo-btn-saffron px-5 py-2.5 text-xs font-bold disabled:opacity-50"
         >
           <Loader2 v-if="isLoading" class="w-4 h-4 animate-spin" />
           <Sparkles v-else class="w-4 h-4" />

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import LandingView from '../views/LandingView.vue';
 import IntakeView from '../views/IntakeView.vue';
 import ProfileReviewView from '../views/ProfileReviewView.vue';
 import SchemesDashboardView from '../views/SchemesDashboardView.vue';
@@ -14,7 +15,10 @@ import CounselorDashboardView from '../views/CounselorDashboardView.vue';
 import AdminPortalView from '../views/AdminPortalView.vue';
 
 const routes = [
-  { path: '/', name: 'Intake', component: IntakeView },
+  { path: '/', name: 'Landing', component: LandingView },
+  { path: '/app', name: 'AppIntake', component: IntakeView },
+  { path: '/app/intake', redirect: '/app' },
+  { path: '/intake', redirect: '/app' },
   { path: '/review', name: 'ProfileReview', component: ProfileReviewView },
   { path: '/schemes', name: 'Schemes', component: SchemesDashboardView },
   { path: '/schemes/:code', name: 'SchemeDetail', component: SchemeDetailView },
@@ -32,6 +36,12 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior(_to, _from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    return { top: 0 };
+  }
 });
 
 export default router;
