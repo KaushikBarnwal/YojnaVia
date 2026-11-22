@@ -37,9 +37,28 @@ export const useStudentStore = defineStore('student', {
     chatMessages: [
       {
         sender: 'assistant',
-        text: 'Namaste! I am YOJNAVIA. Tell me about your situation, education, family income and district in Maharashtra (e.g. "I am 21, from Pune, studying MCA, family income around ₹2 lakh"), or choose a demo persona above to discover what benefits you qualify for.'
+        text: 'Namaste! I am YOJNAVIA. Tell me about your situation, education, family income and district in Maharashtra (e.g. "I am 21, from Pune, studying MCA, family income around ₹2 lakh"), or choose a demo persona above to discover what benefits you qualify for.',
+        structuredAnalysis: {
+          understanding: 'Ready to evaluate Maharashtra welfare entitlements for your household.',
+          key_statutory_finding: '100% deterministic rule matching against authentic Maharashtra Government Resolutions (GRs).',
+          simple_explanation: 'Speak or type your current course, district, category and annual household income to discover all eligible scholarships and tuition fee waivers.',
+          steps: [
+            '1. State your current education level & district in Maharashtra',
+            '2. Provide annual family income range and social category',
+            '3. Review preflight document checklist & RTS Act processing SLAs'
+          ],
+          final_recommendation: 'Awaiting your criteria to calculate guaranteed welfare benefits.',
+          next_action: 'Tap the mic or enter your details below.',
+          engine_used: 'Groq Llama-3.3 (Primary) · Gemini Flash (Fallback)'
+        }
       }
-    ] as Array<{ sender: 'user' | 'assistant'; text: string; isSensitiveRefusal?: boolean; error?: string }>,
+    ] as Array<{
+      sender: 'user' | 'assistant';
+      text: string;
+      isSensitiveRefusal?: boolean;
+      error?: string;
+      structuredAnalysis?: any;
+    }>,
     adminUser: (localStorage.getItem('yojnavia_admin_user') ? JSON.parse(localStorage.getItem('yojnavia_admin_user')!) : null) as AdminUser | null,
     adminToken: localStorage.getItem('yojnavia_admin_token') || '',
     adminSchemes: [] as any[],
@@ -163,7 +182,8 @@ export const useStudentStore = defineStore('student', {
           sender: 'assistant',
           text: replyText,
           isSensitiveRefusal: replyText.includes("don't share Aadhaar") || replyText.includes("Please don't share") || replyText.includes("Never enter your Aadhaar"),
-          error: data.error?.message
+          error: data.error?.message,
+          structuredAnalysis: data.state?.structured_analysis
         });
 
         this.intakeState = data.state;

@@ -183,10 +183,21 @@ export interface IntakeField {
   source: string | null;
 }
 
+export interface StructuredAnalysis {
+  understanding?: string;
+  key_statutory_finding?: string;
+  simple_explanation?: string;
+  steps?: string[];
+  final_recommendation?: string;
+  next_action?: string;
+  engine_used?: string;
+}
+
 export interface IntakeState {
   fields: Record<string, IntakeField>;
   known_count: number;
   total_count: number;
+  structured_analysis?: StructuredAnalysis;
 }
 
 export interface NextQuestion {

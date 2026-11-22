@@ -61,6 +61,55 @@ const voiceExtractedFields = ref<Record<string, any>>({});
 const voiceHighRiskFields = ref<any[]>([]);
 const isConfirmingVoice = ref(false);
 
+// Audio Speech Synthesis (Listen in Hindi, English, Marathi)
+const speakingMessageIndex = ref<number | null>(null);
+const currentSpeakingLang = ref<'en' | 'hi' | 'mr'>('en');
+
+function listenMessage(text: string, lang: 'en' | 'hi' | 'mr', msgIndex: number) {
+  if (!('speechSynthesis' in window)) {
+    alert("Speech synthesis is not supported in this browser.");
+    return;
+  }
+  window.speechSynthesis.cancel();
+
+  // If already speaking this message in this language, toggle stop
+  if (speakingMessageIndex.value === msgIndex && currentSpeakingLang.value === lang) {
+    speakingMessageIndex.value = null;
+    return;
+  }
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  if (lang === 'hi') {
+    utterance.lang = 'hi-IN';
+  } else if (lang === 'mr') {
+    const voices = window.speechSynthesis.getVoices();
+    const mrVoice = voices.find(v => v.lang.toLowerCase().includes('mr') || v.lang.toLowerCase().includes('mar'));
+    utterance.lang = mrVoice ? mrVoice.lang : 'hi-IN';
+  } else {
+    utterance.lang = 'en-IN';
+  }
+
+  utterance.rate = 0.95;
+  speakingMessageIndex.value = msgIndex;
+  currentSpeakingLang.value = lang;
+
+  utterance.onend = () => {
+    speakingMessageIndex.value = null;
+  };
+  utterance.onerror = () => {
+    speakingMessageIndex.value = null;
+  };
+
+  window.speechSynthesis.speak(utterance);
+}
+
+function stopListening() {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    speakingMessageIndex.value = null;
+  }
+}
+
 const formattedDuration = computed(() => {
   const m = Math.floor(recordingDuration.value / 60);
   const s = recordingDuration.value % 60;
@@ -488,6 +537,57 @@ function formatFieldValue(key: string, value: any): string {
                     : 'bg-white text-slate-900 rounded-tl-xs border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B]')"
             >
               <p class="leading-relaxed whitespace-pre-line font-medium">{{ msg.text }}</p>
+
+              <!-- Listen in English, Hindi, Marathi Controls -->
+              <div 
+                class="mt-2.5 pt-2 border-t flex flex-wrap items-center justify-between gap-1.5 text-[11px]"
+                :class="msg.sender === 'user' ? 'border-white/10 text-slate-300' : 'border-slate-100 text-slate-600'"
+              >
+                <div class="flex items-center gap-1.5">
+                  <Volume2 class="w-3.5 h-3.5" :class="speakingMessageIndex === index ? 'text-[#D97706] animate-pulse' : (msg.sender === 'user' ? 'text-amber-400' : 'text-slate-500')" />
+                  <span class="font-bold text-[10px] uppercase tracking-wider">
+                    {{ speakingMessageIndex === index ? 'Speaking' : 'Listen:' }}
+                  </span>
+                </div>
+
+                <div class="flex items-center gap-1">
+                  <button
+                    @click="listenMessage(msg.text, 'en', index)"
+                    class="px-2 py-0.5 rounded text-[10px] font-black border transition-all cursor-pointer"
+                    :class="speakingMessageIndex === index && currentSpeakingLang === 'en'
+                      ? 'bg-[#D97706] text-white border-[#D97706] shadow-xs'
+                      : (msg.sender === 'user' ? 'bg-white/10 hover:bg-white/20 text-white border-white/20' : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300')"
+                  >
+                    English
+                  </button>
+                  <button
+                    @click="listenMessage(msg.text, 'hi', index)"
+                    class="px-2 py-0.5 rounded text-[10px] font-black border transition-all cursor-pointer"
+                    :class="speakingMessageIndex === index && currentSpeakingLang === 'hi'
+                      ? 'bg-[#D97706] text-white border-[#D97706] shadow-xs'
+                      : (msg.sender === 'user' ? 'bg-white/10 hover:bg-white/20 text-white border-white/20' : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300')"
+                  >
+                    हिंदी
+                  </button>
+                  <button
+                    @click="listenMessage(msg.text, 'mr', index)"
+                    class="px-2 py-0.5 rounded text-[10px] font-black border transition-all cursor-pointer"
+                    :class="speakingMessageIndex === index && currentSpeakingLang === 'mr'
+                      ? 'bg-[#D97706] text-white border-[#D97706] shadow-xs'
+                      : (msg.sender === 'user' ? 'bg-white/10 hover:bg-white/20 text-white border-white/20' : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300')"
+                  >
+                    मराठी
+                  </button>
+                  <button
+                    v-if="speakingMessageIndex === index"
+                    @click="stopListening"
+                    class="ml-1 px-1.5 py-0.5 rounded text-[10px] font-black bg-red-600 text-white border border-red-700 hover:bg-red-700 cursor-pointer"
+                    title="Stop speaking"
+                  >
+                    ⏹️
+                  </button>
+                </div>
+              </div>
 
               <!-- Optional Error Banner if extraction failed or timed out -->
               <div v-if="msg.error" class="mt-2 text-xs text-amber-800 bg-amber-50 border-[1.5px] border-amber-300 rounded-lg p-2 flex items-center gap-1.5 font-bold">

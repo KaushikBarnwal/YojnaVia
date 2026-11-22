@@ -453,9 +453,6 @@ function getIcon(iconName: string) {
               Rule-by-Rule Criteria Impact Audit
             </h3>
           </div>
-        </div>
-            </h3>
-          </div>
           <span class="text-xs text-slate-500">Shows all evaluated schemes and status changes</span>
         </div>
 

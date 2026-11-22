@@ -1,4 +1,5 @@
 import logging
+import os
 import uuid
 from django.core.cache import cache
 
@@ -102,15 +103,21 @@ class IntakeChatView(APIView):
             llm_values = {}
             heuristic_values = {}
             natural_reply = None
+            structured_analysis = None
 
             if requested:
                 history = list(conv.history or [])[-LLM_HISTORY_TURNS:]
-                extract_res = GeminiIntakeAssistant().extract(message, requested, history)
-                if len(extract_res) == 4:
-                    values, code, retry_after, natural_reply = extract_res
+                from .groq_client import GroqChatAssistant
+                if GroqChatAssistant.is_configured():
+                    values, code, retry_after, natural_reply, structured_analysis = GroqChatAssistant().extract(message, requested, history)
                 else:
-                    values, code, retry_after = extract_res
-                    natural_reply = None
+                    extract_res = GeminiIntakeAssistant().extract(message, requested, history)
+                    if len(extract_res) == 4:
+                        values, code, retry_after, natural_reply = extract_res
+                    else:
+                        values, code, retry_after = extract_res
+                        natural_reply = None
+                    structured_analysis = GroqChatAssistant._build_default_structured(values or {}, natural_reply or "", "Gemini Flash")
 
                 if code is None:
                     llm_values = values or {}
@@ -171,10 +178,14 @@ class IntakeChatView(APIView):
             conv.save()
             sync_profile(token, conv, relevant)
 
+            state_snapshot = snapshot(conv, relevant)
+            if structured_analysis:
+                state_snapshot["structured_analysis"] = structured_analysis
+
             return Response({
                 "reply": reply,
                 "session_token": token,
-                "state": snapshot(conv, relevant),
+                "state": state_snapshot,
                 "next_question": nq,
                 "eligibility": eligibility,
                 "error": error,
@@ -327,11 +338,19 @@ class VoiceIntakeView(APIView):
                     "pilot_notice": "Pilot Mode: Simulated Sarvam Saaras v4 speech recognition."
                 }
             else:
+                from .groq_client import WhisperSpeechService
+                from .sarvam_speech import SarvamSpeechService
                 try:
-                    stt_result = SarvamSpeechService.transcribe(
-                        uploaded_file=uploaded_audio,
-                        language_code=language_code
-                    )
+                    if os.environ.get("GROQ_API_KEY", "").strip():
+                        stt_result = WhisperSpeechService.transcribe(
+                            uploaded_file=uploaded_audio,
+                            language_code=language_code
+                        )
+                    else:
+                        stt_result = SarvamSpeechService.transcribe(
+                            uploaded_file=uploaded_audio,
+                            language_code=language_code
+                        )
                 except ValueError as val_err:
                     return _error("invalid_audio", str(val_err), status.HTTP_400_BAD_REQUEST)
                 except TimeoutError as t_err:
@@ -358,7 +377,7 @@ class VoiceIntakeView(APIView):
                     "is_sensitive_refusal": True
                 })
 
-            # 3. Feed Transcript into Extraction Pipeline (Gemini with Heuristic Fallback)
+            # 3. Feed Transcript into Extraction Pipeline (Groq Llama-3 with Gemini Fallback)
             conv = get_or_create_conversation(token)
             relevant = relevant_fields()
             requested = [f for f in ALL_FIELDS if (conv.fields or {}).get(f, {}).get("status") != "known"]
@@ -366,15 +385,22 @@ class VoiceIntakeView(APIView):
             llm_values = {}
             heuristic_values = {}
             natural_reply = None
+            structured_analysis = None
 
             if requested:
                 history = list(conv.history or [])[-LLM_HISTORY_TURNS:]
-                extract_res = GeminiIntakeAssistant().extract(transcript, requested, history)
-                if len(extract_res) == 4:
-                    values, code, retry_after, natural_reply = extract_res
+                from .groq_client import GroqChatAssistant
+                if GroqChatAssistant.is_configured():
+                    extract_res = GroqChatAssistant().extract(transcript, requested, history)
+                    values, code, retry_after, natural_reply, structured_analysis = extract_res
                 else:
-                    values, code, retry_after = extract_res
-                    natural_reply = None
+                    extract_res = GeminiIntakeAssistant().extract(transcript, requested, history)
+                    if len(extract_res) == 4:
+                        values, code, retry_after, natural_reply = extract_res
+                    else:
+                        values, code, retry_after = extract_res
+                        natural_reply = None
+                    structured_analysis = GroqChatAssistant._build_default_structured(values or {}, natural_reply or "", "Gemini Fallback")
 
                 if code is None:
                     llm_values = values or {}
@@ -415,6 +441,8 @@ class VoiceIntakeView(APIView):
 
             nq = next_question(conv, relevant)
             current_snapshot = snapshot(conv, relevant)
+            if structured_analysis:
+                current_snapshot["structured_analysis"] = structured_analysis
 
             return Response({
                 "success": True,
@@ -425,10 +453,11 @@ class VoiceIntakeView(APIView):
                 "high_risk_fields": high_risk_detected,
                 "requires_confirmation": len(high_risk_detected) > 0,
                 "natural_reply": natural_reply,
+                "structured_analysis": structured_analysis,
                 "session_token": token,
                 "state": current_snapshot,
                 "next_question": nq,
-                "pilot_notice": "Pilot Feature: Marathi & Hindi Voice Intake powered by Sarvam AI Saaras v4."
+                "pilot_notice": "Pilot Feature: Voice Intake powered by Whisper with Gemini & Sarvam Fallbacks."
             })
 
         except Exception:

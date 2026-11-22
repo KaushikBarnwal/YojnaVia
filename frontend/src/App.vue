@@ -28,7 +28,7 @@ onMounted(async () => {
     <Navbar />
 
     <!-- Main View Content -->
-    <main class="flex-1" :class="route.path === '/' ? 'pb-0' : 'pb-16 md:pb-0'">
+    <main class="flex-1" :class="route.path === '/' ? 'pb-0' : 'pb-16 md:pb-0 xl:pl-64'">
       <router-view />
     </main>
 
@@ -97,7 +97,7 @@ onMounted(async () => {
     </nav>
 
     <!-- Civic Tech Footer -->
-    <footer class="bg-white border-t-[1.5px] border-[#0B132B] mt-12 py-8">
+    <footer class="bg-white border-t-[1.5px] border-[#0B132B] mt-12 py-8" :class="route.path === '/' ? '' : 'xl:pl-64'">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600 font-medium">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="font-black text-[#0B132B] tracking-tight">YOJNAVIA</span>

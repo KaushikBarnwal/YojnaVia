@@ -1,26 +1,17 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { 
-  Sparkles, 
   Mic, 
   MessageSquare, 
   Building2, 
   ArrowRight, 
   CheckCircle2, 
-  ShieldCheck, 
   Scale, 
-  FileCheck2, 
   Clock, 
-  AlertTriangle, 
   Lock, 
   Smartphone, 
-  BookOpen, 
   Languages, 
-  FileText, 
-  GraduationCap, 
-  Users, 
-  HelpCircle,
-  ExternalLink
+  FileText
 } from '@lucide/vue';
 
 const router = useRouter();

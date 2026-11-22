@@ -4,7 +4,6 @@ import { useStudentStore } from '../stores/studentStore';
 import PersonaBar from '../components/PersonaBar.vue';
 import { 
   FileText, 
-  Sparkles, 
   Clock, 
   ExternalLink, 
   FolderGit2
