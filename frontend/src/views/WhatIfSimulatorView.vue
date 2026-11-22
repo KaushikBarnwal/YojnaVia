@@ -326,7 +326,7 @@ function getIcon(iconName: string) {
     <div v-else-if="simulationResult" class="space-y-6">
       <!-- Financial Impact Delta Banner -->
       <div 
-        class="neo-box p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+        class="neo-box p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 min-w-0 w-full"
         :class="simulationResult.financial_impact.delta_inr > 0 
           ? 'bg-[#ECFDF5]' 
           : simulationResult.financial_impact.delta_inr < 0 
@@ -353,19 +353,19 @@ function getIcon(iconName: string) {
         </div>
 
         <!-- Delta Numbers Box -->
-        <div class="bg-white p-4 rounded-xl border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] flex items-center gap-4 shrink-0">
-          <div class="text-center pr-4 border-r border-[#0B132B]/15">
+        <div class="bg-white p-4 rounded-xl border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] flex flex-col sm:flex-row sm:items-center gap-4 w-full sm:w-auto min-w-0 shrink-0">
+          <div class="text-center pb-3 sm:pb-0 sm:pr-4 border-b sm:border-b-0 sm:border-r border-[#0B132B]/15 w-full sm:w-auto min-w-0">
             <span class="text-[10px] text-slate-500 block uppercase font-bold">Current total</span>
-            <span class="text-base font-bold text-slate-700 font-mono">₹{{ simulationResult.financial_impact.baseline_total_inr.toLocaleString('en-IN') }}</span>
+            <span class="text-base font-bold text-slate-700 font-mono break-words">₹{{ simulationResult.financial_impact.baseline_total_inr.toLocaleString('en-IN') }}</span>
           </div>
-          <div class="text-center pr-4 border-r border-[#0B132B]/15">
+          <div class="text-center pb-3 sm:pb-0 sm:pr-4 border-b sm:border-b-0 sm:border-r border-[#0B132B]/15 w-full sm:w-auto min-w-0">
             <span class="text-[10px] text-slate-500 block uppercase font-bold">New total</span>
-            <span class="text-base font-extrabold text-[#0B132B] font-mono">₹{{ simulationResult.financial_impact.simulated_total_inr.toLocaleString('en-IN') }}</span>
+            <span class="text-base font-extrabold text-[#0B132B] font-mono break-words">₹{{ simulationResult.financial_impact.simulated_total_inr.toLocaleString('en-IN') }}</span>
           </div>
-          <div class="text-center">
+          <div class="text-center w-full sm:w-auto min-w-0">
             <span class="text-[10px] text-slate-600 block uppercase font-bold">Difference per year</span>
             <span 
-              class="text-2xl font-black font-mono font-heading"
+              class="block text-2xl font-black font-mono font-heading break-words"
               :class="simulationResult.financial_impact.delta_inr > 0 ? 'text-emerald-800' : simulationResult.financial_impact.delta_inr < 0 ? 'text-rose-800' : 'text-[#0B132B]'"
             >
               {{ simulationResult.financial_impact.delta_formatted }}/year
@@ -456,8 +456,8 @@ function getIcon(iconName: string) {
           <span class="text-xs text-slate-500">Shows all schemes checked and any change</span>
         </div>
 
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
+        <div class="w-full min-w-0 overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse break-words">
             <thead>
               <tr class="border-b border-slate-200 text-slate-500 font-bold uppercase text-[10px] tracking-wider bg-slate-50/80">
                 <th class="p-3">Scheme</th>

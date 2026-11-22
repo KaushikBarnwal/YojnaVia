@@ -607,7 +607,7 @@ onMounted(async () => {
                 :disabled="!prefs.is_mobile_verified && !prefs.whatsapp_enabled"
                 class="sr-only peer"
               >
-              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#0B132B] after:border after:rounded-full after:h-5 after:width-5 after:transition-all peer-checked:bg-[#059669] border border-[#0B132B]"></div>
+              <div class="w-11 h-6 bg-slate-500 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#0B132B] after:border after:rounded-full after:h-5 after:width-5 after:transition-all peer-checked:bg-[#059669] border border-[#0B132B]"></div>
             </label>
           </div>
 
@@ -651,7 +651,7 @@ onMounted(async () => {
                 :disabled="!prefs.is_mobile_verified && !prefs.sms_enabled"
                 class="sr-only peer"
               >
-              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#0B132B] after:border after:rounded-full after:h-5 after:width-5 after:transition-all peer-checked:bg-[#2563EB] border border-[#0B132B]"></div>
+              <div class="w-11 h-6 bg-slate-500 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#0B132B] after:border after:rounded-full after:h-5 after:width-5 after:transition-all peer-checked:bg-[#2563EB] border border-[#0B132B]"></div>
             </label>
           </div>
 

@@ -556,15 +556,15 @@ onMounted(async () => {
     <!-- Top CSC Center Header Strip -->
     <header class="bg-white border-b-[1.5px] border-[#0B132B] sticky top-16 z-30 shadow-[0_2px_0_0_#0B132B]/10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex flex-wrap flex-col md:flex-row md:items-center justify-between gap-4">
           <!-- Kendra Info & Operator -->
-          <div class="flex items-center gap-3">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-3 min-w-0 w-full md:w-auto">
             <div class="w-10 h-10 rounded-xl bg-amber-500/10 border-[1.5px] border-[#0B132B] text-amber-700 flex items-center justify-center shrink-0 shadow-[1.5px_1.5px_0_0_#0B132B]">
               <Building2 class="w-5 h-5" />
             </div>
-            <div>
-              <div class="flex items-center gap-2 flex-wrap">
-                <h1 class="text-base font-extrabold tracking-tight text-[#0B132B] font-heading">
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 flex-wrap min-w-0">
+                <h1 class="text-base font-extrabold tracking-tight text-[#0B132B] font-heading break-words min-w-0">
                   {{ counselorUser?.center?.name || 'CSC Seva Kendra help desk' }}
                 </h1>
                 <span class="neo-stamp neo-stamp-navy font-mono text-[9px]">
@@ -577,25 +577,25 @@ onMounted(async () => {
                   {{ counselorUser?.role?.replace('_', ' ') || 'Counselor' }}
                 </span>
               </div>
-              <p class="text-xs text-slate-600 flex items-center gap-2 mt-0.5 font-medium">
-                <span>Centre ID: <strong class="text-[#0B132B] font-mono">{{ counselorUser?.center?.vle_id || 'VLE-MH-SNG-412' }}</strong></span>
-                <span>•</span>
-                <span>Operator: <strong class="text-[#0B132B]">{{ counselorUser?.name || 'Suresh Patil' }}</strong></span>
-                <span>•</span>
-                <span>Area (taluka): <strong class="text-[#0B132B]">{{ counselorUser?.center?.taluka || 'Miraj' }}, {{ counselorUser?.center?.district || 'Sangli' }}</strong></span>
+              <p class="text-xs text-slate-600 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-x-2 gap-y-1 mt-0.5 font-medium">
+                <span class="min-w-0 break-words">Centre ID: <strong class="text-[#0B132B] font-mono">{{ counselorUser?.center?.vle_id || 'VLE-MH-SNG-412' }}</strong></span>
+                <span class="hidden sm:inline">•</span>
+                <span class="min-w-0 break-words">Operator: <strong class="text-[#0B132B]">{{ counselorUser?.name || 'Suresh Patil' }}</strong></span>
+                <span class="hidden sm:inline">•</span>
+                <span class="min-w-0 break-words">Area (taluka): <strong class="text-[#0B132B]">{{ counselorUser?.center?.taluka || 'Miraj' }}, {{ counselorUser?.center?.district || 'Sangli' }}</strong></span>
               </p>
             </div>
           </div>
 
           <!-- Account Switcher & Actions -->
-          <div class="flex items-center gap-2 flex-wrap">
+          <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto min-w-0">
             <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider hidden sm:block">Demo accounts:</div>
-            <div class="flex items-center gap-1 bg-[#F5F5F3] p-1 rounded-xl border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B]">
+            <div class="flex flex-wrap items-center gap-1 bg-[#F5F5F3] p-1 rounded-xl border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] min-w-0 max-w-full">
               <button
                 v-for="acc in DEMO_ACCOUNTS"
                 :key="acc.username"
                 @click="handleDemoLogin(acc.username)"
-                class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer"
+                class="max-w-full break-words px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer"
                 :class="counselorUser?.username === acc.username ? 'bg-[#0B132B] text-white shadow-xs' : 'text-slate-700 hover:text-black'"
               >
                 {{ acc.name.split(' ')[0] }} ({{ acc.role === 'Center Supervisor' ? 'Sup.' : acc.code.split('_')[1] }})
@@ -604,7 +604,7 @@ onMounted(async () => {
 
             <button
               @click="fetchCenterData"
-              class="p-2 text-slate-700 hover:text-black bg-white border-[1.5px] border-[#0B132B] rounded-xl shadow-[1.5px_1.5px_0_0_#0B132B] transition-transform active:translate-x-0.5 active:translate-y-0.5"
+              class="shrink-0 max-w-full p-2 text-slate-700 hover:text-black bg-white border-[1.5px] border-[#0B132B] rounded-xl shadow-[1.5px_1.5px_0_0_#0B132B] transition-transform active:translate-x-0.5 active:translate-y-0.5"
               title="Refresh centre data"
             >
               <RefreshCw class="w-4 h-4" :class="isLoadingCases ? 'animate-spin' : ''" />
@@ -612,7 +612,7 @@ onMounted(async () => {
 
             <button
               @click="handleLogout"
-              class="p-2 text-slate-700 hover:text-red-700 bg-white border-[1.5px] border-[#0B132B] rounded-xl shadow-[1.5px_1.5px_0_0_#0B132B] transition-transform active:translate-x-0.5 active:translate-y-0.5"
+              class="shrink-0 max-w-full p-2 text-slate-700 hover:text-red-700 bg-white border-[1.5px] border-[#0B132B] rounded-xl shadow-[1.5px_1.5px_0_0_#0B132B] transition-transform active:translate-x-0.5 active:translate-y-0.5"
               title="Sign out"
             >
               <LogOut class="w-4 h-4" />

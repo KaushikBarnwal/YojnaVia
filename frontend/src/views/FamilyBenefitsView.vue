@@ -104,14 +104,14 @@ function printCounselorReport() {
               <span class="neo-stamp neo-stamp-emerald text-[9px]">
                 Checked Maharashtra benefits
               </span>
-              <span class="text-xs text-amber-300 font-mono font-bold">
+              <span class="text-xs text-amber-800 font-mono font-bold">
                 {{ familyData.district }} • {{ familyData.category }}
               </span>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold font-heading text-white">
+            <h2 class="text-2xl sm:text-3xl font-extrabold font-heading text-[#0B132B]">
               {{ familyData.family_name }} family package
             </h2>
-            <p class="text-xs sm:text-sm text-slate-300 max-w-xl font-medium">
+            <p class="text-xs sm:text-sm text-slate-700 max-w-xl font-medium">
               Yearly household income: ₹{{ familyData.total_annual_income.toLocaleString('en-IN') }} (ration card: {{ familyData.ration_card }})
             </p>
           </div>
@@ -119,19 +119,19 @@ function printCounselorReport() {
           <!-- Highlight Metric Boxes -->
           <div class="flex flex-wrap items-center gap-3">
             <div class="bg-white/10 p-4 rounded-xl border border-white/20 min-w-[160px]">
-              <div class="text-xs text-emerald-300 font-bold">Total yearly cash and fee benefit</div>
-              <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono mt-1 font-heading">
+              <div class="text-xs text-emerald-800 font-bold">Total yearly cash and fee benefit</div>
+              <div class="text-2xl sm:text-3xl font-extrabold text-[#0B132B] font-mono mt-1 font-heading">
                 ₹{{ familyData.total_annual_household_benefit_inr.toLocaleString('en-IN') }}
               </div>
-              <div class="text-[11px] text-slate-300 mt-0.5">Cash support and fee waivers</div>
+              <div class="text-[11px] text-slate-600 mt-0.5">Cash support and fee waivers</div>
             </div>
 
             <div class="bg-white/10 p-4 rounded-xl border border-white/20 min-w-[160px]">
-              <div class="text-xs text-amber-300 font-bold">Free family health cover</div>
-              <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono mt-1 font-heading">
+              <div class="text-xs text-amber-800 font-bold">Free family health cover</div>
+              <div class="text-2xl sm:text-3xl font-extrabold text-[#0B132B] font-mono mt-1 font-heading">
                 ₹5,00,000
               </div>
-              <div class="text-[11px] text-slate-300 mt-0.5">MJPJAY: free treatment at hospitals</div>
+              <div class="text-[11px] text-slate-600 mt-0.5">MJPJAY: free treatment at hospitals</div>
             </div>
           </div>
         </div>

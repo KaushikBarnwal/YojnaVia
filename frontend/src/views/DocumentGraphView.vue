@@ -52,7 +52,7 @@ function formatUrl(url: string) {
             <span class="neo-stamp neo-stamp-emerald text-[9px]">
               Most helpful certificate in Maharashtra
             </span>
-            <span class="neo-stamp text-[9px] bg-white/20 text-white font-mono">
+            <span class="neo-stamp text-[9px] !bg-white/20 text-white font-mono">
               Helps with {{ store.documentGraph.top_multiplier_document.schemes_count }} scholarships
             </span>
           </div>
