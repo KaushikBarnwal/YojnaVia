@@ -34,7 +34,7 @@ onMounted(async () => {
     <Navbar />
 
     <!-- Main View Content -->
-    <main class="flex-1" :class="route.path === '/' ? 'pb-0' : 'pb-16 md:pb-0 xl:pl-64'">
+    <main class="flex-1" :class="route.path === '/' ? 'pb-0' : 'pb-24 md:pb-0 xl:pl-64'">
       <router-view />
     </main>
 
@@ -106,10 +106,10 @@ onMounted(async () => {
     </nav>
 
     <!-- Civic Tech Footer -->
-    <footer class="bg-white border-t-[1.5px] border-[#0B132B] mt-12 py-8" :class="route.path === '/' ? '' : 'xl:pl-64'">
+    <footer class="bg-white border-t-[1.5px] border-[#0B132B] mt-12 py-8" :class="route.path === '/' ? '' : 'pb-24 md:pb-8 xl:pl-64'">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600 font-medium pb-4 border-b border-slate-100">
-          <div class="flex items-center gap-2 flex-wrap">
+          <div class="flex items-center gap-x-2 gap-y-2 flex-wrap">
             <span class="font-black text-[#0B132B] tracking-tight text-sm">YojnaVia</span>
             <span>•</span>
             <span class="font-bold text-slate-800">{{ t('brand_subtitle', store.locale) }}</span>
@@ -123,18 +123,18 @@ onMounted(async () => {
           <!-- Clickable Email & Helpdesk -->
           <div class="flex items-center gap-3 text-xs">
             <a
-              href="mailto:support@YojnaVia.in"
+              href="mailto:barnwalkaushik@gmail.com"
               class="inline-flex items-center gap-1.5 font-bold text-[#0B132B] hover:text-[#D97706] transition-colors"
               title="Official Civic Tech Helpdesk"
             >
               <Mail class="w-3.5 h-3.5 text-[#D97706]" />
-              <span>support@YojnaVia.in</span>
+              <span>barnwalkaushik@gmail.com</span>
             </a>
           </div>
         </div>
 
         <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500 font-medium">
-          <div class="flex items-center gap-3 flex-wrap">
+          <div class="flex items-center gap-x-3 gap-y-2 flex-wrap">
             <router-link to="/privacy" class="hover:text-amber-800 transition-colors font-semibold">Privacy Policy</router-link>
             <span>•</span>
             <router-link to="/terms" class="hover:text-amber-800 transition-colors font-semibold">Terms & Disclaimers</router-link>

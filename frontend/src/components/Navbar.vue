@@ -83,9 +83,9 @@ async function handleRestart() {
        ═══════════════════════════════════════════════════════════════════ -->
   <header
     v-if="isLanding"
-    class="bg-[#FBFBFA]/95 backdrop-blur-md border-b-[1.5px] border-[#0B132B] sticky top-0 z-50 h-16"
+    class="bg-[#FBFBFA]/95 backdrop-blur-md border-b-[1.5px] border-[#0B132B] sticky top-0 z-50 h-auto sm:h-16"
   >
-    <div class="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+    <div class="max-w-7xl mx-auto sm:h-full py-2 sm:py-0 px-4 sm:px-6 lg:px-8 flex flex-wrap sm:flex-nowrap items-center justify-between gap-x-2 gap-y-2 sm:gap-4">
       <!-- Brand lockup -->
       <router-link to="/" class="flex items-center gap-2.5 group shrink-0 cursor-pointer">
         <img
@@ -96,7 +96,7 @@ async function handleRestart() {
         />
         <div class="flex items-center gap-2">
           <span class="text-lg font-black tracking-tight text-[#0B132B] leading-none">YOJNAVIA</span>
-          <span class="px-1.5 py-0.5 rounded bg-[#F59E0B] text-[#0B132B] text-[10px] font-black uppercase tracking-wider border border-[#0B132B] shadow-[1px_1px_0_0_#0B132B]">
+          <span class="hidden sm:inline-block px-1.5 py-0.5 rounded bg-[#F59E0B] text-[#0B132B] text-[10px] font-black uppercase tracking-wider border border-[#0B132B] shadow-[1px_1px_0_0_#0B132B]">
             AI
           </span>
         </div>
@@ -112,26 +112,26 @@ async function handleRestart() {
       </nav>
 
       <!-- Right Controls: Language Switcher & Bold Red/Saffron CTA Button (Photo 3) -->
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1.5 sm:gap-3">
         <!-- Language selector pill -->
         <div class="flex items-center bg-white rounded-lg p-0.5 border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] text-xs font-black">
           <button
             @click="store.setLocale('hi')"
-            class="px-2 py-1 rounded transition-all cursor-pointer"
+            class="px-1.5 sm:px-2 py-1 rounded transition-all cursor-pointer"
             :class="store.locale === 'hi' ? 'bg-[#0B132B] text-white' : 'text-slate-700 hover:text-slate-900'"
           >
             हिंदी
           </button>
           <button
             @click="store.setLocale('en')"
-            class="px-2 py-1 rounded transition-all cursor-pointer"
+            class="px-1.5 sm:px-2 py-1 rounded transition-all cursor-pointer"
             :class="store.locale === 'en' ? 'bg-[#0B132B] text-white' : 'text-slate-700 hover:text-slate-900'"
           >
             English
           </button>
           <button
             @click="store.setLocale('mr')"
-            class="px-2 py-1 rounded transition-all cursor-pointer"
+            class="px-1.5 sm:px-2 py-1 rounded transition-all cursor-pointer"
             :class="store.locale === 'mr' ? 'bg-[#0B132B] text-white' : 'text-slate-700 hover:text-slate-900'"
           >
             मराठी
@@ -141,7 +141,7 @@ async function handleRestart() {
         <!-- Prominent Red/Saffron Button (Photo 3 "Open dashboard") -->
         <router-link
           to="/app"
-          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#DC2626] hover:bg-[#B91C1C] text-white border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] transition-transform active:translate-x-0.5 active:translate-y-0.5 cursor-pointer"
+          class="inline-flex items-center gap-1.5 px-2.5 sm:px-4 py-2 rounded-xl whitespace-nowrap text-xs sm:text-sm font-black bg-[#DC2626] hover:bg-[#B91C1C] text-white border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] transition-transform active:translate-x-0.5 active:translate-y-0.5 cursor-pointer"
         >
           <span>Open dashboard</span>
           <ArrowRight class="w-3.5 h-3.5" />
@@ -301,7 +301,7 @@ async function handleRestart() {
 
     <!-- App Top Bar (Sits to the right of the sidebar on desktop; full width on mobile) -->
     <header class="xl:pl-64 bg-[#FBFBFA]/95 backdrop-blur-md border-b-[1.5px] border-[#0B132B] sticky top-0 z-40 h-14">
-      <div class="h-full px-4 sm:px-6 flex items-center justify-between gap-4">
+      <div class="h-full px-4 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
         <!-- Mobile brand (visible only below xl) -->
         <div class="flex items-center gap-2 xl:hidden">
           <router-link to="/" class="flex items-center gap-2 group cursor-pointer">
@@ -321,7 +321,7 @@ async function handleRestart() {
         </div>
 
         <!-- Right Quick Links: CSC Desk & Admin -->
-        <div class="flex items-center gap-2.5 ml-auto">
+        <div class="flex items-center gap-1.5 sm:gap-2.5 ml-auto">
           <!-- CSC Desk shortcut pill -->
           <router-link
             to="/counselor"

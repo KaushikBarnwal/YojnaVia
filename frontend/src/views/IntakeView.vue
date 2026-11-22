@@ -619,7 +619,6 @@ function formatFieldValue(key: string, value: any): string {
           <div class="flex items-center gap-1.5">
             <span class="text-[11px] font-black text-[#0B132B] flex items-center gap-1">
               <Volume2 class="w-3.5 h-3.5 text-[#059669]" />
-              <span>Voice:</span>
             </span>
             <div class="inline-flex rounded-lg bg-white p-0.5 border-[1.5px] border-[#0B132B] shadow-[1px_1px_0_0_#0B132B] text-[10px] font-black">
               <button 
@@ -659,7 +658,7 @@ function formatFieldValue(key: string, value: any): string {
               class="neo-btn neo-btn-paper px-2.5 py-1 text-[10px] font-black text-emerald-900 hover:bg-emerald-50"
             >
               <Radio class="w-2.5 h-2.5 text-emerald-600" />
-              <span>🎙️ Marathi Voice</span>
+              <span>Marathi Voice</span>
             </button>
 
             <button
@@ -670,7 +669,7 @@ function formatFieldValue(key: string, value: any): string {
               class="neo-btn neo-btn-paper px-2.5 py-1 text-[10px] font-black text-amber-900 hover:bg-amber-50"
             >
               <Radio class="w-2.5 h-2.5 text-amber-600" />
-              <span>🎙️ Hindi Voice</span>
+              <span>Hindi Voice</span>
             </button>
           </div>
         </div>

@@ -87,7 +87,7 @@ import { Scale, AlertTriangle, CheckCircle2, ArrowLeft, ShieldAlert } from '@luc
           For questions about these terms, or about partnering with Common Service Centres (CSCs), email us at:
         </p>
         <p class="font-bold text-[#0B132B]">
-          Email: <a href="mailto:support@YojnaVia.in" class="text-amber-700 underline">support@YojnaVia.in</a>
+          Email: <a href="mailto:barnwalkaushik@gmail.com" class="text-amber-700 underline">barnwalkaushik@gmail.com</a>
         </p>
       </div>
 

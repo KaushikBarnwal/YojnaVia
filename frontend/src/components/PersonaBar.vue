@@ -10,7 +10,7 @@ const isExpanded = ref(false);
 <template>
   <div class="bg-[#0B132B] text-white rounded-2xl p-2.5 sm:px-4 border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#D97706] mb-6 transition-all">
     <!-- Compact Single-Line Header (Default) -->
-    <div class="flex flex-wrap items-center justify-between gap-2">
+    <div class="flex flex-col items-stretch sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-2">
       <div class="flex items-center gap-2">
         <div class="w-6 h-6 rounded-lg bg-[#D97706]/20 border border-[#D97706]/40 flex items-center justify-center text-[#F59E0B]">
           <Users class="w-3.5 h-3.5" />
@@ -19,7 +19,7 @@ const isExpanded = ref(false);
       </div>
 
       <!-- Compact 4 Pills -->
-      <div class="flex flex-wrap items-center gap-1.5 flex-1 max-w-3xl">
+      <div class="flex flex-wrap items-center gap-1.5 sm:flex-1 max-w-3xl">
         <button
           v-for="p in store.personas"
           :key="p.key"
@@ -38,7 +38,7 @@ const isExpanded = ref(false);
       <!-- Quick Expand Details Toggle -->
       <button 
         @click="isExpanded = !isExpanded"
-        class="text-[11px] text-amber-300 hover:text-white flex items-center gap-1 transition-colors px-2.5 py-1 rounded-lg hover:bg-[#1C2541] cursor-pointer font-bold"
+        class="self-start sm:self-auto text-[11px] text-amber-300 hover:text-white flex items-center gap-1 transition-colors px-2.5 py-1 rounded-lg hover:bg-[#1C2541] cursor-pointer font-bold"
       >
         <span>{{ isExpanded ? 'Hide details' : 'See examples' }}</span>
         <ChevronUp v-if="isExpanded" class="w-3 h-3" />

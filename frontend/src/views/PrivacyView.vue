@@ -87,7 +87,7 @@ import { ShieldCheck, Lock, CheckCircle2, ArrowLeft } from '@lucide/vue';
           If you have questions about how long we keep your data, or about the Maharashtra Right to Services Act 2015, email our team:
         </p>
         <p class="font-bold text-[#0B132B]">
-          Email: <a href="mailto:privacy@YojnaVia.in" class="text-amber-700 underline">privacy@YojnaVia.in</a>
+          Email: <a href="mailto:barnwalkaushik@gmail.com" class="text-amber-700 underline">barnwalkaushik@gmail.com</a>
         </p>
       </div>
 

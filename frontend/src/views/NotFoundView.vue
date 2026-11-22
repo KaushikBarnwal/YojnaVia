@@ -55,8 +55,8 @@ import { ArrowLeft, Sparkles, Scale, AlertTriangle } from '@lucide/vue';
         Need help, or did you find a broken government order link?
         <br />
         Email our help team at
-        <a href="mailto:support@YojnaVia.in" class="font-bold text-amber-700 hover:underline">
-          support@YojnaVia.in
+        <a href="mailto:barnwalkaushik@gmail.com" class="font-bold text-amber-700 hover:underline">
+          barnwalkaushik@gmail.com
         </a>
       </div>
     </div>

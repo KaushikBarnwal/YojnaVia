@@ -654,7 +654,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
           </div>
 
           <!-- Actions Column -->
-          <div class="flex lg:flex-col items-stretch lg:items-end justify-between w-full lg:w-48 gap-2.5 shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-[#0B132B]/10">
+          <div class="flex flex-col sm:flex-row lg:flex-col items-stretch lg:items-end justify-between w-full lg:w-48 gap-2.5 shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-[#0B132B]/10">
             <!-- View Full Scheme Details (Primary) -->
             <button
               @click="viewSchemeDetail(s.code)"
@@ -686,7 +686,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
             </div>
 
             <!-- Quick Text Links -->
-            <div class="w-full flex items-center justify-center gap-2.5 pt-1 text-[11px] text-slate-600 font-bold">
+            <div class="w-full flex flex-wrap items-center justify-center gap-2.5 pt-1 text-[11px] text-slate-600 font-bold">
               <a
                 :href="s.official_portal_url"
                 target="_blank"
