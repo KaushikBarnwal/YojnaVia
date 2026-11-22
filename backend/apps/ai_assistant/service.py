@@ -58,6 +58,18 @@ QUESTIONS = {
             "Above ₹8 lakh",
         ],
     },
+    "social_category": {
+        "text": "Which social category do you belong to (e.g. General/Open, OBC, SC, ST, EWS)?",
+        "suggestions": [
+            "General / Open",
+            "OBC",
+            "SC",
+            "ST",
+            "EWS",
+            "VJNT",
+            "Prefer not to say",
+        ],
+    },
 }
 
 # Design decision: each income band maps to its UPPER bound so that income-ceiling
@@ -87,9 +99,14 @@ RULE_FIELD_ALIASES = {
     "annual_household_income_inr": "income_band",
     "age_years": "age",
     "is_maharashtra_domicile": "state",
+    "current_course_level": "education_level",
+    "education_level": "education_level",
+    "caste_category": "social_category",
+    "social_category": "social_category",
+    "occupation": "occupation",
 }
 
-FALLBACK_RELEVANT_FIELDS = ("age", "state", "income_band", "education_level")
+FALLBACK_RELEVANT_FIELDS = ("age", "state", "income_band", "education_level", "social_category")
 
 INDIAN_STATES = (
     "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
@@ -158,13 +175,13 @@ def get_or_create_conversation(token: str) -> IntakeConversation:
 
 
 def relevant_fields() -> tuple:
-    """Schema fields the active schemes need, in ALL_FIELDS order. Never sensitive fields."""
+    """Schema fields the active schemes need, in ALL_FIELDS order."""
     rule_fields = EligibilityRule.objects.filter(scheme__is_active=True).values_list("field", flat=True).distinct()
-    wanted = set()
+    wanted = {"age", "state", "income_band", "education_level", "social_category"}
     for name in rule_fields:
         mapped = RULE_FIELD_ALIASES.get(name, name)
         # Only fields we can ask about are relevant; others would stall the flow.
-        if mapped in ALL_FIELDS and mapped not in SENSITIVE_FIELDS and mapped in QUESTIONS:
+        if mapped in ALL_FIELDS and mapped in QUESTIONS:
             wanted.add(mapped)
     if not wanted:
         return FALLBACK_RELEVANT_FIELDS

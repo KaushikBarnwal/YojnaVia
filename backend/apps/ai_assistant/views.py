@@ -153,8 +153,9 @@ class IntakeChatView(APIView):
                 "state": "which state do you currently live in?",
                 "district": "which district in Maharashtra do you reside in?",
                 "occupation": "what do you currently do (e.g. student, farmer, employed)?",
-                "education_level": "what is your current or highest education level?",
+                "education_level": "what is your current or highest education level (e.g. 12th pass, Diploma, Undergraduate)?",
                 "income_band": "roughly what is your family's annual household income?",
+                "social_category": "which category do you belong to (e.g. General/Open, OBC, SC, ST, EWS)?",
             }
 
             FRIENDLY_PROMPTS_MR = {
@@ -162,8 +163,9 @@ class IntakeChatView(APIView):
                 "state": "आपण सध्या कोणत्या राज्यात राहता?",
                 "district": "आपण महाराष्ट्रातील कोणत्या जिल्ह्यात राहता?",
                 "occupation": "आपण सध्या काय करता (उदा. विद्यार्थी, शेतकरी, नोकरदार)?",
-                "education_level": "आपले सध्याचे किंवा सर्वोच्च शिक्षण काय आहे?",
+                "education_level": "आपले सध्याचे किंवा सर्वोच्च शिक्षण काय आहे (उदा. १२वी, डिप्लोमा, पदवी)?",
                 "income_band": "आपल्या कुटुंबाचे अंदाजे वार्षिक उत्पन्न किती आहे?",
+                "social_category": "आपण कोणत्या सामाजिक प्रवर्गात मोडता (उदा. खुला/Open, OBC, SC, ST, EWS)?",
             }
 
             FRIENDLY_PROMPTS_HI = {
@@ -171,8 +173,9 @@ class IntakeChatView(APIView):
                 "state": "आप वर्तमान में किस राज्य में रहते हैं?",
                 "district": "आप महाराष्ट्र के किस ज़िले में रहते हैं?",
                 "occupation": "आप वर्तमान में क्या करते हैं (जैसे छात्र, किसान, कार्यरत)?",
-                "education_level": "आपकी वर्तमान या उच्चतम शिक्षा क्या है?",
+                "education_level": "आपकी वर्तमान या उच्चतम शिक्षा क्या है (जैसे 12वीं, डिप्लोमा, ग्रेजुएशन)?",
                 "income_band": "आपके परिवार की कुल वार्षिक आय लगभग कितनी है?",
+                "social_category": "आप किस वर्ग/Category से आते हैं (जैसे General/Open, OBC, SC, ST, EWS)?",
             }
 
             FRIENDLY_PROMPTS_HINGLISH = {
@@ -180,8 +183,9 @@ class IntakeChatView(APIView):
                 "state": "aap abhi kaunse state me rehte hain?",
                 "district": "aap Maharashtra ke kaunse district me rehte hain?",
                 "occupation": "aap abhi kya karte hain (jaise student, farmer, employed)?",
-                "education_level": "aapki current ya highest education level kya hai?",
+                "education_level": "aapki current ya highest education qualification kya hai (jaise 12th, Diploma, Graduation)?",
                 "income_band": "aapke family ki lagbhag annual household income kitni hai?",
+                "social_category": "aap kaunsi category se belong karte hain (jaise General/Open, OBC, SC, ST, EWS)?",
             }
 
             if nq is None:
