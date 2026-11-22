@@ -1,6 +1,6 @@
 <div align="center">
 
-# YOJNAVIA
+# YojnaVia
 ### From Eligibility to Action: The Last-Mile Government Benefits Navigator
 
 **An explainable, deterministic government benefits navigator for students and low-income families in Maharashtra, built for transparency, document readiness, and real application success.**
@@ -71,11 +71,11 @@
 
 Across India, and specifically in Maharashtra, hundreds of welfare schemes exist on paper. Yet, low-income students and their families face systemic access barriers: confusing bureaucratic jargon, hidden eligibility clauses, high documentation costs, application delays, and opaque rejection notices. Existing portals merely list schemes as static search directories. 
 
-YOJNAVIA is designed around a continuous 5-stage pipeline:
+YojnaVia is designed around a continuous 5-stage pipeline:
 
 $$\text{Conversational Intake} \longrightarrow \text{Deterministic Matching} \longrightarrow \text{Preflight Audit} \longrightarrow \text{Active Tracking} \longrightarrow \text{Rejection Recovery}$$
 
-| Principle | What it means in YOJNAVIA |
+| Principle | What it means in YojnaVia |
 |---|---|
 | **From Discovery to Action** | Never stop at "you are eligible". Provide the exact document issuing authority, statutory RTS SLA days, application steps, and what to hand over to the college clerk. |
 | **Architectural AI Firewall** | LLMs (Gemini 3.1 Flash Lite) extract student profile variables only. Statutory eligibility decisions are **100% deterministic Python rules** with zero LLM hallucination risk. |
@@ -112,10 +112,10 @@ $$\text{Conversational Intake} \longrightarrow \text{Deterministic Matching} \lo
 
 ## The Seven High-Impact Civic Tech Differentiators
 
-Unlike generic scheme search engines or basic chatbots, YOJNAVIA focuses on the systemic access barriers identified by NITI Aayog:
+Unlike generic scheme search engines or basic chatbots, YojnaVia focuses on the systemic access barriers identified by NITI Aayog:
 
 ### 1. Application Preflight — Detect Problems Before Applying
-Before sending students to the official MahaDBT portal, YOJNAVIA executes a deterministic **6-point pre-submission scrutiny audit**:
+Before sending students to the official MahaDBT portal, YojnaVia executes a deterministic **6-point pre-submission scrutiny audit**:
 1. **Mandatory Document Completeness**: Checks presence of all required certificates against scheme requirement trees.
 2. **Financial Year Mismatch**: Verifies that the Tahsildar Income Certificate matches the preceding financial year (e.g., FY 2023-24 for AY 2024-25). Older certificates trigger 100% inevitable scrutiny rejection.
 3. **Caste Validity vs Certificate**: Confirms that students enrolling in professional degrees (Engineering, Pharmacy, MBA) possess a Scrutiny Committee **Caste Validity Certificate**, not just a preliminary SDO certificate.
@@ -124,13 +124,13 @@ Before sending students to the official MahaDBT portal, YOJNAVIA executes a dete
 6. **Hostel Distance & Residency Rules**: Verifies distance criteria (e.g., Day Scholars residing in college municipal limits are ineligible for the ₹30,000 Panjabrao Deshmukh Hostel Allowance).
 
 ### 2. Benefit Stack Optimizer — Discover Compatible Combinations
-Government rules strictly prohibit duplicate claims for the same benefit category. YOJNAVIA's engine enforces statutory stacking invariants:
+Government rules strictly prohibit duplicate claims for the same benefit category. YojnaVia's engine enforces statutory stacking invariants:
 - **Prohibited**: Claiming EBC Tuition Fee Waiver + Post-Matric OBC Tuition Scholarship simultaneously (blocked under MahaDBT dual-benefit regulations).
 - **Legitimate Stack**: Claiming 50% Tuition Fee Waiver + Dr. Panjabrao Deshmukh Hostel Maintenance Allowance (up to ₹30,000/yr) + Universal MJPJAY Health Cover (₹5,00,000 family protection).
 - **Statutory Transparency**: Every combination displays the exact Government Resolution (GR) citation permitting joint entitlement.
 
 ### 3. Rejection Recovery & Grievance Navigator
-Over 30% of scholarship applications on state portals receive scrutiny queries or rejections at the college desk. YOJNAVIA provides an immediate recovery blueprint:
+Over 30% of scholarship applications on state portals receive scrutiny queries or rejections at the college desk. YojnaVia provides an immediate recovery blueprint:
 - **Plain-Language Translation**: Decodes cryptic clerk remarks (e.g. *"Annexure-A signature deficit"* $\rightarrow$ *"College principal counter-signature missing on hostel agreement"*).
 - **15-Day Scrutiny Resubmission Window**: Informs the student of their legal right under MahaDBT operational guidelines to rectify and re-upload documents within 15 days without forfeiting seniority.
 - **Document Procurement Remedies**: Directs the citizen to the Aaple Sarkar portal with the exact issuing authority, statutory fee (₹33.60), and guaranteed delivery SLA days.
@@ -145,7 +145,7 @@ Turns a static eligibility checklist into an interactive future-planning engine 
 - **Strict Ethical Guardrail**: Prominently warns citizens that simulations are educational projections and must never encourage misrepresenting facts on official portals.
 
 ### 5. Entitlement Lifecycle Intelligence — Long-Term Benefits Companion
-Transforms YOJNAVIA from a one-time scheme discovery tool into an enduring public welfare companion tracking the complete **6-stage lifecycle**:
+Transforms YojnaVia from a one-time scheme discovery tool into an enduring public welfare companion tracking the complete **6-stage lifecycle**:
 $$\text{Discover} \longrightarrow \text{Prepare} \longrightarrow \text{Apply} \longrightarrow \text{Follow up} \longrightarrow \text{Decision} \longrightarrow \text{Renew}$$
 - **Milestone Tracking**: Step-by-step progress checklist from RTS document procurement to MahaDBT College Clerk physical submission.
 - **Official vs User-Reported Clarity**: Explicitly distinguishes self-managed student notes and dates from formal department sanction status.
@@ -240,7 +240,7 @@ flowchart TD
 
 ## Authentic Maharashtra Schemes
 
-Every scheme in YOJNAVIA is indexed from official department Gazette notifications and Government Resolutions (GRs):
+Every scheme in YojnaVia is indexed from official department Gazette notifications and Government Resolutions (GRs):
 
 | Scheme Code | Official Scheme Name | Department | Statutory GR Citation | Key Entitlement |
 |---|---|---|---|---|
@@ -348,7 +348,7 @@ Each app reads its own environment file. Sample templates are provided.
 
 A critical vulnerability of conversational bots in public welfare is **LLM hallucination**—an AI falsely telling an ineligible student they qualify, or inventing arbitrary income caps. 
 
-YOJNAVIA implements a strict **Architectural Firewall**:
+YojnaVia implements a strict **Architectural Firewall**:
 
 ```
 [User Text / Voice]
@@ -383,7 +383,7 @@ If a critical field is missing from the user's profile, the engine outputs `NEED
 
 ## Document Dependency Intelligence
 
-The **Single Document Multiplier** resolves the document barrier. When multiple schemes share identical document prerequisites, YOJNAVIA's dependency graph calculates the cumulative multiplier effect:
+The **Single Document Multiplier** resolves the document barrier. When multiple schemes share identical document prerequisites, YojnaVia's dependency graph calculates the cumulative multiplier effect:
 
 ```
                           ┌──▶ Rajarshi Shahu EBC (₹35,000)
@@ -413,7 +413,7 @@ Under the **Family Benefits** tab (`/family`), citizens can discover welfare ent
 
 ## CSC Counselor Assisted-Service Model
 
-For rural, tribal, and first-generation college aspirants who face digital literacy barriers or lack high-speed connectivity, YOJNAVIA provides an **assisted-access model** through authorized Common Service Centers (CSCs) and Aaple Sarkar Seva Kendras.
+For rural, tribal, and first-generation college aspirants who face digital literacy barriers or lack high-speed connectivity, YojnaVia provides an **assisted-access model** through authorized Common Service Centers (CSCs) and Aaple Sarkar Seva Kendras.
 
 Under `/counselor`, village-level operators can conduct guided interviews, perform preflight audits, generate certificate procurement checklists, and track cases while respecting strict privacy boundaries.
 
@@ -421,7 +421,7 @@ Under `/counselor`, village-level operators can conduct guided interviews, perfo
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│                        YOJNAVIA ROLES & BOUNDARIES                     │
+│                        YojnaVia ROLES & BOUNDARIES                     │
 ├───────────────────────┬────────────────────────────────────────────────┤
 │ Citizen               │ Self-service portal user (session-isolated)    │
 │ Counselor             │ Kendra operator (intake, discovery, checklists)│
@@ -468,8 +468,8 @@ Under `/counselor`, village-level operators can conduct guided interviews, perfo
 
 ## Security and privacy
 
-- **Zero-Aadhaar Policy**: Under no circumstances does YOJNAVIA solicit, record, or verify 12-digit national Aadhaar numbers, biometric payloads, or OTPs. Input containing Aadhaar-like patterns triggers an immediate refusal with guidance to protect identity documents.
-- **Session Isolation**: Student profiles and conversation histories are indexed strictly by random cryptographic session tokens (`yojnavia-<random>`). Zero cross-session data leakage.
+- **Zero-Aadhaar Policy**: Under no circumstances does YojnaVia solicit, record, or verify 12-digit national Aadhaar numbers, biometric payloads, or OTPs. Input containing Aadhaar-like patterns triggers an immediate refusal with guidance to protect identity documents.
+- **Session Isolation**: Student profiles and conversation histories are indexed strictly by random cryptographic session tokens (`YojnaVia-<random>`). Zero cross-session data leakage.
 - **Strict Bounds & Input Sanitization**:
   - Age validated within statutory bounds (5 to 120 years).
   - Income bounded between ₹0 and ₹10,00,00,000.
@@ -710,7 +710,7 @@ Contributions are welcome.
 
 ## Credits and licences
 
-YOJNAVIA is built on open-source software and authentic public sector data.
+YojnaVia is built on open-source software and authentic public sector data.
 
 | Package | Licence |
 |---|---|
@@ -725,6 +725,6 @@ Scheme eligibility criteria, circular numbers, and issuing authorities are compi
 
 <div align="center">
 
-Made with ❤️ for students and families in Maharashtra · **YOJNAVIA**
+Made with ❤️ for students and families in Maharashtra · **YojnaVia**
 
 </div>
