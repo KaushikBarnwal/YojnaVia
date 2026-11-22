@@ -2,6 +2,7 @@
 URL configuration for core project - YojnaVia.
 """
 from django.contrib import admin
+from django.http import JsonResponse
 from django.urls import include, path
 from apps.profiles.views import ProfileMeView, LoadPersonaView, PersonasListAPIView
 from apps.schemes.views import SchemeListView, SchemeDetailView
@@ -43,7 +44,26 @@ from apps.schemes.admin_views import (
     AdminReRunMatchingView
 )
 
+def root_health_view(request):
+    """Health check & API index endpoint for root /"""
+    return JsonResponse({
+        "app": "YOJNAVIA Sovereign Benefits API",
+        "status": "healthy",
+        "jurisdiction": "Maharashtra, India",
+        "version": "v1",
+        "api_root": "/api/v1/",
+        "endpoints": {
+            "schemes": "/api/v1/schemes/",
+            "intake_chat": "/api/v1/intake/chat/",
+            "personas": "/api/v1/profiles/personas/",
+            "frontend": "https://yojna-via.vercel.app"
+        }
+    })
+
+
 urlpatterns = [
+    path('', root_health_view, name='root-health'),
+    path('health/', root_health_view, name='health-check'),
     path('admin/', admin.site.urls),
 
     # Profiles & Personas

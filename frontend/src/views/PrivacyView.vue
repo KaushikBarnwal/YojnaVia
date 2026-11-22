@@ -19,15 +19,15 @@ import { ShieldCheck, Lock, CheckCircle2, ArrowLeft } from '@lucide/vue';
     <div class="neo-box p-6 sm:p-8 bg-white space-y-3">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-600 text-xs font-black uppercase tracking-wider">
         <ShieldCheck class="w-4 h-4 text-emerald-700" />
-        <span>Sovereign Citizen Privacy Architecture</span>
+        <span>Your privacy, explained</span>
       </div>
 
       <h1 class="text-2xl sm:text-4xl font-black text-[#0B132B] font-heading tracking-tight">
-        Citizen Privacy & Zero-Aadhaar Sovereign Policy
+        Privacy policy: no Aadhaar needed
       </h1>
 
       <p class="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
-        Last Updated: November 2024 • Enforced under Maharashtra Public Services (Right to Services) Framework
+        Last updated: November 2024 • Enforced under the Maharashtra Right to Services (RTS) framework
       </p>
     </div>
 
@@ -38,13 +38,14 @@ import { ShieldCheck, Lock, CheckCircle2, ArrowLeft } from '@lucide/vue';
       <div class="neo-box p-6 bg-white space-y-2.5">
         <h2 class="text-base sm:text-lg font-black text-[#0B132B] font-heading flex items-center gap-2">
           <Lock class="w-4 h-4 text-emerald-600" />
-          1. Zero-Aadhaar Sovereign Data Guarantee
+          1. We never ask for your Aadhaar
         </h2>
+        <p class="font-bold text-[#0B132B]">In short: we never ask for Aadhaar, PAN, bank passwords or biometric details.</p>
         <p>
-          YojnaVia has a strict, programmatic <strong>Zero-Sensitive Identifier Policy</strong>. The application will never ask for, collect, store, or transmit your 12-digit Aadhaar number, PAN card number, bank passwords, or biometric credentials.
+          YojnaVia has a firm rule: <strong>we never ask for sensitive identity numbers</strong>. We will never ask for, store or send your 12-digit Aadhaar number, PAN card number, bank passwords or biometric details.
         </p>
         <p>
-          Official government submission on MahaDBT or Aaple Sarkar will require your official authentication through their official portals; however, on YojnaVia, all scheme matching operates purely on coarsened criteria (e.g. annual family income bracket, educational level, and district).
+          On MahaDBT or Aaple Sarkar, the official websites will ask you to verify yourself. On YojnaVia, we only match schemes using broad details, such as yearly family income range, education level and district.
         </p>
       </div>
 
@@ -52,13 +53,14 @@ import { ShieldCheck, Lock, CheckCircle2, ArrowLeft } from '@lucide/vue';
       <div class="neo-box p-6 bg-white space-y-2.5">
         <h2 class="text-base sm:text-lg font-black text-[#0B132B] font-heading flex items-center gap-2">
           <CheckCircle2 class="w-4 h-4 text-amber-600" />
-          2. Ephemeral & Local Browser Session Tokens
+          2. Your session is saved only in your browser
         </h2>
+        <p class="font-bold text-[#0B132B]">In short: your session stays on this device, and you can clear it anytime.</p>
         <p>
-          Your discovery session is identified by a client-side pseudonymous token stored only within your browser’s local storage. This enables you to navigate between eligibility criteria, document dependency graphs, and what-if simulators without registering a phone number or creating a password.
+          Your search session is kept only in your browser’s storage, under a random code rather than your name. This lets you move between pages without a phone number or password.
         </p>
         <p>
-          You may reset or wipe your session at any time by clicking the "Reset" button in the navigation bar.
+          You can clear your session at any time by clicking the "Reset" button in the menu bar at the top.
         </p>
       </div>
 
@@ -66,10 +68,11 @@ import { ShieldCheck, Lock, CheckCircle2, ArrowLeft } from '@lucide/vue';
       <div class="neo-box p-6 bg-white space-y-2.5">
         <h2 class="text-base sm:text-lg font-black text-[#0B132B] font-heading flex items-center gap-2">
           <CheckCircle2 class="w-4 h-4 text-indigo-600" />
-          3. Zero Advertising & Third-Party Trackers
+          3. No ads and no outside tracking
         </h2>
+        <p class="font-bold text-[#0B132B]">In short: we do not sell your data or show you ads.</p>
         <p>
-          YojnaVia does not sell, lease, or broker citizen demographic data to financial institutions, private loan providers, or advertising networks. We use zero third-party commercial analytics scripts.
+          YojnaVia does not sell or share your personal details with banks, loan companies or advertisers. We do not use outside tracking tools for marketing.
         </p>
       </div>
 
@@ -77,10 +80,11 @@ import { ShieldCheck, Lock, CheckCircle2, ArrowLeft } from '@lucide/vue';
       <div class="neo-box p-6 bg-white space-y-2.5">
         <h2 class="text-base sm:text-lg font-black text-[#0B132B] font-heading flex items-center gap-2">
           <CheckCircle2 class="w-4 h-4 text-blue-600" />
-          4. Contact & Sovereign Data Officer
+          4. How to contact us about your data
         </h2>
+        <p class="font-bold text-[#0B132B]">In short: email us if you have questions about your data.</p>
         <p>
-          If you have questions regarding data retention or statutory compliance under the Maharashtra Right to Services Act 2015, please contact our civil tech team at:
+          If you have questions about how long we keep your data, or about the Maharashtra Right to Services Act 2015, email our team:
         </p>
         <p class="font-bold text-[#0B132B]">
           Email: <a href="mailto:privacy@YojnaVia.in" class="text-amber-700 underline">privacy@YojnaVia.in</a>

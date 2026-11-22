@@ -136,7 +136,7 @@ const handleDemoLogin = async (username: string) => {
     localStorage.setItem('YojnaVia_counselor_user', JSON.stringify(res.data.user));
     await fetchCenterData();
   } catch (err: any) {
-    loginError.value = err.response?.data?.error || 'Login failed. Please check credentials.';
+    loginError.value = err.response?.data?.error || 'Sign-in did not work. Please check your username and password.';
   } finally {
     isLoggingIn.value = false;
   }
@@ -144,7 +144,7 @@ const handleDemoLogin = async (username: string) => {
 
 const handleCustomLogin = async () => {
   if (!loginUsername.value || !loginPassword.value) {
-    loginError.value = 'Please provide username and password.';
+    loginError.value = 'Please enter your username and password.';
     return;
   }
   isLoggingIn.value = true;
@@ -160,7 +160,7 @@ const handleCustomLogin = async () => {
     localStorage.setItem('YojnaVia_counselor_user', JSON.stringify(res.data.user));
     await fetchCenterData();
   } catch (err: any) {
-    loginError.value = err.response?.data?.error || 'Authentication error. Please retry.';
+    loginError.value = err.response?.data?.error || 'Something went wrong. Please try again in a few minutes.';
   } finally {
     isLoggingIn.value = false;
   }
@@ -237,7 +237,7 @@ const openRegisterModal = () => {
 
 const handleRegisterCase = async () => {
   if (!registrationForm.value.citizen_name.trim()) {
-    registrationError.value = 'Citizen name is required.';
+    registrationError.value = 'Please enter the name of the citizen.';
     return;
   }
   isRegistering.value = true;
@@ -253,7 +253,7 @@ const handleRegisterCase = async () => {
       await openCaseWorkspace(res.data.case.id);
     }
   } catch (err: any) {
-    registrationError.value = err.response?.data?.error || err.response?.data?.detail || 'Failed to register citizen case.';
+    registrationError.value = err.response?.data?.error || err.response?.data?.detail || 'Could not add this citizen. Please try again.';
   } finally {
     isRegistering.value = false;
   }
@@ -305,7 +305,7 @@ const openCaseWorkspace = async (caseId: string) => {
     if (err.response?.status === 403) {
       crossCenterWarning.value =
         err.response?.data?.detail ||
-        'Cross-center access is strictly forbidden. Unauthorized attempt recorded in tamper-evident security audit log.';
+        'You can only open cases from your own centre. This attempt has been recorded.';
     } else {
       console.error('Failed to open case detail:', err);
     }
@@ -327,14 +327,14 @@ const handleUpdateProfile = async () => {
       { profile: profileForm.value },
       { headers: getAuthHeaders() }
     );
-    profileUpdateSuccess.value = 'Citizen profile confirmed and synchronized with deterministic eligibility engine!';
+    profileUpdateSuccess.value = 'Citizen details saved and checked against the scheme rules.';
     selectedCase.value = res.data.case;
     if (res.data.eligibility) {
       eligibilityResults.value = res.data.eligibility;
     }
     await fetchAnalytics();
   } catch (err: any) {
-    alert(err.response?.data?.detail || err.response?.data?.error || 'Profile update failed.');
+    alert(err.response?.data?.detail || err.response?.data?.error || 'Could not save the details. Please try again.');
   } finally {
     isUpdatingProfile.value = false;
   }
@@ -356,7 +356,7 @@ const handleEvaluateEligibility = async () => {
     selectedCase.value.case_status = 'ELIGIBILITY_DISCOVERED';
     await fetchAnalytics();
   } catch (err: any) {
-    alert(err.response?.data?.detail || err.response?.data?.error || 'Eligibility evaluation failed.');
+    alert(err.response?.data?.detail || err.response?.data?.error || 'Could not check schemes. Please try again.');
   } finally {
     isEvaluatingEligibility.value = false;
   }
@@ -379,7 +379,7 @@ const handleRunPreflight = async () => {
     );
     preflightResult.value = res.data.preflight_audit;
   } catch (err: any) {
-    alert(err.response?.data?.detail || err.response?.data?.error || 'Preflight audit failed.');
+    alert(err.response?.data?.detail || err.response?.data?.error || 'Could not run the document check. Please try again.');
   } finally {
     isRunningPreflight.value = false;
   }
@@ -433,9 +433,9 @@ const handleSaveDocuments = async () => {
       { headers: getAuthHeaders() }
     );
     documentChecklist.value = res.data.documents;
-    alert('Document procurement verification saved successfully.');
+    alert('Document checklist saved.');
   } catch (err: any) {
-    alert(err.response?.data?.detail || 'Failed to save document checklist.');
+    alert(err.response?.data?.detail || 'Could not save the checklist. Please try again.');
   } finally {
     isSavingDocuments.value = false;
   }
@@ -461,7 +461,7 @@ const handleAddNote = async () => {
     newNoteContent.value = '';
     isNotePinned.value = false;
   } catch (err: any) {
-    alert(err.response?.data?.detail || 'Failed to add note.');
+    alert(err.response?.data?.detail || 'Could not add the note. Please try again.');
   } finally {
     isSubmittingNote.value = false;
   }
@@ -469,7 +469,7 @@ const handleAddNote = async () => {
 
 const handleEscalateCase = async () => {
   if (!selectedCase.value || !escalationReason.value.trim()) {
-    alert('Please provide a specific reason for supervisor escalation.');
+    alert('Please write why this case needs a supervisor.');
     return;
   }
   isEscalating.value = true;
@@ -482,9 +482,9 @@ const handleEscalateCase = async () => {
     selectedCase.value = res.data.case;
     escalationReason.value = '';
     await fetchAnalytics();
-    alert('Case has been successfully escalated to Center Supervisor with pinned remark.');
+    alert('Case sent to your supervisor with your note.');
   } catch (err: any) {
-    alert(err.response?.data?.detail || 'Escalation failed.');
+    alert(err.response?.data?.detail || 'Could not send to supervisor. Please try again.');
   } finally {
     isEscalating.value = false;
   }
@@ -495,7 +495,7 @@ const handleEscalateCase = async () => {
 // -------------------------------------------------------------
 const handleCloseCase = async () => {
   if (!selectedCase.value || !closureSummary.value.trim()) {
-    alert('Please enter a handover summary explaining documents handed over to the citizen.');
+    alert('Please write which documents you handed over to the citizen.');
     return;
   }
   isClosing.value = true;
@@ -508,9 +508,9 @@ const handleCloseCase = async () => {
     selectedCase.value = res.data.case;
     closureSummary.value = '';
     await fetchAnalytics();
-    alert('Case successfully closed and handed over to citizen.');
+    alert('Case closed and handed over to the citizen.');
   } catch (err: any) {
-    alert(err.response?.data?.detail || 'Closure failed.');
+    alert(err.response?.data?.detail || 'Could not close the case. Please try again.');
   } finally {
     isClosing.value = false;
   }
@@ -521,20 +521,20 @@ const handleCloseCase = async () => {
 // -------------------------------------------------------------
 const handleWithdrawConsent = async () => {
   if (!selectedCase.value) return;
-  const reason = prompt('Confirm citizen consent withdrawal. Enter reason for record:', 'Citizen requested independent portal application.');
+  const reason = prompt('Confirm the citizen wants to withdraw permission. Enter the reason:', 'Citizen wants to apply on their own.');
   if (reason === null) return;
 
   isWithdrawing.value = true;
   try {
     const res = await api.post(
       `/counselor/cases/${selectedCase.value.id}/withdraw_consent/`,
-      { reason: reason || 'Citizen withdrew consent at Kendra desk.' },
+      { reason: reason || 'Citizen withdrew permission at the centre.' },
       { headers: getAuthHeaders() }
     );
     selectedCase.value.consent.consent_status = 'WITHDRAWN';
     alert(res.data.message);
   } catch (err: any) {
-    alert(err.response?.data?.detail || 'Consent withdrawal failed.');
+    alert(err.response?.data?.detail || 'Could not withdraw permission. Please try again.');
   } finally {
     isWithdrawing.value = false;
   }
@@ -565,7 +565,7 @@ onMounted(async () => {
             <div>
               <div class="flex items-center gap-2 flex-wrap">
                 <h1 class="text-base font-extrabold tracking-tight text-[#0B132B] font-heading">
-                  {{ counselorUser?.center?.name || 'CSC Seva Kendra Assisted Desk' }}
+                  {{ counselorUser?.center?.name || 'CSC Seva Kendra help desk' }}
                 </h1>
                 <span class="neo-stamp neo-stamp-navy font-mono text-[9px]">
                   {{ counselorUser?.center?.code || 'CSC_SANGLI_412' }}
@@ -578,18 +578,18 @@ onMounted(async () => {
                 </span>
               </div>
               <p class="text-xs text-slate-600 flex items-center gap-2 mt-0.5 font-medium">
-                <span>VLE ID: <strong class="text-[#0B132B] font-mono">{{ counselorUser?.center?.vle_id || 'VLE-MH-SNG-412' }}</strong></span>
+                <span>Centre ID: <strong class="text-[#0B132B] font-mono">{{ counselorUser?.center?.vle_id || 'VLE-MH-SNG-412' }}</strong></span>
                 <span>•</span>
                 <span>Operator: <strong class="text-[#0B132B]">{{ counselorUser?.name || 'Suresh Patil' }}</strong></span>
                 <span>•</span>
-                <span>Taluka: <strong class="text-[#0B132B]">{{ counselorUser?.center?.taluka || 'Miraj' }}, {{ counselorUser?.center?.district || 'Sangli' }}</strong></span>
+                <span>Area (taluka): <strong class="text-[#0B132B]">{{ counselorUser?.center?.taluka || 'Miraj' }}, {{ counselorUser?.center?.district || 'Sangli' }}</strong></span>
               </p>
             </div>
           </div>
 
           <!-- Account Switcher & Actions -->
           <div class="flex items-center gap-2 flex-wrap">
-            <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider hidden sm:block">Demo Switch:</div>
+            <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider hidden sm:block">Demo accounts:</div>
             <div class="flex items-center gap-1 bg-[#F5F5F3] p-1 rounded-xl border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B]">
               <button
                 v-for="acc in DEMO_ACCOUNTS"
@@ -605,7 +605,7 @@ onMounted(async () => {
             <button
               @click="fetchCenterData"
               class="p-2 text-slate-700 hover:text-black bg-white border-[1.5px] border-[#0B132B] rounded-xl shadow-[1.5px_1.5px_0_0_#0B132B] transition-transform active:translate-x-0.5 active:translate-y-0.5"
-              title="Refresh Center Data"
+              title="Refresh centre data"
             >
               <RefreshCw class="w-4 h-4" :class="isLoadingCases ? 'animate-spin' : ''" />
             </button>
@@ -613,7 +613,7 @@ onMounted(async () => {
             <button
               @click="handleLogout"
               class="p-2 text-slate-700 hover:text-red-700 bg-white border-[1.5px] border-[#0B132B] rounded-xl shadow-[1.5px_1.5px_0_0_#0B132B] transition-transform active:translate-x-0.5 active:translate-y-0.5"
-              title="Sign Out of Counselor Desk"
+              title="Sign out"
             >
               <LogOut class="w-4 h-4" />
             </button>
@@ -629,8 +629,8 @@ onMounted(async () => {
           <Building2 class="w-6 h-6" />
         </div>
         <div>
-          <h2 class="text-lg font-extrabold text-[#0B132B] font-heading">CSC Counselor Assisted Desk</h2>
-          <p class="text-xs text-slate-600 mt-1 font-medium">Sign in with your Kendra credentials or choose a demo operator.</p>
+          <h2 class="text-lg font-extrabold text-[#0B132B] font-heading">CSC counsellor help desk</h2>
+          <p class="text-xs text-slate-600 mt-1 font-medium">Sign in with your centre login, or choose a demo account.</p>
         </div>
 
         <div v-if="loginError" class="p-3 bg-red-50 border-[1.5px] border-[#0B132B] text-red-900 text-xs rounded-xl font-bold shadow-[2px_2px_0_0_#0B132B]">
@@ -639,7 +639,7 @@ onMounted(async () => {
 
         <!-- 1-Click Demo Select -->
         <div class="space-y-2 pt-2">
-          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Quick Demo Operator</div>
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Quick demo account</div>
           <button
             v-for="acc in DEMO_ACCOUNTS"
             :key="acc.username"
@@ -653,7 +653,7 @@ onMounted(async () => {
 
         <!-- Or Manual Login Form -->
         <form @submit.prevent="handleCustomLogin" class="pt-4 border-t-[1.5px] border-[#0B132B]/15 space-y-3 text-left">
-          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Custom Operator Login</div>
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Sign in with your own account</div>
           <div>
             <label class="block text-xs font-bold text-[#0B132B] mb-1">Username</label>
             <input
@@ -677,7 +677,7 @@ onMounted(async () => {
             :disabled="isLoggingIn"
             class="neo-btn neo-btn-saffron w-full py-2 text-xs font-bold disabled:opacity-50"
           >
-            {{ isLoggingIn ? 'Signing in...' : 'Sign In with Credentials' }}
+            {{ isLoggingIn ? 'Signing in...' : 'Sign in' }}
           </button>
         </form>
       </div>
@@ -688,10 +688,10 @@ onMounted(async () => {
       <div class="neo-box bg-[#FFF1F2] text-red-950 p-4 flex items-start gap-3">
         <AlertTriangle class="w-5 h-5 text-red-700 shrink-0 mt-0.5" />
         <div class="flex-1">
-          <h4 class="text-sm font-extrabold text-[#0B132B]">Security Boundary Enforced (HTTP 403 Forbidden)</h4>
+          <h4 class="text-sm font-extrabold text-[#0B132B]">Access blocked</h4>
           <p class="text-xs text-red-900 mt-0.5 font-medium">{{ crossCenterWarning }}</p>
           <p class="text-[11px] text-red-700 mt-1 font-mono font-bold">
-            Audit Event: UNAUTHORIZED_ACCESS_BLOCKED • Kendra partition strictly prevents cross-taluka profile tampering.
+            This was recorded. Each centre can only see its own citizens.
           </p>
         </div>
         <button @click="crossCenterWarning = ''" class="text-red-700 hover:text-black font-bold">
@@ -709,13 +709,13 @@ onMounted(async () => {
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
             <h2 class="text-xs font-extrabold text-[#0B132B] uppercase tracking-wider font-heading">
-              Kendra Assisted Performance Metrics
+              Your centre's numbers
             </h2>
           </div>
           <div class="flex items-center gap-2">
             <span class="neo-stamp neo-stamp-emerald text-[10px]">
               <ShieldCheck class="w-3.5 h-3.5 text-emerald-700" />
-              Zero-PII Aggregation • Privacy Protected
+              Privacy protected: no personal details shown
             </span>
           </div>
         </div>
@@ -730,27 +730,27 @@ onMounted(async () => {
           </div>
 
           <div class="bg-amber-50 border-[1.5px] border-[#0B132B] rounded-xl p-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
-            <div class="text-[11px] font-bold text-amber-900">Intake Pending</div>
+            <div class="text-[11px] font-bold text-amber-900">Waiting for details</div>
             <div class="text-xl font-extrabold text-amber-950 mt-1 font-heading">
               {{ analyticsData?.metrics?.intake_pending ?? '—' }}
             </div>
-            <div class="text-[10px] text-amber-800 mt-0.5 font-medium">Needs interview</div>
+            <div class="text-[10px] text-amber-800 mt-0.5 font-medium">Needs an interview</div>
           </div>
 
           <div class="bg-blue-50 border-[1.5px] border-[#0B132B] rounded-xl p-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
-            <div class="text-[11px] font-bold text-blue-900">Eligibility Found</div>
+            <div class="text-[11px] font-bold text-blue-900">Schemes found</div>
             <div class="text-xl font-extrabold text-blue-950 mt-1 font-heading">
               {{ analyticsData?.metrics?.eligibility_discovered ?? '—' }}
             </div>
-            <div class="text-[10px] text-blue-800 mt-0.5 font-medium">Schemes identified</div>
+            <div class="text-[10px] text-blue-800 mt-0.5 font-medium">Schemes matched</div>
           </div>
 
           <div class="bg-orange-50 border-[1.5px] border-[#0B132B] rounded-xl p-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
-            <div class="text-[11px] font-bold text-orange-900">Docs Pending</div>
+            <div class="text-[11px] font-bold text-orange-900">Documents pending</div>
             <div class="text-xl font-extrabold text-orange-950 mt-1 font-heading">
               {{ analyticsData?.metrics?.documents_pending ?? '—' }}
             </div>
-            <div class="text-[10px] text-orange-800 mt-0.5 font-medium">Awaiting certificates</div>
+            <div class="text-[10px] text-orange-800 mt-0.5 font-medium">Waiting for certificates</div>
           </div>
 
           <div class="bg-emerald-50 border-[1.5px] border-[#0B132B] rounded-xl p-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
@@ -758,21 +758,21 @@ onMounted(async () => {
             <div class="text-xl font-extrabold text-emerald-950 mt-1 font-heading">
               {{ analyticsData?.metrics?.ready_for_application ?? '—' }}
             </div>
-            <div class="text-[10px] text-emerald-800 mt-0.5 font-medium">Preflight passed</div>
+            <div class="text-[10px] text-emerald-800 mt-0.5 font-medium">Document check passed</div>
           </div>
 
           <div class="bg-purple-50 border-[1.5px] border-[#0B132B] rounded-xl p-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
-            <div class="text-[11px] font-bold text-purple-900">Supervisor Escalated</div>
+            <div class="text-[11px] font-bold text-purple-900">Sent to supervisor</div>
             <div class="text-xl font-extrabold text-purple-950 mt-1 font-heading">
               {{ analyticsData?.metrics?.escalated_to_supervisor ?? '—' }}
             </div>
-            <div class="text-[10px] text-purple-800 mt-0.5 font-medium">Under VLE review</div>
+            <div class="text-[10px] text-purple-800 mt-0.5 font-medium">Being reviewed by supervisor</div>
           </div>
         </div>
 
         <!-- Top Scheme Categories Banner -->
         <div v-if="analyticsData?.top_categories?.length" class="mt-4 pt-3 border-t-[1.5px] border-[#0B132B]/10 flex items-center gap-2 flex-wrap">
-          <span class="text-xs font-bold text-slate-600">Frequently Requested Streams:</span>
+          <span class="text-xs font-bold text-slate-600">Most requested areas:</span>
           <span
             v-for="cat in analyticsData.top_categories"
             :key="cat.target_scheme_category"
@@ -791,10 +791,10 @@ onMounted(async () => {
           <div>
             <h3 class="text-base font-extrabold text-[#0B132B] flex items-center gap-2 font-heading">
               <Users class="w-4 h-4 text-amber-600" />
-              Citizen Case Desk
+              Citizen cases
             </h3>
             <p class="text-xs text-slate-600 mt-0.5 font-medium">
-              Assisted intake, scheme discovery, certificate checklists and preflight audit.
+              Enter citizen details, find schemes, check documents and track each case.
             </p>
           </div>
 
@@ -806,7 +806,7 @@ onMounted(async () => {
                 v-model="searchQuery"
                 @keyup.enter="fetchCases"
                 type="text"
-                placeholder="Search citizen or case #..."
+                placeholder="Search by name or case number..."
                 class="neo-input w-full pl-9 pr-3 py-1.5 text-xs"
               />
             </div>
@@ -818,7 +818,7 @@ onMounted(async () => {
               class="neo-input text-xs px-2.5 py-1.5 text-slate-700 font-bold"
             >
               <option value="ALL">All Priorities</option>
-              <option value="URGENT">Urgent (&lt;7 Days)</option>
+              <option value="URGENT">Urgent (under 7 days)</option>
               <option value="HIGH">High Priority</option>
               <option value="MEDIUM">Medium Priority</option>
               <option value="LOW">Low Priority</option>
@@ -830,7 +830,7 @@ onMounted(async () => {
               class="neo-btn neo-btn-saffron px-3 py-1.5 text-xs font-bold"
             >
               <Plus class="w-4 h-4" />
-              <span>Register Citizen</span>
+              <span>Add citizen</span>
             </button>
           </div>
         </div>
@@ -840,11 +840,11 @@ onMounted(async () => {
           <button
             v-for="st in [
               { key: 'ALL', label: 'All Cases' },
-              { key: 'INTAKE_PENDING', label: 'Intake Pending' },
-              { key: 'ELIGIBILITY_DISCOVERED', label: 'Discovered' },
-              { key: 'DOCUMENTS_PENDING', label: 'Docs Pending' },
+              { key: 'INTAKE_PENDING', label: 'Waiting for details' },
+              { key: 'ELIGIBILITY_DISCOVERED', label: 'Schemes found' },
+              { key: 'DOCUMENTS_PENDING', label: 'Documents pending' },
               { key: 'READY_FOR_APPLICATION', label: 'Ready to Apply' },
-              { key: 'ESCALATED_SUPERVISOR', label: 'Supervisor Escalated' },
+              { key: 'ESCALATED_SUPERVISOR', label: 'Sent to supervisor' },
               { key: 'CLOSED_HANDOVER', label: 'Closed' },
             ]"
             :key="st.key"
@@ -860,24 +860,24 @@ onMounted(async () => {
         <div class="mt-4 overflow-x-auto">
           <div v-if="isLoadingCases" class="py-12 text-center text-slate-400">
             <RefreshCw class="w-6 h-6 animate-spin mx-auto mb-2 text-amber-600" />
-            <p class="text-xs">Loading Kendra registry...</p>
+            <p class="text-xs">Loading cases...</p>
           </div>
 
           <div v-else-if="casesList.length === 0" class="py-12 text-center text-slate-400 border border-dashed border-slate-200 rounded-xl">
             <Users class="w-8 h-8 mx-auto mb-2 text-slate-300" />
-            <p class="text-sm font-bold text-slate-700">No Citizen Cases Found</p>
-            <p class="text-xs text-slate-500 mt-0.5">Click "Register Citizen" above to open a new assisted intake case.</p>
+            <p class="text-sm font-bold text-slate-700">No citizen cases yet</p>
+            <p class="text-xs text-slate-500 mt-0.5">Click "Add citizen" above to start a new case.</p>
           </div>
 
           <table v-else class="w-full text-left text-xs">
             <thead>
               <tr class="border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[10px] font-bold">
-                <th class="py-2.5 px-3">Case ID</th>
-                <th class="py-2.5 px-3">Citizen Contact</th>
+                <th class="py-2.5 px-3">Case number</th>
+                <th class="py-2.5 px-3">Citizen</th>
                 <th class="py-2.5 px-3">Category</th>
                 <th class="py-2.5 px-3">Priority</th>
                 <th class="py-2.5 px-3">Status</th>
-                <th class="py-2.5 px-3">Consent</th>
+                <th class="py-2.5 px-3">Permission</th>
                 <th class="py-2.5 px-3">Counselor</th>
                 <th class="py-2.5 px-3 text-right">Actions</th>
               </tr>
@@ -899,7 +899,7 @@ onMounted(async () => {
                 <!-- Citizen Contact -->
                 <td class="py-3 px-3">
                   <div class="font-bold text-slate-900">{{ c.citizen_name }}</div>
-                  <div class="text-[11px] text-slate-500">{{ c.citizen_mobile || 'No Phone' }}</div>
+                  <div class="text-[11px] text-slate-500">{{ c.citizen_mobile || 'No phone number' }}</div>
                 </td>
 
                 <!-- Category -->
@@ -952,7 +952,7 @@ onMounted(async () => {
 
                 <!-- Counselor -->
                 <td class="py-3 px-3 text-slate-500 text-[11px]">
-                  {{ c.assigned_counselor_name || 'Unassigned' }}
+                  {{ c.assigned_counselor_name || 'Not assigned yet' }}
                 </td>
 
                 <!-- Actions -->
@@ -961,7 +961,7 @@ onMounted(async () => {
                     @click="openCaseWorkspace(c.id)"
                     class="px-2.5 py-1 text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg transition-colors inline-flex items-center gap-1"
                   >
-                    <span>Open Desk</span>
+                    <span>Open case</span>
                     <ChevronRight class="w-3.5 h-3.5" />
                   </button>
                 </td>
@@ -982,7 +982,7 @@ onMounted(async () => {
         <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-amber-50/50">
           <div class="flex items-center gap-2">
             <Building2 class="w-5 h-5 text-amber-600" />
-            <h3 class="text-sm font-bold text-slate-900">Register Citizen for Assisted Welfare Desk</h3>
+            <h3 class="text-sm font-bold text-slate-900">Add a citizen to the help desk</h3>
           </div>
           <button @click="isRegisterModalOpen = false" class="text-slate-400 hover:text-slate-700">
             <X class="w-5 h-5" />
@@ -997,7 +997,7 @@ onMounted(async () => {
           <!-- Citizen Name & Mobile -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Citizen Full Name *</label>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Citizen's full name *</label>
               <input
                 v-model="registrationForm.citizen_name"
                 type="text"
@@ -1008,7 +1008,7 @@ onMounted(async () => {
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Mobile Contact</label>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Mobile number</label>
               <input
                 v-model="registrationForm.citizen_mobile"
                 type="text"
@@ -1021,7 +1021,7 @@ onMounted(async () => {
           <!-- Target Stream & Priority -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Target Welfare Category</label>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Type of scheme</label>
               <select
                 v-model="registrationForm.target_scheme_category"
                 class="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden"
@@ -1034,14 +1034,14 @@ onMounted(async () => {
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Priority Level</label>
+              <label class="block text-xs font-bold text-slate-700 mb-1">How urgent is it</label>
               <select
                 v-model="registrationForm.priority"
                 class="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden"
               >
                 <option value="MEDIUM">Medium</option>
                 <option value="HIGH">High</option>
-                <option value="URGENT">Urgent (Portal Deadline &lt;7d)</option>
+                <option value="URGENT">Urgent (deadline under 7 days)</option>
                 <option value="LOW">Low</option>
               </select>
             </div>
@@ -1051,29 +1051,29 @@ onMounted(async () => {
           <div class="bg-amber-50 border border-amber-200 rounded-xl p-3.5 space-y-2">
             <div class="flex items-center gap-1.5 text-amber-900 font-bold text-xs">
               <ShieldCheck class="w-4 h-4 text-amber-600" />
-              <span>Mandatory Citizen Consent & Privacy Authorization</span>
+              <span>Citizen permission (required)</span>
             </div>
             <p class="text-[11px] text-amber-800 leading-relaxed">
-              Citizen explicitly authorizes the CSC Counselor to review demographic profile, income band, certificate needs and portal tracking solely for scheme discovery.
-              <strong class="text-amber-950 font-bold block mt-1">Zero-Aadhaar Rule: Aadhaar numbers, biometric OTPs and bank passwords will NEVER be recorded.</strong>
+              The citizen agrees that the counsellor may look at their basic details, income range and document needs, only to find suitable schemes.
+              <strong class="text-amber-950 font-bold block mt-1">We never record Aadhaar numbers, OTPs or bank passwords.</strong>
             </p>
 
             <div class="pt-2 border-t border-amber-200/60">
-              <label class="block text-[11px] font-bold text-amber-900 mb-1">Consent Recording Method *</label>
+              <label class="block text-[11px] font-bold text-amber-900 mb-1">How permission was given *</label>
               <select
                 v-model="registrationForm.consent_method"
                 class="w-full px-2.5 py-1 text-xs bg-white border border-amber-300 rounded-lg text-amber-900 font-semibold focus:outline-hidden"
               >
-                <option value="IN_PERSON_VERBAL">In-Person Verbal Consent (Counselor Attested)</option>
-                <option value="PHYSICAL_SLIP">Physical Signature Slip on File at Center</option>
-                <option value="DIGITAL_ACK">Digital Acknowledgment on Kendra Terminal</option>
+                <option value="IN_PERSON_VERBAL">Spoken permission in person (noted by counsellor)</option>
+                <option value="PHYSICAL_SLIP">Signed paper slip kept at the centre</option>
+                <option value="DIGITAL_ACK">Digital confirmation on the centre computer</option>
               </select>
             </div>
           </div>
 
           <!-- Initial Notes -->
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">Initial Counselor Notes</label>
+            <label class="block text-xs font-bold text-slate-700 mb-1">First notes</label>
             <textarea
               v-model="registrationForm.initial_notes"
               rows="2"
@@ -1096,7 +1096,7 @@ onMounted(async () => {
               :disabled="isRegistering"
               class="px-4 py-1.5 text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white rounded-xl shadow-xs disabled:opacity-50"
             >
-              {{ isRegistering ? 'Registering...' : 'Register & Open Desk' }}
+              {{ isRegistering ? 'Adding...' : 'Add & open case' }}
             </button>
           </div>
         </form>
@@ -1152,19 +1152,19 @@ onMounted(async () => {
           class="bg-red-50 border-b border-red-200 px-6 py-2.5 text-xs text-red-800 flex items-center gap-2"
         >
           <AlertTriangle class="w-4 h-4 text-red-600 shrink-0" />
-          <span>Citizen consent has been withdrawn. Assisted profile editing and scheme discovery are legally locked.</span>
+          <span>The citizen has withdrawn permission. Their details can no longer be changed here.</span>
         </div>
 
         <!-- Workspace Tabs Navigation -->
         <div class="px-6 border-b border-slate-200 bg-white flex items-center gap-2 overflow-x-auto text-xs shrink-0">
           <button
             v-for="tb in [
-              { key: 'intake', label: '1. Assisted Intake Form' },
-              { key: 'eligibility', label: '2. Eligibility Discovery' },
-              { key: 'preflight', label: '3. Preflight & Documents' },
-              { key: 'notes', label: '4. Case Notes & Escalation' },
-              { key: 'handover', label: '5. Handover & Closure' },
-              { key: 'audit', label: '6. Consent & Audit Trail' },
+              { key: 'intake', label: '1. Citizen details' },
+              { key: 'eligibility', label: '2. Schemes they may get' },
+              { key: 'preflight', label: '3. Documents check' },
+              { key: 'notes', label: '4. Notes and supervisor' },
+              { key: 'handover', label: '5. Hand over and close' },
+              { key: 'audit', label: '6. Permission and history' },
             ]"
             :key="tb.key"
             @click="activeTab = tb.key as any"
@@ -1182,10 +1182,10 @@ onMounted(async () => {
           <div v-if="activeTab === 'intake'" class="space-y-4">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
               <div>
-                <h4 class="text-sm font-bold text-slate-900">Demographic & Educational Intake</h4>
-                <p class="text-xs text-slate-500">Collects verified facts for deterministic scheme rule matching.</p>
+                <h4 class="text-sm font-bold text-slate-900">Citizen's basic details and studies</h4>
+                <p class="text-xs text-slate-500">Enter the facts used to match schemes.</p>
               </div>
-              <span class="text-xs text-slate-400">Syncs directly with deterministic engine</span>
+              <span class="text-xs text-slate-400">Updates the scheme checker automatically</span>
             </div>
 
             <div v-if="profileUpdateSuccess" class="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs flex items-center gap-2">
@@ -1276,7 +1276,7 @@ onMounted(async () => {
                   </select>
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-slate-700 mb-1">Prev. Year Marks (%)</label>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Last year's marks (%)</label>
                   <input
                     v-model.number="profileForm.previous_year_percentage"
                     type="number"
@@ -1294,7 +1294,7 @@ onMounted(async () => {
                     type="checkbox"
                     class="rounded text-amber-600 focus:ring-amber-500"
                   />
-                  <span>Bank Account NPCI/DBT Seeded</span>
+                  <span>Bank account linked to Aadhaar (for money sent to you)</span>
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer font-semibold text-slate-700">
                   <input
@@ -1302,7 +1302,7 @@ onMounted(async () => {
                     type="checkbox"
                     class="rounded text-amber-600 focus:ring-amber-500"
                   />
-                  <span>Farmer / Agricultural Household</span>
+                  <span>Parents are farmers</span>
                 </label>
               </div>
 
@@ -1312,7 +1312,7 @@ onMounted(async () => {
                   :disabled="isUpdatingProfile || selectedCase.consent?.consent_status !== 'ACTIVE'"
                   class="px-4 py-2 text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white rounded-xl shadow-xs disabled:opacity-50"
                 >
-                  {{ isUpdatingProfile ? 'Saving & Syncing...' : 'Save Profile & Sync with Engine' }}
+                  {{ isUpdatingProfile ? 'Saving...' : 'Save details' }}
                 </button>
               </div>
             </form>
@@ -1322,8 +1322,8 @@ onMounted(async () => {
           <div v-if="activeTab === 'eligibility'" class="space-y-4">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
               <div>
-                <h4 class="text-sm font-bold text-slate-900">Deterministic Welfare Eligibility</h4>
-                <p class="text-xs text-slate-500">Evaluates current citizen facts against published Maharashtra schemes.</p>
+                <h4 class="text-sm font-bold text-slate-900">Scheme eligibility check</h4>
+                <p class="text-xs text-slate-500">Checks the citizen's details against published Maharashtra schemes.</p>
               </div>
               <button
                 @click="handleEvaluateEligibility"
@@ -1331,7 +1331,7 @@ onMounted(async () => {
                 class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-xs disabled:opacity-50 flex items-center gap-1.5"
               >
                 <Sparkles class="w-3.5 h-3.5" />
-                <span>{{ isEvaluatingEligibility ? 'Evaluating...' : 'Discover Eligible Schemes' }}</span>
+                <span>{{ isEvaluatingEligibility ? 'Checking...' : 'Find eligible schemes' }}</span>
               </button>
             </div>
 
@@ -1339,19 +1339,19 @@ onMounted(async () => {
             <div v-if="eligibilityResults" class="space-y-4">
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3">
-                  <div class="text-[11px] font-bold text-emerald-800">Likely Eligible Schemes</div>
+                  <div class="text-[11px] font-bold text-emerald-800">Likely to qualify</div>
                   <div class="text-2xl font-black text-emerald-900 mt-0.5">
                     {{ eligibilityResults.summary?.likely_eligible ?? 0 }}
                   </div>
                 </div>
                 <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
-                  <div class="text-[11px] font-bold text-amber-800">Near-Eligible Schemes</div>
+                  <div class="text-[11px] font-bold text-amber-800">Close to qualifying</div>
                   <div class="text-2xl font-black text-amber-900 mt-0.5">
                     {{ eligibilityResults.summary?.near_eligible ?? 0 }}
                   </div>
                 </div>
                 <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-3">
-                  <div class="text-[11px] font-bold text-indigo-800">Potential Total Benefit</div>
+                  <div class="text-[11px] font-bold text-indigo-800">Total possible benefit</div>
                   <div class="text-2xl font-black text-indigo-900 mt-0.5">
                     ₹{{ (eligibilityResults.summary?.potential_annual_benefit || 0).toLocaleString() }}
                   </div>
@@ -1383,12 +1383,12 @@ onMounted(async () => {
                   </div>
 
                   <div class="text-xs text-slate-600 bg-white/80 p-2.5 rounded-lg border border-slate-100">
-                    <strong>Estimated Benefit:</strong> {{ s.estimated_benefit_amount || 'Tuition & Exam Fee Waiver' }}
+                    <strong>Estimated benefit:</strong> {{ s.estimated_benefit_amount || 'Tuition & Exam Fee Waiver' }}
                   </div>
 
                   <!-- Statutory GR Citation -->
                   <div v-if="s.statutory_gr" class="text-[11px] text-slate-500 font-mono">
-                    Statutory GR: <strong>{{ s.statutory_gr }}</strong>
+                    Official order: <strong>{{ s.statutory_gr }}</strong>
                   </div>
                 </div>
               </div>
@@ -1396,7 +1396,7 @@ onMounted(async () => {
 
             <div v-else class="text-center py-8 text-slate-400">
               <Sparkles class="w-8 h-8 mx-auto mb-2 text-slate-300" />
-              <p class="text-xs">Click "Discover Eligible Schemes" above to evaluate matching benefits.</p>
+              <p class="text-xs">Click "Find eligible schemes" above to see which schemes may apply.</p>
             </div>
           </div>
 
@@ -1406,9 +1406,9 @@ onMounted(async () => {
             <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
               <div class="flex items-center justify-between flex-wrap gap-2">
                 <div>
-                  <h4 class="text-sm font-bold text-slate-900">Application Preflight Scrutiny Audit</h4>
+                  <h4 class="text-sm font-bold text-slate-900">Application document check</h4>
                   <p class="text-xs text-slate-500">
-                    Simulates government scrutiny clerk checks to catch document mismatches before portal submission.
+                    Checks for the mistakes an office would catch, before you submit online.
                   </p>
                 </div>
                 <div class="flex items-center gap-2">
@@ -1426,7 +1426,7 @@ onMounted(async () => {
                     :disabled="isRunningPreflight || selectedCase.consent?.consent_status !== 'ACTIVE'"
                     class="px-3 py-1 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-xs disabled:opacity-50"
                   >
-                    {{ isRunningPreflight ? 'Auditing...' : 'Run Audit' }}
+                    {{ isRunningPreflight ? 'Checking...' : 'Run check' }}
                   </button>
                 </div>
               </div>
@@ -1438,11 +1438,11 @@ onMounted(async () => {
                     <div class="text-2xl font-black text-amber-600">
                       {{ preflightResult.readiness_score_pct }}%
                     </div>
-                    <div class="text-[10px] uppercase font-bold text-slate-400">Readiness Score</div>
+                    <div class="text-[10px] uppercase font-bold text-slate-400">Ready score</div>
                   </div>
                   <div class="border-l border-slate-200 pl-4">
                     <div class="text-xs font-bold text-slate-800">
-                      Audit Status:
+                      Check result:
                       <span
                         class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase ml-1"
                         :class="preflightResult.status === 'READY' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'"
@@ -1451,16 +1451,16 @@ onMounted(async () => {
                       </span>
                     </div>
                     <p class="text-[11px] text-slate-500 mt-0.5">
-                      {{ preflightResult.blockers?.length || 0 }} Fatal Blockers •
-                      {{ preflightResult.warnings?.length || 0 }} Scrutiny Warnings •
-                      {{ preflightResult.cleared_checks?.length || 0 }} Cleared
+                      {{ preflightResult.blockers?.length || 0 }} problems that must be fixed •
+                      {{ preflightResult.warnings?.length || 0 }} warnings •
+                      {{ preflightResult.cleared_checks?.length || 0 }} checks passed
                     </p>
                   </div>
                 </div>
 
                 <!-- Fatal Blockers -->
                 <div v-if="preflightResult.blockers?.length" class="space-y-2">
-                  <h5 class="text-xs font-bold text-red-800 uppercase tracking-wider">Fatal Rejection Blockers</h5>
+                  <h5 class="text-xs font-bold text-red-800 uppercase tracking-wider">Problems that would get the application rejected</h5>
                   <div
                     v-for="(b, idx) in preflightResult.blockers"
                     :key="idx"
@@ -1471,7 +1471,7 @@ onMounted(async () => {
                       <span>{{ b.title }}</span>
                     </div>
                     <p class="text-red-700 text-[11px]">{{ b.description }}</p>
-                    <p class="text-red-900 text-[11px] font-semibold">Route: {{ b.fix_route }}</p>
+                    <p class="text-red-900 text-[11px] font-semibold">Fix: {{ b.fix_route }}</p>
                   </div>
                 </div>
               </div>
@@ -1481,15 +1481,15 @@ onMounted(async () => {
             <div class="space-y-3">
               <div class="flex items-center justify-between pb-2 border-b border-slate-100">
                 <div>
-                  <h4 class="text-sm font-bold text-slate-900">Tailored Document Procurement Checklist</h4>
-                  <p class="text-xs text-slate-500">Statutory SLA, issuing authority and procurement status.</p>
+                  <h4 class="text-sm font-bold text-slate-900">Documents to collect</h4>
+                  <p class="text-xs text-slate-500">Shows how long each document takes and who issues it.</p>
                 </div>
                 <button
                   @click="handleSaveDocuments"
                   :disabled="isSavingDocuments || selectedCase.consent?.consent_status !== 'ACTIVE'"
                   class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs disabled:opacity-50"
                 >
-                  {{ isSavingDocuments ? 'Saving...' : 'Save Checklist' }}
+                  {{ isSavingDocuments ? 'Saving...' : 'Save checklist' }}
                 </button>
               </div>
 
@@ -1510,11 +1510,11 @@ onMounted(async () => {
                   <div class="flex-1">
                     <div class="flex items-center justify-between">
                       <span class="text-xs font-bold text-slate-900">{{ doc.name }}</span>
-                      <span class="text-[10px] text-slate-500 font-mono">SLA: {{ doc.sla_days }} Days</span>
+                      <span class="text-[10px] text-slate-500 font-mono">Usually takes {{ doc.sla_days }} days</span>
                     </div>
                     <div class="text-[11px] text-slate-500 mt-0.5">
-                      Authority: <strong class="text-slate-700">{{ doc.issuing_authority }}</strong> •
-                      Portal: <strong class="text-slate-700">{{ doc.procurement_portal }}</strong>
+                      Issued by: <strong class="text-slate-700">{{ doc.issuing_authority }}</strong> •
+                      Apply on: <strong class="text-slate-700">{{ doc.procurement_portal }}</strong>
                     </div>
                   </div>
                 </div>
@@ -1526,13 +1526,13 @@ onMounted(async () => {
           <div v-if="activeTab === 'notes'" class="space-y-6">
             <!-- Add New Note -->
             <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
-              <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Record Counselor Note</h4>
+              <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Add a note</h4>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <select v-model="newNoteType" class="text-xs bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 font-semibold">
                   <option value="GENERAL_NOTE">General Note</option>
-                  <option value="DOCUMENT_FOLLOWUP">Document Procurement Follow-up</option>
-                  <option value="CITIZEN_QUERY">Citizen Query / Question</option>
-                  <option value="SUPERVISOR_REMARK">Supervisor Remark</option>
+                  <option value="DOCUMENT_FOLLOWUP">Follow-up on documents</option>
+                  <option value="CITIZEN_QUERY">Question from citizen</option>
+                  <option value="SUPERVISOR_REMARK">Supervisor comment</option>
                 </select>
                 <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
                   <input v-model="isNotePinned" type="checkbox" class="rounded text-amber-600" />
@@ -1542,7 +1542,7 @@ onMounted(async () => {
               <textarea
                 v-model="newNoteContent"
                 rows="2"
-                placeholder="Enter counseling remarks, pending certificates or citizen commitments..."
+                placeholder="Write what was discussed, which certificates are still needed, and what the citizen agreed to do..."
                 class="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-xl focus:outline-hidden"
               ></textarea>
               <div class="flex justify-end">
@@ -1551,7 +1551,7 @@ onMounted(async () => {
                   :disabled="isSubmittingNote || !newNoteContent.trim()"
                   class="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-xs disabled:opacity-50"
                 >
-                  {{ isSubmittingNote ? 'Saving...' : 'Add Case Note' }}
+                  {{ isSubmittingNote ? 'Saving...' : 'Add note' }}
                 </button>
               </div>
             </div>
@@ -1560,10 +1560,10 @@ onMounted(async () => {
             <div class="bg-purple-50/60 border border-purple-200 rounded-xl p-4 space-y-3">
               <div class="flex items-center gap-2 text-purple-900 font-bold text-xs">
                 <AlertTriangle class="w-4 h-4 text-purple-600" />
-                <span>Escalate Case to Center Supervisor (VLE Lead)</span>
+                <span>Send case to the centre supervisor</span>
               </div>
               <p class="text-xs text-purple-800">
-                Use when income borderline disputes, non-standard quota certificates or Right to Services (RTS) appeals require lead intervention.
+                Use this when income is close to the limit, a certificate is unusual, or an appeal needs the supervisor.
               </p>
               <div v-if="selectedCase.escalated_to_supervisor" class="p-2.5 bg-white border border-purple-200 rounded-xl text-xs text-purple-900 font-semibold">
                 Case currently escalated: "{{ selectedCase.escalation_reason }}"
@@ -1572,7 +1572,7 @@ onMounted(async () => {
                 <input
                   v-model="escalationReason"
                   type="text"
-                  placeholder="Reason for supervisor review (e.g. Income border case exceeds limit by ₹5k)..."
+                  placeholder="Why the supervisor should review this (e.g. income is ₹5,000 over the limit)..."
                   class="w-full px-3 py-1.5 text-xs bg-white border border-purple-300 rounded-xl text-purple-950 focus:outline-hidden"
                 />
                 <button
@@ -1580,14 +1580,14 @@ onMounted(async () => {
                   :disabled="isEscalating"
                   class="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl shadow-xs disabled:opacity-50"
                 >
-                  {{ isEscalating ? 'Escalating...' : 'Escalate to Supervisor' }}
+                  {{ isEscalating ? 'Sending...' : 'Send to supervisor' }}
                 </button>
               </div>
             </div>
 
             <!-- Notes Timeline -->
             <div class="space-y-3">
-              <h5 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Case History Timeline</h5>
+              <h5 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Case history</h5>
               <div v-if="!selectedCase.notes?.length" class="text-xs text-slate-400 py-4 text-center">
                 No notes logged yet.
               </div>
@@ -1611,14 +1611,14 @@ onMounted(async () => {
           <!-- TAB 5: Handover & Case Closure -->
           <div v-if="activeTab === 'handover'" class="space-y-4">
             <div class="pb-2 border-b border-slate-100">
-              <h4 class="text-sm font-bold text-slate-900">Case Closure & Handover Protocol</h4>
-              <p class="text-xs text-slate-500">Record printed documents and guidance handed over to citizen.</p>
+              <h4 class="text-sm font-bold text-slate-900">Close case and hand over documents</h4>
+              <p class="text-xs text-slate-500">Note the documents and advice you gave the citizen.</p>
             </div>
 
             <div v-if="selectedCase.case_status === 'CLOSED_HANDOVER'" class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
               <div class="flex items-center gap-2 text-emerald-700 font-bold text-xs">
                 <CheckCircle2 class="w-4 h-4 text-emerald-600" />
-                <span>Case Closed & Handed Over</span>
+                <span>Case closed and handed over</span>
               </div>
               <p class="text-xs text-slate-600"><strong>Summary:</strong> {{ selectedCase.closure_summary }}</p>
               <div class="text-[11px] text-slate-400">Closed At: {{ new Date(selectedCase.closed_at).toLocaleString() }}</div>
@@ -1628,7 +1628,7 @@ onMounted(async () => {
               <textarea
                 v-model="closureSummary"
                 rows="3"
-                placeholder="e.g. Handed over printed document checklist, guided student to MahaDBT portal login with Aaple Sarkar token..."
+                placeholder="e.g. Gave the printed document list and showed the citizen how to log in to the MahaDBT portal..."
                 class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden"
               ></textarea>
               <button
@@ -1636,7 +1636,7 @@ onMounted(async () => {
                 :disabled="isClosing"
                 class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs disabled:opacity-50"
               >
-                {{ isClosing ? 'Closing Case...' : 'Complete Handover & Close Case' }}
+                {{ isClosing ? 'Closing case...' : 'Close case' }}
               </button>
             </div>
           </div>
@@ -1648,7 +1648,7 @@ onMounted(async () => {
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <ShieldCheck class="w-5 h-5 text-emerald-600" />
-                  <h4 class="text-sm font-bold text-slate-900">Recorded Citizen Consent</h4>
+                  <h4 class="text-sm font-bold text-slate-900">Citizen's permission</h4>
                 </div>
                 <button
                   v-if="selectedCase.consent?.consent_status === 'ACTIVE'"
@@ -1656,15 +1656,15 @@ onMounted(async () => {
                   :disabled="isWithdrawing"
                   class="px-3 py-1 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold rounded-xl"
                 >
-                  {{ isWithdrawing ? 'Withdrawing...' : 'Withdraw Consent' }}
+                  {{ isWithdrawing ? 'Withdrawing...' : 'Withdraw permission' }}
                 </button>
               </div>
 
               <div class="text-xs text-slate-600 space-y-1">
                 <div>Status: <strong class="text-slate-800">{{ selectedCase.consent?.consent_status }}</strong></div>
-                <div>Method: <strong class="text-slate-800">{{ selectedCase.consent?.consent_method }}</strong></div>
-                <div>Attesting Counselor: <strong class="text-slate-800">{{ selectedCase.consent?.attesting_counselor_name }}</strong></div>
-                <div>Granted: <span class="font-mono">{{ new Date(selectedCase.consent?.granted_at).toLocaleString() }}</span></div>
+                <div>How given: <strong class="text-slate-800">{{ selectedCase.consent?.consent_method }}</strong></div>
+                <div>Confirmed by counsellor: <strong class="text-slate-800">{{ selectedCase.consent?.attesting_counselor_name }}</strong></div>
+                <div>Given on: <span class="font-mono">{{ new Date(selectedCase.consent?.granted_at).toLocaleString() }}</span></div>
                 <p class="text-[11px] text-slate-500 mt-2 bg-white p-2.5 rounded-lg border border-slate-200">
                   {{ selectedCase.consent?.scope_description }}
                 </p>
@@ -1673,13 +1673,13 @@ onMounted(async () => {
 
             <!-- Tamper-Evident Audit Trail Table -->
             <div class="space-y-2">
-              <h5 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Tamper-Evident Access Audit Trail</h5>
+              <h5 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Access record</h5>
               <div class="overflow-x-auto border border-slate-200 rounded-xl">
                 <table class="w-full text-left text-xs">
                   <thead class="bg-slate-50 text-slate-500 text-[10px] uppercase font-bold border-b border-slate-200">
                     <tr>
-                      <th class="py-2 px-3">Timestamp</th>
-                      <th class="py-2 px-3">Operator</th>
+                      <th class="py-2 px-3">Time</th>
+                      <th class="py-2 px-3">Staff member</th>
                       <th class="py-2 px-3">Action</th>
                       <th class="py-2 px-3">Details</th>
                     </tr>

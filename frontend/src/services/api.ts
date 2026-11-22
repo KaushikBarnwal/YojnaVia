@@ -1,8 +1,19 @@
 import axios from 'axios';
 import type { IntakeChatResponse, IntakeState, NextQuestion } from '../types';
 
-const rawBase = import.meta.env.VITE_API_BASE_URL || '/api/v1';
-const baseURL = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
+let rawBase = (import.meta.env.VITE_API_BASE_URL || '/api/v1').trim();
+
+// Strip any trailing slashes
+while (rawBase.endsWith('/')) {
+  rawBase = rawBase.slice(0, -1);
+}
+
+// Automatically ensure /api/v1 suffix is present regardless of how VITE_API_BASE_URL was configured in Vercel
+if (!rawBase.endsWith('/api/v1')) {
+  rawBase = `${rawBase}/api/v1`;
+}
+
+const baseURL = rawBase;
 
 const api = axios.create({
   baseURL,

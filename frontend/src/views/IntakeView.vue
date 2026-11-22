@@ -159,7 +159,7 @@ async function startRecording() {
       }
     }, 1000);
   } catch (err: any) {
-    voiceError.value = 'Microphone access denied or audio device not found. You can test using the 1-Click Demo Voice below.';
+    voiceError.value = 'Microphone is blocked or not found. You can try a demo voice below.';
   }
 }
 
@@ -174,7 +174,7 @@ function stopRecording() {
     nextTick(() => {
       if (chatInputEl.value) chatInputEl.value.focus();
     });
-    showToast('Speech recorded in message box! Press Enter or Send.', 'success');
+    showToast('Speech added to the message box. Press Enter or Send.', 'success');
     return;
   }
   if (mediaRecorder.value && mediaRecorder.value.state !== 'inactive') {
@@ -236,15 +236,15 @@ async function processAudioUpload(audioSource: Blob | 'marathi' | 'hindi') {
           chatInputEl.value.focus();
         }
       });
-      showToast('Voice transcribed into message box! Press Enter or Send to submit.', 'success');
+      showToast('Your voice was typed into the message box. Press Enter or Send.', 'success');
     } else {
-      voiceError.value = 'No speech was detected. Please try speaking again.';
+      voiceError.value = 'We could not hear any speech. Please try again.';
     }
   } catch (err: any) {
     voiceError.value =
       err?.response?.data?.error?.message ||
       err?.response?.data?.error ||
-      'Transcription failed. Please try speaking again.';
+      'Could not understand the recording. Please try again.';
   } finally {
     isTranscribing.value = false;
   }
@@ -265,9 +265,9 @@ const fieldLabels: Record<string, string> = {
   district: "District",
   occupation: "Occupation",
   education_level: "Education Level",
-  income_band: "Annual Household Income Band",
-  social_category: "Social Category (Volunteered)",
-  disability_status: "Disability Status (Volunteered)",
+  income_band: "Yearly household income range",
+  social_category: "Social category (optional)",
+  disability_status: "Disability (optional)",
   family_members: "Family Members"
 };
 
@@ -297,7 +297,7 @@ const socialCategoryOptions = [
   { value: "ews", label: "Economically Weaker Section (EWS)" },
   { value: "vjnt", label: "VJNT (Vimukta Jati & Nomadic Tribes)" },
   { value: "sbc", label: "Special Backward Class (SBC)" },
-  { value: "prefer_not_to_say", label: "Prefer Not to Say" }
+  { value: "prefer_not_to_say", label: "Prefer not to say" }
 ];
 
 const progressPercentage = computed(() => {
@@ -350,7 +350,7 @@ async function handleSaveCorrection() {
 }
 
 async function handleRestart() {
-  if (confirm("Restart conversational discovery? All conversation turns will be reset.")) {
+  if (confirm("Start over? This clears the whole conversation.")) {
     await store.restartIntake();
   }
 }
@@ -392,13 +392,13 @@ function formatFieldValue(key: string, value: any): string {
     <div class="text-center max-w-3xl mx-auto mb-6">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#FFFBEB] text-[#92400E] border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] text-[11px] font-black uppercase tracking-wider mb-2.5">
         <Sparkles class="w-3.5 h-3.5 text-[#D97706] fill-current" />
-        <span>Sovereign Welfare Intelligence • 100% Deterministic Rules</span>
+        <span>Checks your answers against official rules</span>
       </div>
       <h1 class="text-2xl sm:text-4xl font-black text-[#0B132B] tracking-tight">
         Discover Government Schemes & Scholarships
       </h1>
       <p class="text-slate-700 text-xs sm:text-sm mt-1.5 font-medium max-w-xl mx-auto">
-        पात्रतेपासून थेट लाभापर्यंत — Speak or type your details in Marathi, Hindi, or English to unlock verified Maharashtra welfare entitlements.
+        पात्रतेपासून थेट लाभापर्यंत — Speak or type your details in Marathi, Hindi or English to find the benefits you may get.
       </p>
     </div>
 
@@ -410,7 +410,7 @@ function formatFieldValue(key: string, value: any): string {
         </div>
         <div>
           <div class="text-xs font-bold text-slate-900">
-            Profile Completion: <span class="text-[#D97706] font-black">{{ store.intakeState?.known_count || 0 }}</span> of <span class="text-slate-700">{{ store.intakeState?.total_count || 1 }}</span> statutory criteria
+            Details filled in: <span class="text-[#D97706] font-black">{{ store.intakeState?.known_count || 0 }}</span> of <span class="text-slate-700">{{ store.intakeState?.total_count || 1 }}</span> details
           </div>
           <div class="w-36 sm:w-48 bg-slate-200 rounded-full h-2 overflow-hidden mt-1 border border-slate-300">
             <div 
@@ -427,7 +427,7 @@ function formatFieldValue(key: string, value: any): string {
           :class="isEligibilityReady ? 'bg-[#ECFDF5] text-[#065F46]' : 'bg-[#FFFBEB] text-[#92400E]'"
         >
           <span class="w-2 h-2 rounded-full" :class="isEligibilityReady ? 'bg-[#059669]' : 'bg-[#D97706] animate-ping'"></span>
-          {{ isEligibilityReady ? 'Ready for Matching' : 'Gathering Criteria' }}
+          {{ isEligibilityReady ? 'Ready to check schemes' : 'Collecting details' }}
         </span>
         <button
           @click="handleRestart"
@@ -451,10 +451,10 @@ function formatFieldValue(key: string, value: any): string {
         </div>
         <div>
           <div class="text-sm sm:text-base font-black">
-            Matching Complete! {{ store.evaluationSummary?.likely_eligible || 0 }} eligible scholarships found
+            Done! {{ store.evaluationSummary?.likely_eligible || 0 }} scholarships may suit you
           </div>
           <div class="text-xs text-amber-200/90 font-medium">
-            Verified against authentic Maharashtra Government Resolutions (GRs)
+            Checked against official Maharashtra government orders (GRs)
           </div>
         </div>
       </div>
@@ -462,7 +462,7 @@ function formatFieldValue(key: string, value: any): string {
         @click="proceedToSchemes"
         class="neo-btn neo-btn-saffron px-4 py-2 text-xs sm:text-sm shadow-[2px_2px_0_0_#FFFFFF] shrink-0"
       >
-        <span>View Matched Schemes</span>
+        <span>See your schemes</span>
         <ArrowRight class="w-4 h-4" />
       </button>
     </div>
@@ -480,7 +480,7 @@ function formatFieldValue(key: string, value: any): string {
               <Bot class="w-4 h-4" />
             </div>
             <div>
-              <div class="text-sm font-black tracking-tight text-white">YojnaVia Sovereign Navigator</div>
+              <div class="text-sm font-black tracking-tight text-white">YojnaVia Scheme Guide</div>
               <div class="text-[11px] text-amber-300 flex items-center gap-1 font-bold">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 Official Maharashtra Scheme Guide
@@ -574,7 +574,7 @@ function formatFieldValue(key: string, value: any): string {
           <!-- Typing Indicator -->
           <div v-if="store.isLoading" class="flex items-center gap-2 text-slate-600 text-xs italic pl-11 py-1 font-semibold">
             <span class="w-2 h-2 rounded-full bg-[#D97706] animate-ping"></span>
-            <span>Evaluating your facts against Maharashtra statutory rules...</span>
+            <span>Checking your answers against Maharashtra rules...</span>
           </div>
         </div>
 
@@ -585,7 +585,7 @@ function formatFieldValue(key: string, value: any): string {
         >
           <div class="text-[11px] font-black text-[#92400E] mb-1.5 flex items-center gap-1 uppercase tracking-wide">
             <Sparkles class="w-3 h-3 text-[#D97706]" />
-            Suggested Quick Answers:
+            Quick answers you can tap:
           </div>
           <div class="flex flex-wrap gap-1.5">
             <button
@@ -655,7 +655,7 @@ function formatFieldValue(key: string, value: any): string {
               type="button"
               @click="processAudioUpload('marathi')"
               :disabled="isTranscribing || isRecording"
-              title="Test Marathi speech input with Pune, age 24, income 2 lakh"
+              title="Try a Marathi voice sample (Pune, age 24, income ₹2 lakh)"
               class="neo-btn neo-btn-paper px-2.5 py-1 text-[10px] font-black text-emerald-900 hover:bg-emerald-50"
             >
               <Radio class="w-2.5 h-2.5 text-emerald-600" />
@@ -666,7 +666,7 @@ function formatFieldValue(key: string, value: any): string {
               type="button"
               @click="processAudioUpload('hindi')"
               :disabled="isTranscribing || isRecording"
-              title="Test Hindi speech input"
+              title="Try a Hindi voice sample"
               class="neo-btn neo-btn-paper px-2.5 py-1 text-[10px] font-black text-amber-900 hover:bg-amber-50"
             >
               <Radio class="w-2.5 h-2.5 text-amber-600" />
@@ -696,7 +696,7 @@ function formatFieldValue(key: string, value: any): string {
                 <span>Listening... (Speak your details)</span>
                 <span class="font-mono bg-red-100 text-red-800 px-2 py-0.5 rounded text-[11px] font-extrabold border border-red-300">{{ formattedDuration }}</span>
               </div>
-              <div class="text-[10px] text-red-700">Speech is transcribed directly into the message box below.</div>
+              <div class="text-[10px] text-red-700">Your speech appears in the message box below.</div>
             </div>
           </div>
 
@@ -722,7 +722,7 @@ function formatFieldValue(key: string, value: any): string {
         <!-- TRANSCRIBING LOADER BAR -->
         <div v-if="isTranscribing" class="p-2.5 bg-amber-50 border-t-[1.5px] border-[#0B132B] flex items-center justify-center gap-2 text-xs font-bold text-amber-950 animate-in fade-in">
           <RefreshCw class="w-4 h-4 text-[#D97706] animate-spin" />
-          <span>Transcribing your speech into the message box...</span>
+          <span>Typing out what you said...</span>
         </div>
 
         <!-- Normal Chat Input Form ALWAYS VISIBLE -->
@@ -764,8 +764,8 @@ function formatFieldValue(key: string, value: any): string {
         <div class="bg-white rounded-2xl border-[1.5px] border-[#0B132B] shadow-[3px_3px_0_0_#0B132B] p-5">
           <div class="flex items-center justify-between pb-3 border-b-[1.5px] border-[#0B132B]/10">
             <div>
-              <h2 class="text-sm sm:text-base font-black text-[#0B132B]">Live Verified Profile</h2>
-              <p class="text-xs text-slate-500 font-medium">Synchronized with statutory rules</p>
+              <h2 class="text-sm sm:text-base font-black text-[#0B132B]">Your details so far</h2>
+              <p class="text-xs text-slate-500 font-medium">Checked against official rules</p>
             </div>
             <span 
               class="neo-stamp text-[10px]"
@@ -773,7 +773,7 @@ function formatFieldValue(key: string, value: any): string {
             >
               <CheckCircle2 v-if="isEligibilityReady" class="w-3.5 h-3.5 text-emerald-600" />
               <Cpu v-else class="w-3.5 h-3.5 text-[#D97706]" />
-              {{ store.intakeState?.known_count || 0 }} Confirmed
+              {{ store.intakeState?.known_count || 0 }} confirmed
             </span>
           </div>
 
@@ -794,7 +794,7 @@ function formatFieldValue(key: string, value: any): string {
                     v-if="store.intakeState?.fields?.[key]?.status === 'known'" 
                     class="neo-stamp neo-stamp-emerald text-[9px] px-1 py-0.2"
                   >
-                    Verified
+                    Confirmed
                   </span>
                   <span 
                     v-else
@@ -826,7 +826,7 @@ function formatFieldValue(key: string, value: any): string {
               <ArrowRight class="w-4 h-4" />
             </button>
             <p class="text-[11px] text-center text-slate-500 font-medium">
-              100% deterministic evaluation based on Maharashtra Government Resolutions.
+              Checked against Maharashtra government orders.
             </p>
           </div>
         </div>
@@ -835,9 +835,9 @@ function formatFieldValue(key: string, value: any): string {
         <div class="p-3.5 rounded-xl bg-[#FFFBEB] border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] text-xs text-amber-950 flex items-start gap-2.5">
           <ShieldCheck class="w-5 h-5 text-[#D97706] shrink-0 mt-0.5" />
           <div class="space-y-0.5">
-            <div class="font-black uppercase tracking-wider text-[11px]">Zero-Aadhaar Sovereign Policy</div>
+            <div class="font-black uppercase tracking-wider text-[11px]">Aadhaar is never asked for or stored</div>
             <p class="text-amber-900 leading-normal font-medium text-[11px]">
-              YojnaVia never requests or records 12-digit Aadhaar numbers, OTPs, or bank passwords. All official filings occur on the official MahaDBT portal.
+              YojnaVia never asks for or stores your 12-digit Aadhaar number, OTPs or bank passwords. You apply on the official MahaDBT website.
             </p>
           </div>
         </div>
@@ -855,7 +855,7 @@ function formatFieldValue(key: string, value: any): string {
         <div class="flex items-center justify-between pb-3 border-b border-slate-100">
           <div class="flex items-center gap-2 font-bold text-slate-900 text-base">
             <Edit3 class="w-4 h-4 text-indigo-600" />
-            Edit / Correct Parameter
+            Correct a detail
           </div>
           <button 
             @click="isEditModalOpen = false"
@@ -868,7 +868,7 @@ function formatFieldValue(key: string, value: any): string {
         <form @submit.prevent="handleSaveCorrection" class="space-y-4 mt-4">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">
-              Field to Update:
+              Detail to change:
             </label>
             <select 
               v-model="editingFieldKey"
@@ -883,7 +883,7 @@ function formatFieldValue(key: string, value: any): string {
           <!-- Dynamic Input Based on Field Type -->
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">
-              Corrected Value:
+              New value:
             </label>
 
             <!-- Age Input -->
@@ -905,7 +905,7 @@ function formatFieldValue(key: string, value: any): string {
               class="w-full text-sm border border-slate-300 rounded-xl px-3.5 py-2 focus:ring-2 focus:ring-indigo-500"
               required
             >
-              <option value="" disabled>Select Annual Income Band</option>
+              <option value="" disabled>Choose your yearly income range</option>
               <option v-for="opt in incomeBandOptions" :key="opt.value" :value="opt.value">
                 {{ opt.label }}
               </option>
@@ -918,7 +918,7 @@ function formatFieldValue(key: string, value: any): string {
               class="w-full text-sm border border-slate-300 rounded-xl px-3.5 py-2 focus:ring-2 focus:ring-indigo-500"
               required
             >
-              <option value="" disabled>Select Education Level</option>
+              <option value="" disabled>Choose your education level</option>
               <option v-for="opt in educationOptions" :key="opt.value" :value="opt.value">
                 {{ opt.label }}
               </option>
@@ -931,7 +931,7 @@ function formatFieldValue(key: string, value: any): string {
               class="w-full text-sm border border-slate-300 rounded-xl px-3.5 py-2 focus:ring-2 focus:ring-indigo-500"
               required
             >
-              <option value="" disabled>Select Social Category</option>
+              <option value="" disabled>Choose your social category</option>
               <option v-for="opt in socialCategoryOptions" :key="opt.value" :value="opt.value">
                 {{ opt.label }}
               </option>
@@ -944,8 +944,8 @@ function formatFieldValue(key: string, value: any): string {
               class="w-full text-sm border border-slate-300 rounded-xl px-3.5 py-2 focus:ring-2 focus:ring-indigo-500"
               required
             >
-              <option :value="false">No (False)</option>
-              <option :value="true">Yes (True)</option>
+              <option :value="false">No</option>
+              <option :value="true">Yes</option>
             </select>
 
             <!-- Default String Input (State, District, Occupation) -->
@@ -960,7 +960,7 @@ function formatFieldValue(key: string, value: any): string {
           </div>
 
           <div class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-            <strong>Note:</strong> User-confirmed values have 100% confidence and will never be overwritten by AI extraction.
+            <strong>Note:</strong> Values you type are kept exactly as entered. AI will not change them.
           </div>
 
           <div class="flex items-center justify-end gap-2 pt-2">

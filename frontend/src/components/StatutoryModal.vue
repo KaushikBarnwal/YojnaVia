@@ -43,7 +43,7 @@ const statusBadgeClass = computed(() => {
               {{ scheme.status.replace('_', ' ') }}
             </span>
             <span class="text-xs font-mono bg-[#1C2541] text-[#FBBF24] border border-[#D97706] px-2 py-0.5 rounded-sm font-bold">
-              {{ scheme.code }} • AY {{ scheme.effective_academic_year }}
+              {{ scheme.code }} • Academic year {{ scheme.effective_academic_year }}
             </span>
           </div>
           <h3 class="text-xl font-black text-white leading-snug">{{ scheme.name }}</h3>
@@ -65,17 +65,17 @@ const statusBadgeClass = computed(() => {
         <div class="p-4 rounded-lg bg-white border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] flex items-start gap-3">
           <Scale class="w-5 h-5 text-[#D97706] shrink-0 mt-0.5" />
           <div>
-            <h4 class="text-xs font-black uppercase tracking-wider text-[#0B132B]">Official Government Authority & Resolution (GR)</h4>
+            <h4 class="text-xs font-black uppercase tracking-wider text-[#0B132B]">Official government order (GR)</h4>
             <p class="text-sm font-black text-[#0B132B] mt-0.5">{{ scheme.statutory_gr }}</p>
             <p class="text-xs text-[#475569] mt-1 font-medium">
-              Rule Version: <span class="font-mono font-bold text-[#0B132B]">{{ scheme.version }}</span>. Certified against official Maharashtra Government Resolutions and MahaDBT rules. Zero artificial intelligence intervention in this deterministic legal evaluation.
+              Rule version: <span class="font-mono font-bold text-[#0B132B]">{{ scheme.version }}</span>. Checked against official Maharashtra government orders and MahaDBT rules. No AI is used in this check.
             </p>
           </div>
         </div>
 
         <!-- Benefit Summary -->
         <div class="bg-[#ECFDF5] rounded-lg p-4 border-[1.5px] border-[#065F46] shadow-[2px_2px_0_0_#065F46]">
-          <div class="text-xs font-black text-[#065F46] uppercase tracking-wider">Estimated Financial Assistance</div>
+          <div class="text-xs font-black text-[#065F46] uppercase tracking-wider">Estimated money you get</div>
           <div class="text-xl font-black text-[#064E3B] mt-1 font-mono">{{ scheme.benefit_amount_text }}</div>
           <p class="text-xs text-[#065F46] mt-0.5 font-medium">{{ scheme.brief_description }}</p>
         </div>
@@ -83,7 +83,7 @@ const statusBadgeClass = computed(() => {
         <!-- Criteria Audit Trail Breakdown -->
         <div>
           <h4 class="text-sm font-black text-[#0B132B] mb-3 flex items-center gap-2">
-            Deterministic Rule Evaluation Audit Trail
+            How each rule was checked
           </h4>
 
           <div class="space-y-3">
@@ -143,21 +143,21 @@ const statusBadgeClass = computed(() => {
         <div v-if="scheme.required_documents && scheme.required_documents.length > 0">
           <h4 class="text-sm font-black text-[#0B132B] mb-3 flex items-center gap-2">
             <FileCheck2 class="w-4 h-4 text-[#0B132B]" />
-            Mandatory Documents & Issuing Authorities
+            Documents you must submit, and who issues them
           </h4>
           <div class="border-[1.5px] border-[#0B132B] rounded-lg divide-y divide-[#E2E8F0] overflow-hidden shadow-[2px_2px_0_0_#0B132B]">
             <div v-for="doc in scheme.required_documents" :key="doc.code" class="p-3 bg-white flex items-start justify-between gap-4 text-xs">
               <div>
                 <div class="font-black text-[#0B132B]">{{ doc.name }}</div>
-                <div class="text-[11px] text-[#64748B] mt-0.5">Issuing Authority: <span class="font-bold text-[#0B132B]">{{ doc.issuing_authority }}</span></div>
-                <div class="text-[11px] text-[#D97706] font-bold mt-0.5">Portal: {{ doc.procurement_portal }}</div>
+                <div class="text-[11px] text-[#64748B] mt-0.5">Issued by: <span class="font-bold text-[#0B132B]">{{ doc.issuing_authority }}</span></div>
+                <div class="text-[11px] text-[#D97706] font-bold mt-0.5">Get it from: {{ doc.procurement_portal }}</div>
               </div>
               <div class="text-right shrink-0">
                 <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-sm bg-[#F1F5F9] text-[#0B132B] border border-[#CBD5E1]">
                   <Clock class="w-3 h-3 text-[#64748B]" />
-                  {{ doc.estimated_sla_days }} days SLA
+                  usually takes {{ doc.estimated_sla_days }} days
                 </span>
-                <div v-if="doc.is_mandatory" class="text-[10px] font-black text-[#DC2626] uppercase tracking-wider mt-1">Mandatory</div>
+                <div v-if="doc.is_mandatory" class="text-[10px] font-black text-[#DC2626] uppercase tracking-wider mt-1">Required</div>
               </div>
             </div>
           </div>
@@ -166,7 +166,7 @@ const statusBadgeClass = computed(() => {
 
       <!-- Modal Footer -->
       <div class="p-4 bg-[#F1F5F9] border-t-[1.5px] border-[#0B132B] flex items-center justify-between gap-4">
-        <span class="text-xs text-[#64748B] font-mono font-medium">Official Portal: {{ scheme.portal_name }}</span>
+        <span class="text-xs text-[#64748B] font-mono font-medium">Official website: {{ scheme.portal_name }}</span>
         <div class="flex items-center gap-2">
           <button 
             @click="emit('close')" 

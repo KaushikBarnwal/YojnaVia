@@ -123,13 +123,13 @@ const canonicalEvents = computed(() => [
     key: 'DEADLINE_APPROACHING',
     field: 'notify_deadlines' as keyof Preferences,
     title: {
-      en: 'Application Deadline Approaching',
+      en: 'Application deadline is near',
       mr: 'अर्ज अंतिम मुदत सूचना',
       hi: 'आवेदन अंतिम तिथि अलर्ट'
     },
-    trigger: 'Sent 7 days, 2 days, and on deadline day from verified scheme record.',
+    trigger: 'Sent 7 days, 2 days, and on the deadline day.',
     preview: {
-      en: `Namaste ${store.profile?.name || 'Citizen'}, this is an important reminder from YojnaVia. The official application deadline for 'Post Matric Scholarship' on the MahaDBT portal is on 31 December 2026 (2 days remaining). Please ensure all mandatory documents are submitted before portal cutoff.`,
+      en: `Namaste ${store.profile?.name || 'Citizen'}, this is an important reminder from YojnaVia. The deadline to apply for 'Post Matric Scholarship' on MahaDBT is 31 December 2026 (2 days left). Please submit all required documents before the portal closes.`,
       mr: `नमस्ते ${store.profile?.name || 'विद्यार्थी'}, योजनाव्हायाकडून महत्त्वाची सूचना. 'पोस्ट मॅट्रिक शिष्यवृत्ती' या योजनेसाठी MahaDBT संकेतस्थळावर अर्ज करण्याची अंतिम मुदत 31 डिसेंबर 2026 आहे (फक्त 2 दिवस शिल्लक). कृपया मुदतीपूर्वी आपले कागदपत्र सादर करा.`,
       hi: `नमस्ते ${store.profile?.name || 'नागरिक'}, योजनावाया की ओर से महत्वपूर्ण सूचना। 'पोस्ट मैट्रिक छात्रवृत्ति' के लिए MahaDBT पोर्टल पर आवेदन की अंतिम तिथि 31 दिसंबर 2026 है (केवल 2 दिन शेष)। कृपया पोर्टल बंद होने से पहले अपने दस्तावेज़ जमा करें।`
     }
@@ -138,13 +138,13 @@ const canonicalEvents = computed(() => [
     key: 'MISSING_DOCUMENT_REMINDER',
     field: 'notify_missing_docs' as keyof Preferences,
     title: {
-      en: 'Pending Mandatory Document Reminder',
+      en: 'Reminder: a required document is missing',
       mr: 'प्रलंबित कागदपत्र स्मरणपत्र',
       hi: 'लंबित आवश्यक दस्तावेज़ अनुस्मारक'
     },
-    trigger: 'Weekly reminder while mandatory civil documents (Tahsildar Income, Caste Validity) remain unprocured.',
+    trigger: 'Weekly reminder until you get the required documents (Tahsildar income, caste validity).',
     preview: {
-      en: `Namaste ${store.profile?.name || 'Citizen'}, your application for 'Rajarshi Shahu Maharaj Tuition Scheme' is currently waiting for: 'Tahsildar Income Certificate'. You can apply online via Aaple Sarkar portal (15-day statutory SLA). Obtaining this unlocks your application progress.`,
+      en: `Namaste ${store.profile?.name || 'Citizen'}, your application for 'Rajarshi Shahu Maharaj Tuition Scheme' is waiting for: 'Tahsildar Income Certificate'. You can apply online on the Aaple Sarkar website (usually takes 15 days). Once you have it, your application can move forward.`,
       mr: `नमस्ते ${store.profile?.name || 'विद्यार्थी'}, आपल्या 'राजर्षी शाहू महाराज शिक्षण शुल्क योजना' अर्जासाठी 'तहसीलदार उत्पन्न दाखला' अद्याप प्रलंबित आहे. आपण 'आपले सरकार' पोर्टलवरून १५ दिवसांच्या विहित मुदतीत अर्ज करू शकता.`,
       hi: `नमस्ते ${store.profile?.name || 'नागरिक'}, आपके 'राजर्षि शाहू महाराज शिक्षण शुल्क योजना' आवेदन के लिए 'तहसीलदार आय प्रमाण पत्र' अभी लंबित है। आप 'आपले सरकार' पोर्टल के माध्यम से 15-दिवसीय विधिक समय-सीमा में आवेदन कर सकते हैं।`
     }
@@ -153,13 +153,13 @@ const canonicalEvents = computed(() => [
     key: 'MILESTONE_UPDATED',
     field: 'notify_milestones' as keyof Preferences,
     title: {
-      en: 'Application Milestone Updated',
+      en: 'Your application moved to a new step',
       mr: 'अर्ज टप्पा बदल सूचना',
       hi: 'आवेदन चरण अद्यतन सूचना'
     },
-    trigger: 'Sent whenever application transitions stages (e.g. Discovered -> Documents Ready -> Applied -> Sanctioned).',
+    trigger: 'Sent each time your application moves to a new step (for example: documents ready, applied, approved).',
     preview: {
-      en: `Namaste ${store.profile?.name || 'Citizen'}, your application milestone for 'Post Matric Scholarship' has progressed to: Applied / College Scrutiny. Next step: Submit printed acknowledgment copy along with attested document copies to College Scholarship Clerk.`,
+      en: `Namaste ${store.profile?.name || 'Citizen'}, your application for 'Post Matric Scholarship' has moved to: Applied / College check. Next step: give a printed receipt and attested document copies to your college scholarship clerk.`,
       mr: `नमस्ते ${store.profile?.name || 'विद्यार्थी'}, आपल्या 'पोस्ट मॅट्रिक शिष्यवृत्ती' अर्जाचा टप्पा पुढे सरकला आहे: अर्ज सादर केला / महाविद्यालयीन पडताळणी. पुढील कृती: महाविद्यालयातील शिष्यवृत्ती लिपिकाकडे स्वाक्षरी प्रत व कागदपत्रे जमा करा.`,
       hi: `नमस्ते ${store.profile?.name || 'नागरिक'}, आपके 'पोस्ट मैट्रिक छात्रवृत्ति' आवेदन की स्थिति आगे बढ़ी है: आवेदन जमा / कॉलेज स्तर पर जांच। अगला कदम: कॉलेज छात्रवृत्ति लिपिक के पास हस्ताक्षरित प्रति व दस्तावेज जमा करें।`
     }
@@ -168,13 +168,13 @@ const canonicalEvents = computed(() => [
     key: 'STATUS_INACTIVITY',
     field: 'notify_inactivity' as keyof Preferences,
     title: {
-      en: 'Status Inactivity (>14 Days)',
+      en: 'No status change for 14 days',
       mr: '१४ दिवसांची अक्रियाशीलता सूचना',
       hi: '14 दिनों से कोई स्थिति परिवर्तन नहीं'
     },
-    trigger: 'Sent when self-reported application status has not changed for 14 days, prompting follow-up.',
+    trigger: 'Sent when your application status has not changed for 14 days, so you can follow up.',
     preview: {
-      en: `Namaste ${store.profile?.name || 'Citizen'}, your application for 'EBC Fee Concession' has been in 'Under Review' status for over 14 days. We recommend checking with your College Scholarship Clerk or logging into the portal to check scrutiny queries.`,
+      en: `Namaste ${store.profile?.name || 'Citizen'}, your application for 'EBC Fee Concession' has been 'Under Review' for over 14 days. Please check with your college scholarship clerk, or log in to the portal to see any questions.`,
       mr: `नमस्ते ${store.profile?.name || 'विद्यार्थी'}, आपल्या 'ईबीसी शुल्क सवलत' अर्जाची स्थिती 'तपासणी सुरू' अशी १४ दिवसांपासून कायम आहे. कृपया महाविद्यालयातील लिपिकाकडे चौकशी करा अथवा पोर्टलवर लॉगिन करून पडताळणी शेरा तपासा.`,
       hi: `नमस्ते ${store.profile?.name || 'नागरिक'}, आपके 'ईबीसी शुल्क छूट' आवेदन की स्थिति 'समीक्षाधीन' पिछले 14 दिनों से अपरिवर्तित है। कृपया अपने कॉलेज लिपिक से संपर्क करें या पोर्टल पर लॉगिन करके जांच टिप्पणी देखें।`
     }
@@ -183,13 +183,13 @@ const canonicalEvents = computed(() => [
     key: 'GRIEVANCE_RESUBMISSION',
     field: 'notify_grievances' as keyof Preferences,
     title: {
-      en: '15-Day Scrutiny Resubmission Clock',
+      en: '15 days left to fix your application',
       mr: '१५-दिवसीय पडताळणी दुरुस्ती मुदत',
       hi: '15-दिवसीय आपत्ति सुधार समय-सीमा'
     },
-    trigger: 'Countdown reminders (Day 10, 5, 2, 1) to upload corrected documents before MahaDBT scrutiny auto-rejection.',
+    trigger: 'Countdown reminders (day 10, 5, 2 and 1) to upload corrected documents before MahaDBT rejects the application automatically.',
     preview: {
-      en: `Namaste ${store.profile?.name || 'Citizen'}, an official scrutiny objection was raised on your 'Post Matric Scholarship' application. You have 5 days remaining to upload the corrected document before 28 November 2026. Do not let your application lapse!`,
+      en: `Namaste ${store.profile?.name || 'Citizen'}, an official objection was raised on your 'Post Matric Scholarship' application. You have 5 days left to upload the corrected document, by 28 November 2026. Do not let it lapse!`,
       mr: `नमस्ते ${store.profile?.name || 'विद्यार्थी'}, आपल्या 'पोस्ट मॅट्रिक शिष्यवृत्ती' अर्जावर छाननी अधिकाऱ्याने आक्षेप नोंदवला आहे. अर्ज रद्द होण्यापासून वाचवण्यासाठी दुरुस्त कागदपत्र अपलोड करण्यास फक्त ५ दिवस शिल्लक आहेत (अंतिम मुदत: 28 नोव्हेंबर 2026).`,
       hi: `नमस्ते ${store.profile?.name || 'नागरिक'}, आपके 'पोस्ट मैट्रिक छात्रवृत्ति' आवेदन पर जांच अधिकारी द्वारा आपत्ति दर्ज की गई है। आवेदन स्वतः निरस्त होने से बचाने हेतु संशोधित दस्तावेज़ अपलोड करने के लिए केवल 5 दिन शेष हैं (अंतिम तिथि: 28 नवंबर 2026)।`
     }
@@ -198,13 +198,13 @@ const canonicalEvents = computed(() => [
     key: 'ANNUAL_RENEWAL',
     field: 'notify_renewals' as keyof Preferences,
     title: {
-      en: 'Annual Academic & March 31 Renewal',
+      en: 'Yearly renewal: certificate expires 31 March',
       mr: 'वार्षिक नूतनीकरण व ३१ मार्च दाखला मुदत',
       hi: 'वार्षिक नवीनीकरण एवं 31 मार्च प्रमाण पत्र समाप्ति'
     },
-    trigger: 'Sent in February & March before statutory 31 March Tahsildar income certificate expiry and July MahaDBT cycle.',
+    trigger: 'Sent in February and March, before your Tahsildar income certificate expires on 31 March.',
     preview: {
-      en: `Namaste ${store.profile?.name || 'Citizen'}, your Tahsildar Income Certificate expires on 31 March as per statutory financial year rules. Apply for the new 2026-27 certificate now on Aaple Sarkar to ensure continuous scholarship eligibility without delay.`,
+      en: `Namaste ${store.profile?.name || 'Citizen'}, your Tahsildar Income Certificate expires on 31 March. Apply now for the new 2026-27 certificate on Aaple Sarkar, so your scholarship continues without a break.`,
       mr: `नमस्ते ${store.profile?.name || 'विद्यार्थी'}, शासकीय आर्थिक वर्ष नियमांनुसार आपला तहसीलदार उत्पन्न दाखला ३१ मार्च रोजी संपत आहे. नवीन शैक्षणिक वर्ष २०२६-२७ च्या शिष्यवृत्तीसाठी आताच 'आपले सरकार' वर नवीन दाखल्यासाठी अर्ज करा.`,
       hi: `नमस्ते ${store.profile?.name || 'नागरिक'}, सरकारी वित्तीय वर्ष नियमों के अनुसार आपका तहसीलदार आय प्रमाण पत्र 31 मार्च को समाप्त हो रहा है। नए शैक्षणिक सत्र 2026-27 की छात्रवृत्ति हेतु अभी 'आपले सरकार' पर नए प्रमाण पत्र के लिए आवेदन करें।`
     }
@@ -223,7 +223,7 @@ async function fetchPreferences() {
     }
     inputPhone.value = prefs.value.mobile_number || '';
   } catch (err: any) {
-    errorMessage.value = err?.response?.data?.error || 'Failed to load notification preferences.';
+    errorMessage.value = err?.response?.data?.error || 'Something went wrong. Please try again in a few minutes.';
   } finally {
     isLoading.value = false;
   }
@@ -245,7 +245,7 @@ async function savePreferences() {
       saveSuccess.value = false;
     }, 3500);
   } catch (err: any) {
-    errorMessage.value = err?.response?.data?.error || 'Failed to update preferences.';
+    errorMessage.value = err?.response?.data?.error || 'Something went wrong. Please try again in a few minutes.';
   } finally {
     isSaving.value = false;
   }
@@ -298,7 +298,7 @@ async function handleSendOtp() {
     demoOtpCode.value = res.data.demo_code || '123456';
     prefs.value.mobile_number = res.data.mobile_number || inputPhone.value.trim();
   } catch (err: any) {
-    verifyError.value = err?.response?.data?.mobile_number?.[0] || err?.response?.data?.error || 'Failed to send OTP.';
+    verifyError.value = err?.response?.data?.mobile_number?.[0] || err?.response?.data?.error || 'Something went wrong. Please try again in a few minutes.';
   } finally {
     isVerifying.value = false;
   }
@@ -306,7 +306,7 @@ async function handleSendOtp() {
 
 async function handleVerifyOtp() {
   if (!inputOtp.value.trim()) {
-    verifyError.value = 'Please enter the 6-digit OTP code.';
+    verifyError.value = 'Please enter the 6-digit code we sent you.';
     return;
   }
   isVerifying.value = true;
@@ -322,7 +322,7 @@ async function handleVerifyOtp() {
     isVerifyModalOpen.value = false;
     await savePreferences();
   } catch (err: any) {
-    verifyError.value = err?.response?.data?.error || 'Invalid OTP code.';
+    verifyError.value = err?.response?.data?.error || 'The code is wrong. Please check it and try again.';
   } finally {
     isVerifying.value = false;
   }
@@ -360,7 +360,7 @@ async function handleSendTest() {
     testResult.value = res.data;
     await fetchHistory();
   } catch (err: any) {
-    testResult.value = { success: false, message: err?.response?.data?.error || 'Failed to dispatch test reminder.' };
+    testResult.value = { success: false, message: err?.response?.data?.error || 'Something went wrong. Please try again in a few minutes.' };
   } finally {
     isTesting.value = false;
   }
@@ -384,7 +384,7 @@ function toggleTelemetry() {
 }
 
 function formatDate(isoStr?: string | null) {
-  if (!isoStr) return 'Not recorded';
+  if (!isoStr) return 'Not saved';
   try {
     const d = new Date(isoStr);
     return d.toLocaleString('en-IN', {
@@ -432,15 +432,15 @@ onMounted(async () => {
         <div class="flex flex-wrap items-center gap-2">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-xs font-black bg-[#059669]/20 text-[#34D399] border border-[#059669]">
             <ShieldCheck class="w-3.5 h-3.5" />
-            Consent-Driven (Zero Unsolicited Messages)
+            Only sent with your permission
           </span>
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-xs font-black bg-[#2563EB]/20 text-[#60A5FA] border border-[#2563EB]">
             <CheckCircle2 class="w-3.5 h-3.5" />
-            TRAI DLT Compliant (PE ID: 110155234000001)
+            Registered for SMS (DLT ID: 110155234000001)
           </span>
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-xs font-black bg-[#D97706]/20 text-[#FBBF24] border border-[#D97706]">
             <MessageSquare class="w-3.5 h-3.5" />
-            Meta WhatsApp Cloud API v20.0
+            WhatsApp Business service
           </span>
         </div>
 
@@ -448,10 +448,10 @@ onMounted(async () => {
           <div>
             <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
               <Bell class="w-8 h-8 text-[#F59E0B]" />
-              WhatsApp & SMS <span class="bg-[#FDE047] text-[#0B132B] px-2 py-0.5 ml-1">Deadline Notification System</span>
+              WhatsApp & SMS <span class="bg-[#FDE047] text-[#0B132B] px-2 py-0.5 ml-1">deadline reminders</span>
             </h1>
             <p class="text-slate-300 text-sm sm:text-base max-w-3xl mt-1.5">
-              Never miss a scholarship deadline, missing document SLA, 15-day scrutiny resubmission clock, or annual March 31 income certificate renewal.
+              Never miss a scholarship deadline, a missing document, the 15-day fix window, or the yearly 31 March certificate renewal.
             </p>
           </div>
 
@@ -462,7 +462,7 @@ onMounted(async () => {
               class="px-3.5 py-2 rounded-lg text-xs font-bold bg-[#1C2541] hover:bg-[#253256] text-white border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer shadow-[1.5px_1.5px_0_0_#000]"
             >
               <Sliders class="w-3.5 h-3.5" />
-              <span>Admin Telemetry</span>
+              <span>Admin status</span>
             </button>
           </div>
         </div>
@@ -474,29 +474,29 @@ onMounted(async () => {
       <div class="flex items-center justify-between border-b border-slate-700 pb-3">
         <div class="flex items-center gap-2">
           <Sliders class="w-5 h-5 text-[#34D399]" />
-          <h3 class="font-black text-sm sm:text-base text-white">Live Notification Gateway Telemetry & Health</h3>
+          <h3 class="font-black text-sm sm:text-base text-white">Live status of reminder services</h3>
         </div>
         <button @click="showAdminTelemetry = false" class="text-xs text-slate-400 hover:text-white cursor-pointer font-bold">Close ✕</button>
       </div>
 
       <div v-if="telemetryData" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
         <div class="p-4 bg-[#1C2541] rounded-lg border border-slate-700 space-y-2">
-          <div class="text-[#FBBF24] font-black uppercase tracking-wider text-[10px]">Meta WhatsApp Gateway</div>
+          <div class="text-[#FBBF24] font-black uppercase tracking-wider text-[10px]">WhatsApp (Meta) service</div>
           <div class="text-sm font-bold text-[#34D399]">Mode: {{ telemetryData.gateways?.whatsapp?.mode }}</div>
-          <div class="text-slate-300">Phone ID: <code class="text-emerald-300">{{ telemetryData.gateways?.whatsapp?.phone_number_id }}</code></div>
-          <div class="text-slate-400 text-[11px]">HMAC-SHA256 signature verification active on inbound webhooks.</div>
+          <div class="text-slate-300">Phone number ID: <code class="text-emerald-300">{{ telemetryData.gateways?.whatsapp?.phone_number_id }}</code></div>
+          <div class="text-slate-400 text-[11px]">Security check on incoming messages is on.</div>
         </div>
 
         <div class="p-4 bg-[#1C2541] rounded-lg border border-slate-700 space-y-2">
-          <div class="text-[#60A5FA] font-black uppercase tracking-wider text-[10px]">Indian SMS DLT Gateway</div>
+          <div class="text-[#60A5FA] font-black uppercase tracking-wider text-[10px]">SMS service (India DLT registered)</div>
           <div class="text-sm font-bold text-[#60A5FA]">Mode: {{ telemetryData.gateways?.sms?.mode }}</div>
-          <div class="text-slate-300">Entity ID: <code class="text-blue-300">{{ telemetryData.gateways?.sms?.dlt_entity_id }}</code></div>
-          <div class="text-slate-400 text-[11px]">Commercial delivery blocked without registered DLT credentials.</div>
+          <div class="text-slate-300">Registered ID: <code class="text-blue-300">{{ telemetryData.gateways?.sms?.dlt_entity_id }}</code></div>
+          <div class="text-slate-400 text-[11px]">Paid SMS sending stays blocked until registration is complete.</div>
         </div>
 
         <div class="p-4 bg-[#1C2541] rounded-lg border border-slate-700 space-y-2">
-          <div class="text-slate-400 font-black uppercase tracking-wider text-[10px]">Overall Telemetry Metrics</div>
-          <div class="text-sm font-bold text-white">Total Messages: {{ telemetryData.summary?.total_notifications }}</div>
+          <div class="text-slate-400 font-black uppercase tracking-wider text-[10px]">Overall summary</div>
+          <div class="text-sm font-bold text-white">Total messages: {{ telemetryData.summary?.total_notifications }}</div>
           <div class="flex flex-wrap gap-1 mt-1">
             <span v-for="(count, stat) in telemetryData.summary?.by_status" :key="stat" class="px-1.5 py-0.5 rounded bg-slate-800 text-[10px] text-slate-200 border border-slate-700">
               {{ stat }}: {{ count }}
@@ -504,13 +504,13 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div v-else class="text-center py-4 text-xs text-slate-400">Loading gateway telemetry...</div>
+      <div v-else class="text-center py-4 text-xs text-slate-400">Loading status...</div>
     </div>
 
     <!-- ERROR & SUCCESS ALERTS -->
     <div v-if="saveSuccess" class="p-4 rounded-xl bg-[#ECFDF5] border-[1.5px] border-[#065F46] text-[#064E3B] text-xs sm:text-sm font-black flex items-center gap-2 shadow-[2px_2px_0_0_#065F46]">
       <CheckCircle2 class="w-4 h-4 text-[#059669] shrink-0" />
-      <span>Notification preferences updated and saved securely!</span>
+      <span>Your reminder settings are saved.</span>
     </div>
 
     <div v-if="errorMessage" class="p-4 rounded-xl bg-[#FEF2F2] border-[1.5px] border-[#DC2626] text-[#991B1B] text-xs sm:text-sm font-black flex items-center gap-2 shadow-[2px_2px_0_0_#DC2626]">
@@ -522,13 +522,13 @@ onMounted(async () => {
     <div class="bg-[#FBFBFA] rounded-xl p-6 sm:p-8 border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-[1.5px] border-[#0B132B] pb-5">
         <div>
-          <div class="text-xs font-black uppercase tracking-wider text-[#D97706]">Step 1: Contact Identity</div>
+          <div class="text-xs font-black uppercase tracking-wider text-[#D97706]">Step 1: Your mobile number</div>
           <h2 class="text-xl font-black text-[#0B132B] flex items-center gap-2 mt-0.5">
             <Phone class="w-5 h-5 text-[#0B132B]" />
-            Citizen Mobile Number & Verified Consent
+            Your mobile number and permission
           </h2>
           <p class="text-xs sm:text-sm text-[#475569] mt-1 font-medium">
-            Under TRAI and Meta WhatsApp anti-spam policies, explicit phone ownership verification is required before sending deadline reminders.
+            To stop spam, we must confirm the phone number is yours before we send reminders.
           </p>
         </div>
 
@@ -538,7 +538,7 @@ onMounted(async () => {
           :class="prefs.is_mobile_verified ? 'bg-white hover:bg-slate-100 text-[#0B132B] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B]' : 'bg-[#D97706] hover:bg-[#B45309] text-white border-[#0B132B] shadow-[2px_2px_0_0_#0B132B]'"
         >
           <Phone class="w-3.5 h-3.5" />
-          <span>{{ prefs.is_mobile_verified ? 'Change Mobile Number' : 'Verify Mobile Number Now' }}</span>
+          <span>{{ prefs.is_mobile_verified ? 'Change Mobile Number' : 'Verify my mobile number' }}</span>
         </button>
       </div>
 
@@ -546,7 +546,7 @@ onMounted(async () => {
         <!-- Number Status -->
         <div class="p-4 rounded-xl bg-white border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] flex items-center justify-between">
           <div>
-            <div class="text-[11px] font-black text-[#64748B] uppercase tracking-wider">Registered Mobile</div>
+            <div class="text-[11px] font-black text-[#64748B] uppercase tracking-wider">Your mobile number</div>
             <div class="text-base font-black text-[#0B132B] mt-0.5 font-mono">
               {{ prefs.mobile_number || 'No number added' }}
             </div>
@@ -558,32 +558,32 @@ onMounted(async () => {
             </span>
             <span v-else class="inline-flex items-center gap-1 px-2.5 py-1 rounded-sm text-xs font-black bg-[#FEF3C7] text-[#92400E] border border-[#D97706]">
               <AlertTriangle class="w-3 h-3 text-[#D97706]" />
-              Unverified
+              Not verified
             </span>
           </div>
         </div>
 
         <!-- WhatsApp Consent Timestamp -->
         <div class="p-4 rounded-xl bg-white border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B]">
-          <div class="text-[11px] font-black text-[#64748B] uppercase tracking-wider">WhatsApp Opt-in Audit</div>
+          <div class="text-[11px] font-black text-[#64748B] uppercase tracking-wider">WhatsApp permission</div>
           <div class="text-xs font-black text-[#0B132B] mt-1 flex items-center gap-1.5">
             <span class="w-2.5 h-2.5 rounded-full border border-[#0B132B]" :class="prefs.whatsapp_enabled ? 'bg-[#059669]' : 'bg-slate-300'"></span>
-            <span>{{ prefs.whatsapp_enabled ? 'Opted In' : 'Opted Out / Inactive' }}</span>
+            <span>{{ prefs.whatsapp_enabled ? 'Permission on' : 'Permission off' }}</span>
           </div>
           <div class="text-[11px] text-[#64748B] mt-1 font-medium">
-            {{ prefs.whatsapp_enabled ? 'Since: ' + formatDate(prefs.whatsapp_opt_in_at) : (prefs.whatsapp_opt_out_at ? 'Opted out: ' + formatDate(prefs.whatsapp_opt_out_at) : 'No opt-in record') }}
+            {{ prefs.whatsapp_enabled ? 'Since: ' + formatDate(prefs.whatsapp_opt_in_at) : (prefs.whatsapp_opt_out_at ? 'Turned off on ' + formatDate(prefs.whatsapp_opt_out_at) : 'No permission given yet') }}
           </div>
         </div>
 
         <!-- SMS Consent Timestamp -->
         <div class="p-4 rounded-xl bg-white border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B]">
-          <div class="text-[11px] font-black text-[#64748B] uppercase tracking-wider">SMS Opt-in Audit</div>
+          <div class="text-[11px] font-black text-[#64748B] uppercase tracking-wider">SMS permission</div>
           <div class="text-xs font-black text-[#0B132B] mt-1 flex items-center gap-1.5">
             <span class="w-2.5 h-2.5 rounded-full border border-[#0B132B]" :class="prefs.sms_enabled ? 'bg-[#2563EB]' : 'bg-slate-300'"></span>
-            <span>{{ prefs.sms_enabled ? 'Opted In' : 'Opted Out / Inactive' }}</span>
+            <span>{{ prefs.sms_enabled ? 'Permission on' : 'Permission off' }}</span>
           </div>
           <div class="text-[11px] text-[#64748B] mt-1 font-medium">
-            {{ prefs.sms_enabled ? 'Since: ' + formatDate(prefs.sms_opt_in_at) : (prefs.sms_opt_out_at ? 'Opted out: ' + formatDate(prefs.sms_opt_out_at) : 'No opt-in record') }}
+            {{ prefs.sms_enabled ? 'Since: ' + formatDate(prefs.sms_opt_in_at) : (prefs.sms_opt_out_at ? 'Turned off on ' + formatDate(prefs.sms_opt_out_at) : 'No permission given yet') }}
           </div>
         </div>
       </div>
@@ -613,25 +613,25 @@ onMounted(async () => {
 
           <div>
             <h3 class="font-black text-[#0B132B] text-base flex items-center gap-1.5">
-              WhatsApp Notifications
+              WhatsApp reminders
               <span class="text-[10px] px-2 py-0.5 rounded-sm font-black border border-[#0B132B]" :class="channelsAvailable.whatsapp.is_configured ? 'bg-[#D1FAE5] text-[#065F46]' : 'bg-[#E0E7FF] text-[#3730A3]'">
                 {{ channelsAvailable.whatsapp.provider_mode }}
               </span>
             </h3>
             <p class="text-xs text-[#475569] mt-1 font-medium leading-relaxed">
-              Delivers rich alerts directly into your WhatsApp inbox for imminent deadlines, document SLAs, and scrutiny remarks.
+              Sends reminders to your WhatsApp for close deadlines, missing documents and office remarks.
             </p>
           </div>
         </div>
 
         <div class="pt-3 border-t-[1.5px] border-[#0B132B] text-[11px] text-[#64748B] space-y-1 font-medium">
           <div class="flex items-center justify-between">
-            <span>Provider:</span>
+            <span>Service provider:</span>
             <strong class="text-[#0B132B]">Meta Cloud API</strong>
           </div>
           <div class="flex items-center justify-between">
-            <span>Anti-Spam Policy:</span>
-            <strong class="text-[#059669]">Instant Opt-Out Respected</strong>
+            <span>Stop anytime:</span>
+            <strong class="text-[#059669]">You can turn it off anytime</strong>
           </div>
         </div>
       </div>
@@ -657,25 +657,25 @@ onMounted(async () => {
 
           <div>
             <h3 class="font-black text-[#0B132B] text-base flex items-center gap-1.5">
-              SMS Gateway Reminders
+              SMS reminders
               <span class="text-[10px] px-2 py-0.5 rounded-sm font-black border border-[#0B132B]" :class="channelsAvailable.sms.is_configured ? 'bg-[#DBEAFE] text-[#1E40AF]' : 'bg-slate-100 text-slate-800'">
                 {{ channelsAvailable.sms.provider_mode }}
               </span>
             </h3>
             <p class="text-xs text-[#475569] mt-1 font-medium leading-relaxed">
-              TRAI TCCCPR (2018) compliant text alerts for citizens in low-bandwidth rural talukas without active data connections.
+              Text message reminders for villages with weak internet. Works without mobile data.
             </p>
           </div>
         </div>
 
         <div class="pt-3 border-t-[1.5px] border-[#0B132B] text-[11px] text-[#64748B] space-y-1 font-medium">
           <div class="flex items-center justify-between">
-            <span>TRAI Header / ID:</span>
+            <span>Sender ID:</span>
             <strong class="text-[#0B132B]">YOJNAV (DLT Approved)</strong>
           </div>
           <div class="flex items-center justify-between">
             <span>Status:</span>
-            <strong class="text-[#2563EB]">{{ channelsAvailable.sms.is_configured ? 'Commercial Gateway Active' : 'Simulated Gateway Active' }}</strong>
+            <strong class="text-[#2563EB]">{{ channelsAvailable.sms.is_configured ? 'SMS service active' : 'Test mode, no real SMS sent' }}</strong>
           </div>
         </div>
       </div>
@@ -699,16 +699,16 @@ onMounted(async () => {
           </div>
 
           <div>
-            <h3 class="font-black text-[#0B132B] text-base">In-App Notification Console</h3>
+            <h3 class="font-black text-[#0B132B] text-base">Alerts on this website</h3>
             <p class="text-xs text-[#475569] mt-1 font-medium leading-relaxed">
-              Active alerts inside the web portal whenever you log in or check saved scholarship applications.
+              Alerts shown on this website when you log in or check your applications.
             </p>
           </div>
         </div>
 
         <!-- Language Selector -->
         <div class="pt-3 border-t-[1.5px] border-[#0B132B] space-y-1.5">
-          <label class="text-[11px] font-black text-[#0B132B] uppercase tracking-wider">Language Preference</label>
+          <label class="text-[11px] font-black text-[#0B132B] uppercase tracking-wider">Language for reminders</label>
           <div class="grid grid-cols-3 gap-1.5 bg-[#F1F5F9] p-1 rounded-lg border border-[#0B132B]">
             <button
               @click="prefs.preferred_language = 'en'; savePreferences();"
@@ -743,13 +743,13 @@ onMounted(async () => {
         <div>
           <span class="inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wider text-[#92400E]">
             <Sparkles class="w-3.5 h-3.5" />
-            Interactive Demonstration
+            Try it out
           </span>
           <h2 class="text-xl font-black text-[#0B132B] mt-0.5">
-            1-Click Citizen Test Drive
+            Send a test reminder
           </h2>
           <p class="text-xs sm:text-sm text-[#475569] mt-0.5 font-medium">
-            Test the transmission pipeline right now. Dispatches a verified sample alert in your preferred language ({{ prefs.preferred_language.toUpperCase() }}).
+            Send a sample reminder now, in your chosen language ({{ prefs.preferred_language.toUpperCase() }}).
           </p>
         </div>
 
@@ -759,8 +759,8 @@ onMounted(async () => {
             class="px-3 py-2 bg-white rounded-lg text-xs font-black border-[1.5px] border-[#0B132B] text-[#0B132B] shadow-[2px_2px_0_0_#0B132B] focus:outline-hidden"
           >
             <option value="WHATSAPP">WhatsApp 🟢</option>
-            <option value="SMS">SMS Gateway 📱</option>
-            <option value="IN_APP">In-App Alert 🔔</option>
+            <option value="SMS">SMS 📱</option>
+            <option value="IN_APP">Alert on this website 🔔</option>
           </select>
 
           <button
@@ -769,7 +769,7 @@ onMounted(async () => {
             class="px-4 py-2 bg-[#D97706] hover:bg-[#B45309] text-white rounded-lg text-xs font-black transition-all shadow-[2px_2px_0_0_#0B132B] border-[1.5px] border-[#0B132B] flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
           >
             <Send class="w-3.5 h-3.5" />
-            <span>{{ isTesting ? 'Transmitting...' : 'Send Test Reminder 🔔' }}</span>
+            <span>{{ isTesting ? 'Sending...' : 'Send Test Reminder 🔔' }}</span>
           </button>
         </div>
       </div>
@@ -795,12 +795,12 @@ onMounted(async () => {
     <div class="space-y-4">
       <div class="flex items-center justify-between">
         <div>
-          <div class="text-xs font-black uppercase tracking-wider text-[#D97706]">Step 3: Alert Customization</div>
+          <div class="text-xs font-black uppercase tracking-wider text-[#D97706]">Step 3: Choose your alerts</div>
           <h2 class="text-xl font-black text-[#0B132B] mt-0.5">
-            The 6 Canonical Deadline & Milestone Event Types
+            The 6 types of reminders
           </h2>
           <p class="text-xs sm:text-sm text-[#475569] mt-0.5 font-medium">
-            All reminders are grounded strictly in verified scheme records and statutory dates. Customize which alerts you wish to receive:
+            Reminders are based on official scheme dates. Choose the ones you want:
           </p>
         </div>
       </div>
@@ -834,7 +834,7 @@ onMounted(async () => {
             <!-- Trilingual WhatsApp Chat Bubble Preview -->
             <div class="bg-[#ECFDF5] border-[1.5px] border-[#059669] p-3 rounded-lg text-[11px] text-[#064E3B] leading-relaxed shadow-[1px_1px_0_0_#059669] relative">
               <div class="flex items-center justify-between text-[10px] text-[#065F46] font-black mb-1 pb-1 border-b border-[#059669]/30">
-                <span>YojnaVia Verified Alert ({{ prefs.preferred_language.toUpperCase() }})</span>
+                <span>YojnaVia alert ({{ prefs.preferred_language.toUpperCase() }})</span>
                 <span class="flex items-center gap-0.5 text-[#059669]">
                   <CheckCircle2 class="w-2.5 h-2.5" />
                   Official
@@ -851,13 +851,13 @@ onMounted(async () => {
     <div class="bg-[#FBFBFA] rounded-xl p-6 sm:p-8 border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-[1.5px] border-[#0B132B] pb-5">
         <div>
-          <div class="text-xs font-black uppercase tracking-wider text-[#D97706]">Telemetry & Audit Log</div>
+          <div class="text-xs font-black uppercase tracking-wider text-[#D97706]">Message history</div>
           <h2 class="text-xl font-black text-[#0B132B] flex items-center gap-2 mt-0.5">
             <Clock class="w-5 h-5 text-[#0B132B]" />
-            Notification Delivery History
+            Reminders sent to you
           </h2>
           <p class="text-xs sm:text-sm text-[#475569] mt-1 font-medium">
-            Immutable log of all reminders dispatched, simulated, or suppressed due to opt-out policies.
+            A record of reminders sent, test messages, and reminders stopped because you opted out.
           </p>
         </div>
 
@@ -868,10 +868,10 @@ onMounted(async () => {
             @change="fetchHistory()"
             class="px-2.5 py-1.5 bg-white rounded-lg text-xs font-black border-[1.5px] border-[#0B132B] text-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] focus:outline-hidden"
           >
-            <option value="ALL">All Channels</option>
+            <option value="ALL">All types</option>
             <option value="WHATSAPP">WhatsApp</option>
-            <option value="SMS">SMS Gateway</option>
-            <option value="IN_APP">In-App</option>
+            <option value="SMS">SMS</option>
+            <option value="IN_APP">On this website</option>
           </select>
 
           <select 
@@ -879,11 +879,11 @@ onMounted(async () => {
             @change="fetchHistory()"
             class="px-2.5 py-1.5 bg-white rounded-lg text-xs font-black border-[1.5px] border-[#0B132B] text-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] focus:outline-hidden"
           >
-            <option value="ALL">All Statuses</option>
-            <option value="SIMULATED">Simulated</option>
+            <option value="ALL">All results</option>
+            <option value="SIMULATED">Test</option>
             <option value="DELIVERED">Delivered</option>
             <option value="SENT">Sent</option>
-            <option value="OPTED_OUT">Opted Out</option>
+            <option value="OPTED_OUT">Stopped</option>
             <option value="FAILED">Failed</option>
           </select>
 
@@ -891,7 +891,7 @@ onMounted(async () => {
             @click="fetchHistory()"
             :disabled="isHistoryLoading"
             class="p-2 rounded-lg bg-white hover:bg-slate-100 text-[#0B132B] border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] transition-colors cursor-pointer"
-            title="Refresh logs"
+            title="Refresh list"
           >
             <RefreshCw class="w-3.5 h-3.5" :class="{ 'animate-spin': isHistoryLoading }" />
           </button>
@@ -903,7 +903,7 @@ onMounted(async () => {
         <Bell class="w-10 h-10 mx-auto text-[#CBD5E1]" />
         <div class="text-sm font-black text-[#0B132B]">No notifications sent yet</div>
         <p class="text-xs text-[#64748B] max-w-sm mx-auto font-medium">
-          Click "Send Test Reminder 🔔" above or run the background scanner to trigger scheduled reminders.
+          Click "Send Test Reminder 🔔" above to try a sample reminder.
         </p>
       </div>
 
@@ -912,12 +912,12 @@ onMounted(async () => {
           <thead>
             <tr class="border-b-[1.5px] border-[#0B132B] bg-[#F1F5F9] text-[#0B132B] uppercase text-[10px] font-black">
               <th class="py-2.5 px-3">Channel</th>
-              <th class="py-2.5 px-3">Event Type</th>
-              <th class="py-2.5 px-3">Recipient</th>
-              <th class="py-2.5 px-3">Lang</th>
+              <th class="py-2.5 px-3">Reminder type</th>
+              <th class="py-2.5 px-3">Sent to</th>
+              <th class="py-2.5 px-3">Language</th>
               <th class="py-2.5 px-3">Status</th>
-              <th class="py-2.5 px-3">Provider ID</th>
-              <th class="py-2.5 px-3">Sent Time</th>
+              <th class="py-2.5 px-3">Reference no.</th>
+              <th class="py-2.5 px-3">Sent on</th>
               <th class="py-2.5 px-3 text-right">Details</th>
             </tr>
           </thead>
@@ -970,14 +970,14 @@ onMounted(async () => {
               <tr v-if="expandedLogId === log.id" class="bg-[#FFFBEB]">
                 <td colspan="8" class="p-4 space-y-2 text-xs border-y border-[#FCD34D]">
                   <div class="font-black text-[#78350F] flex items-center justify-between">
-                    <span>Message Subject: {{ log.title }}</span>
-                    <span class="text-[10px] text-[#64748B] font-mono">Idempotency Key: {{ log.idempotency_key }}</span>
+                    <span>Title: {{ log.title }}</span>
+                    <span class="text-[10px] text-[#64748B] font-mono">Reference: {{ log.idempotency_key }}</span>
                   </div>
                   <div class="p-3 bg-white rounded-lg border border-[#FCD34D] text-[#0B132B] font-sans leading-relaxed">
                     {{ log.message_body }}
                   </div>
                   <div v-if="log.error_message" class="text-[#DC2626] font-black text-[11px]">
-                    Error: {{ log.error_message }}
+                    Problem: {{ log.error_message }}
                   </div>
                 </td>
               </tr>
@@ -993,7 +993,7 @@ onMounted(async () => {
         <div class="flex items-center justify-between border-b-[1.5px] border-[#0B132B] pb-3">
           <h3 class="font-black text-[#0B132B] text-lg flex items-center gap-2">
             <Phone class="w-5 h-5 text-[#0B132B]" />
-            Verify Citizen Mobile Number
+            Confirm your mobile number
           </h3>
           <button @click="isVerifyModalOpen = false" class="text-[#64748B] hover:text-[#0B132B] font-bold text-sm cursor-pointer">✕</button>
         </div>
@@ -1005,7 +1005,7 @@ onMounted(async () => {
         <!-- Phone input step -->
         <div v-if="!otpSent" class="space-y-4">
           <p class="text-xs text-[#475569] font-medium leading-relaxed">
-            Enter your 10-digit Indian mobile number to enable WhatsApp and SMS deadline alerts.
+            Enter your 10-digit mobile number to get WhatsApp and SMS reminders.
           </p>
 
           <div class="space-y-1">
@@ -1026,18 +1026,18 @@ onMounted(async () => {
             :disabled="isVerifying"
             class="w-full py-2.5 bg-[#D97706] hover:bg-[#B45309] text-white rounded-lg text-xs font-black transition-all border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] disabled:opacity-50 cursor-pointer"
           >
-            {{ isVerifying ? 'Sending Code...' : 'Send Verification OTP' }}
+            {{ isVerifying ? 'Sending Code...' : 'Send code' }}
           </button>
         </div>
 
         <!-- OTP verification step -->
         <div v-else class="space-y-4">
           <p class="text-xs text-[#475569] font-medium">
-            A 6-digit verification code has been sent to <strong>+91 {{ inputPhone }}</strong>.
+            We sent a 6-digit code to <strong>+91 {{ inputPhone }}</strong>.
           </p>
 
           <div v-if="demoOtpCode" class="p-3 bg-[#FEF3C7] border border-[#D97706] rounded-lg text-xs text-[#92400E]">
-            <strong>Demo Mode OTP:</strong> Use code <code class="font-black text-[#0B132B] bg-white px-1.5 py-0.5 rounded border border-[#0B132B]">{{ demoOtpCode }}</code> (or standard code <code>123456</code>).
+            <strong>Test code:</strong> Enter code <code class="font-black text-[#0B132B] bg-white px-1.5 py-0.5 rounded border border-[#0B132B]">{{ demoOtpCode }}</code> (or <code>123456</code>).
           </div>
 
           <div class="space-y-1">
@@ -1063,7 +1063,7 @@ onMounted(async () => {
               :disabled="isVerifying"
               class="w-1/2 py-2.5 bg-[#059669] hover:bg-[#047857] text-white rounded-lg text-xs font-black transition-all border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] disabled:opacity-50 cursor-pointer"
             >
-              {{ isVerifying ? 'Verifying...' : 'Confirm & Activate' }}
+              {{ isVerifying ? 'Verifying...' : 'Confirm' }}
             </button>
           </div>
         </div>

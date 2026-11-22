@@ -36,22 +36,22 @@ const simulationResult = ref<any>(null);
 
 const courseLevelOptions = [
   { value: 'HSC_12TH', label: '12th Pass / Junior College' },
-  { value: 'DIPLOMA', label: 'Polytechnic Technical Diploma' },
+  { value: 'DIPLOMA', label: 'Polytechnic diploma' },
   { value: 'PROFESSIONAL_DEGREE', label: 'Professional Degree (B.Tech / B.Pharm / MBBS)' },
-  { value: 'NON_PROFESSIONAL_DEGREE', label: 'Non-Professional Degree (BA / B.Sc / B.Com)' },
+  { value: 'NON_PROFESSIONAL_DEGREE', label: 'Arts, science or commerce degree (BA / B.Sc / B.Com)' },
   { value: 'POSTGRADUATE', label: 'Postgraduate (M.Tech / MCA / MBA / M.Sc)' }
 ];
 
 const accommodationOptions = [
-  { value: 'DAY_SCHOLAR', label: 'Day Scholar (Living with Parents / Commuter)' },
-  { value: 'PRIVATE_RENTAL_PG', label: 'Private Rental / PG / Hostel (>30km from home)' },
-  { value: 'GOVERNMENT_HOSTEL', label: 'Government / University Hostel Resident' }
+  { value: 'DAY_SCHOLAR', label: 'Day scholar (living with parents or commuting)' },
+  { value: 'PRIVATE_RENTAL_PG', label: 'Rented room, PG or private hostel (more than 30 km from home)' },
+  { value: 'GOVERNMENT_HOSTEL', label: 'Government or university hostel' }
 ];
 
 const quotaOptions = [
-  { value: 'CAP_ROUND', label: 'Centralized CAP Merit Round (Govt Seat)' },
-  { value: 'DIRECT_SECOND_YEAR', label: 'Direct Second Year (DSE) Lateral CAP' },
-  { value: 'MANAGEMENT_QUOTA', label: 'Institutional / Management Quota Seat' }
+  { value: 'CAP_ROUND', label: 'Merit round through the central admission process (CAP)' },
+  { value: 'DIRECT_SECOND_YEAR', label: 'Direct second year admission (DSE)' },
+  { value: 'MANAGEMENT_QUOTA', label: 'College management seat' }
 ];
 
 async function fetchPresets() {
@@ -161,13 +161,13 @@ function getIcon(iconName: string) {
             <Sparkles class="w-3 h-3 text-amber-400" />
             Interactive Future Planning Sandbox
           </span>
-          <span class="text-xs text-slate-500 font-mono">AST Deterministic Modeling</span>
+          <span class="text-xs text-slate-500 font-mono">Rule-based check</span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B132B] tracking-tight font-heading">
           What-If Eligibility Simulator
         </h1>
         <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl font-medium">
-          Simulate how your government benefit entitlements change under future life events (enrolling in a degree, changing income, or moving to a hostel) without affecting your verified official profile.
+          See how your scholarships could change if your situation changes, like starting a degree, earning more, or moving to a hostel. Your real profile stays the same.
         </p>
       </div>
 
@@ -175,7 +175,7 @@ function getIcon(iconName: string) {
         to="/schemes"
         class="neo-btn neo-btn-paper px-4 py-2 text-xs sm:text-sm font-bold text-[#0B132B] shrink-0 self-start md:self-auto"
       >
-        <span>Back to Real Schemes</span>
+        <span>Back to my schemes</span>
         <ArrowRight class="w-4 h-4" />
       </router-link>
     </div>
@@ -184,8 +184,8 @@ function getIcon(iconName: string) {
     <div class="p-4 rounded-xl border-[1.5px] border-[#0B132B] bg-[#FFFBEB] text-amber-950 text-xs sm:text-sm font-medium flex items-start gap-3 shadow-[2px_2px_0_0_#0B132B]">
       <AlertTriangle class="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
       <div>
-        <strong class="font-bold block text-amber-950 mb-0.5">Hypothetical Simulation & Integrity Notice:</strong>
-        <span class="text-amber-900 font-medium">"This sandbox is an interactive planning tool to help you make informed educational and financial decisions. Never misrepresent current circumstances on official government portals. Legally valid, digitally signed civil certificates from competent revenue authorities are required for formal submissions."</span>
+        <strong class="font-bold block text-amber-950 mb-0.5">Please note:</strong>
+        <span class="text-amber-900 font-medium">"This is a planning tool to help you make choices about study and money. Never give wrong details on official government websites. Official submissions need valid, digitally signed certificates from the revenue office."</span>
       </div>
     </div>
 
@@ -194,9 +194,9 @@ function getIcon(iconName: string) {
       <div class="flex items-center justify-between">
         <h2 class="text-xs font-extrabold uppercase tracking-widest text-[#0B132B] flex items-center gap-2 font-heading">
           <Sparkles class="w-4 h-4 text-amber-600" />
-          <span>1-Click What-If Life Event Scenarios</span>
+          <span>Quick what-if scenarios</span>
         </h2>
-        <span class="text-xs text-slate-500 font-medium">Click any preset to simulate instantly</span>
+        <span class="text-xs text-slate-500 font-medium">Click any scenario to see the result</span>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -225,7 +225,7 @@ function getIcon(iconName: string) {
             </p>
           </div>
           <div class="text-[11px] font-bold text-amber-800 flex items-center gap-1 pt-1 border-t border-[#0B132B]/10">
-            <span>Simulate Scenario</span>
+            <span>See result</span>
             <ArrowRight class="w-3 h-3" />
           </div>
         </button>
@@ -237,21 +237,21 @@ function getIcon(iconName: string) {
       <div class="flex items-center justify-between border-b-[1.5px] border-[#0B132B]/15 pb-3">
         <div class="flex items-center gap-2">
           <Sliders class="w-5 h-5 text-amber-600" />
-          <h2 class="text-sm sm:text-base font-extrabold text-[#0B132B] font-heading">Custom Parameter Simulation Sandbox</h2>
+          <h2 class="text-sm sm:text-base font-extrabold text-[#0B132B] font-heading">Try your own situation</h2>
         </div>
         <button 
           @click="runCustomSimulation"
           class="neo-btn neo-btn-saffron px-4 py-2 text-xs font-bold"
         >
           <RotateCcw class="w-3.5 h-3.5" />
-          <span>Run Custom Simulation</span>
+          <span>Run my own check</span>
         </button>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
         <!-- Education Level -->
         <div class="space-y-1.5">
-          <label class="font-bold text-[#0B132B]">Course / Degree Level</label>
+          <label class="font-bold text-[#0B132B]">Course or degree</label>
           <select 
             v-model="customCourseLevel"
             @change="runCustomSimulation"
@@ -279,7 +279,7 @@ function getIcon(iconName: string) {
 
         <!-- Admission Quota -->
         <div class="space-y-1.5">
-          <label class="font-bold text-[#0B132B]">Admission Mode / Quota</label>
+          <label class="font-bold text-[#0B132B]">How you get admission</label>
           <select 
             v-model="customQuota"
             @change="runCustomSimulation"
@@ -294,7 +294,7 @@ function getIcon(iconName: string) {
         <!-- Annual Income Slider -->
         <div class="space-y-1.5">
           <div class="flex items-center justify-between font-bold text-[#0B132B]">
-            <span>Annual Household Income:</span>
+            <span>Annual family income:</span>
             <span class="text-emerald-800 font-mono font-extrabold">₹{{ Number(customIncome).toLocaleString('en-IN') }}</span>
           </div>
           <input 
@@ -307,9 +307,9 @@ function getIcon(iconName: string) {
             class="w-full accent-amber-600 cursor-pointer"
           />
           <div class="flex justify-between text-[10px] text-slate-500 font-bold">
-            <span>₹40k (BPL)</span>
+            <span>₹40k (below poverty line)</span>
             <span>₹1.5L</span>
-            <span>₹8L (NCL Cap)</span>
+            <span>₹8L (OBC income limit)</span>
             <span>₹10L</span>
           </div>
         </div>
@@ -319,8 +319,8 @@ function getIcon(iconName: string) {
     <!-- Simulation Results & Impact Analysis -->
     <div v-if="isLoading" class="neo-box p-12 text-center space-y-3 bg-white">
       <Loader2 class="w-8 h-8 text-amber-600 animate-spin mx-auto" />
-      <h3 class="text-base font-extrabold text-[#0B132B] font-heading">Simulating Deterministic Criteria Impact...</h3>
-      <p class="text-xs text-slate-600 font-medium">Re-evaluating all statutory Maharashtra schemes against modified AST parameters.</p>
+      <h3 class="text-base font-extrabold text-[#0B132B] font-heading">Checking what changes...</h3>
+      <p class="text-xs text-slate-600 font-medium">Checking all Maharashtra schemes with your changes.</p>
     </div>
 
     <div v-else-if="simulationResult" class="space-y-6">
@@ -338,37 +338,37 @@ function getIcon(iconName: string) {
             <span class="neo-stamp neo-stamp-navy text-[9px]">
               Scenario: {{ simulationResult.scenario_title }}
             </span>
-            <span class="text-xs text-slate-600 font-bold">Impact Comparison</span>
+            <span class="text-xs text-slate-600 font-bold">Impact comparison</span>
           </div>
           <h3 class="text-xl sm:text-2xl font-extrabold text-[#0B132B] font-heading">
             {{ simulationResult.financial_impact.delta_inr > 0 
-                ? 'Simulation Unlocks Additional Government Funding!' 
+                ? 'This scenario gets you more government money!' 
                 : simulationResult.financial_impact.delta_inr < 0 
-                  ? 'Simulation Results in Loss of Mean-Tested Benefits.' 
-                  : 'Eligibility and Funding Package Remain Unchanged.' }}
+                  ? 'This scenario may cost you some benefits.' 
+                  : 'Your benefits stay the same.' }}
           </h3>
           <p class="text-xs text-slate-700 max-w-2xl leading-relaxed font-medium">
-            Comparing your active profile against hypothetical parameters.
+            Comparing your current profile with this what-if situation.
           </p>
         </div>
 
         <!-- Delta Numbers Box -->
         <div class="bg-white p-4 rounded-xl border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#0B132B] flex items-center gap-4 shrink-0">
           <div class="text-center pr-4 border-r border-[#0B132B]/15">
-            <span class="text-[10px] text-slate-500 block uppercase font-bold">Baseline Value</span>
+            <span class="text-[10px] text-slate-500 block uppercase font-bold">Current total</span>
             <span class="text-base font-bold text-slate-700 font-mono">₹{{ simulationResult.financial_impact.baseline_total_inr.toLocaleString('en-IN') }}</span>
           </div>
           <div class="text-center pr-4 border-r border-[#0B132B]/15">
-            <span class="text-[10px] text-slate-500 block uppercase font-bold">Simulated Value</span>
+            <span class="text-[10px] text-slate-500 block uppercase font-bold">New total</span>
             <span class="text-base font-extrabold text-[#0B132B] font-mono">₹{{ simulationResult.financial_impact.simulated_total_inr.toLocaleString('en-IN') }}</span>
           </div>
           <div class="text-center">
-            <span class="text-[10px] text-slate-600 block uppercase font-bold">Net Financial Delta</span>
+            <span class="text-[10px] text-slate-600 block uppercase font-bold">Difference per year</span>
             <span 
               class="text-2xl font-black font-mono font-heading"
               :class="simulationResult.financial_impact.delta_inr > 0 ? 'text-emerald-800' : simulationResult.financial_impact.delta_inr < 0 ? 'text-rose-800' : 'text-[#0B132B]'"
             >
-              {{ simulationResult.financial_impact.delta_formatted }}/yr
+              {{ simulationResult.financial_impact.delta_formatted }}/year
             </span>
           </div>
         </div>
@@ -378,7 +378,7 @@ function getIcon(iconName: string) {
       <div v-if="simulationResult.newly_unlocked_schemes.length > 0" class="space-y-3">
         <h3 class="text-xs font-extrabold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5 font-heading">
           <CheckCircle2 class="w-4 h-4 text-emerald-700" />
-          <span>Newly Unlocked Schemes ({{ simulationResult.newly_unlocked_schemes.length }})</span>
+          <span>New schemes you can get ({{ simulationResult.newly_unlocked_schemes.length }})</span>
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div 
@@ -399,7 +399,7 @@ function getIcon(iconName: string) {
             </div>
 
             <div class="p-2.5 bg-white rounded-xl border border-[#0B132B]/20 text-xs text-emerald-950 space-y-1">
-              <strong class="text-[11px] uppercase tracking-wider text-emerald-900 block font-bold">Why It Unlocked:</strong>
+              <strong class="text-[11px] uppercase tracking-wider text-emerald-900 block font-bold">Why you now qualify:</strong>
               <div v-for="(crit, idx) in s.flipped_to_pass" :key="idx" class="flex items-center gap-1.5 font-medium">
                 <CheckCircle2 class="w-3.5 h-3.5 text-emerald-700 shrink-0" />
                 <span>{{ crit.reason }}</span>
@@ -413,7 +413,7 @@ function getIcon(iconName: string) {
       <div v-if="simulationResult.lost_schemes.length > 0" class="space-y-3">
         <h3 class="text-xs font-extrabold uppercase tracking-wider text-rose-800 flex items-center gap-1.5 font-heading">
           <XCircle class="w-4 h-4 text-rose-700" />
-          <span>Schemes With Ineligibility Under Simulation ({{ simulationResult.lost_schemes.length }})</span>
+          <span>Schemes you would not qualify for ({{ simulationResult.lost_schemes.length }})</span>
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div 
@@ -429,12 +429,12 @@ function getIcon(iconName: string) {
                 <h4 class="text-sm font-extrabold text-[#0B132B] mt-1 font-heading">{{ s.name }}</h4>
               </div>
               <span class="neo-stamp neo-stamp-rose text-xs">
-                Ineligible
+                Not eligible
               </span>
             </div>
 
             <div class="p-2.5 bg-white rounded-xl border border-[#0B132B]/20 text-xs text-rose-950 space-y-1">
-              <strong class="text-[11px] uppercase tracking-wider text-rose-900 block font-bold">Why Eligibility Was Lost:</strong>
+              <strong class="text-[11px] uppercase tracking-wider text-rose-900 block font-bold">Why you no longer qualify:</strong>
               <div v-for="(crit, idx) in s.flipped_to_fail" :key="idx" class="flex items-center gap-1.5 font-medium">
                 <XCircle class="w-3.5 h-3.5 text-rose-700 shrink-0" />
                 <span>{{ crit.reason }}</span>
@@ -450,10 +450,10 @@ function getIcon(iconName: string) {
           <div class="flex items-center gap-2">
             <Scale class="w-5 h-5 text-amber-600" />
             <h3 class="text-xs sm:text-sm font-extrabold text-[#0B132B] uppercase tracking-wider font-heading">
-              Rule-by-Rule Criteria Impact Audit
+              Rule-by-rule check
             </h3>
           </div>
-          <span class="text-xs text-slate-500">Shows all evaluated schemes and status changes</span>
+          <span class="text-xs text-slate-500">Shows all schemes checked and any change</span>
         </div>
 
         <div class="overflow-x-auto">
@@ -461,10 +461,10 @@ function getIcon(iconName: string) {
             <thead>
               <tr class="border-b border-slate-200 text-slate-500 font-bold uppercase text-[10px] tracking-wider bg-slate-50/80">
                 <th class="p-3">Scheme</th>
-                <th class="p-3">Baseline Status</th>
-                <th class="p-3">Simulated Status</th>
-                <th class="p-3">Criteria Change Impact</th>
-                <th class="p-3">Statutory Basis</th>
+                <th class="p-3">Current status</th>
+                <th class="p-3">New status</th>
+                <th class="p-3">What changed</th>
+                <th class="p-3">Official source</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
@@ -496,12 +496,12 @@ function getIcon(iconName: string) {
                 </td>
                 <td class="p-3">
                   <span v-if="s.status_changed" class="font-semibold text-indigo-700">
-                    {{ s.flipped_to_pass.length > 0 ? 'Satisfied ' + s.flipped_to_pass.length + ' new rule(s)' : 'Failed criteria' }}
+                    {{ s.flipped_to_pass.length > 0 ? 'You meet ' + s.flipped_to_pass.length + ' new rule(s)' : 'Now you fail a rule' }}
                   </span>
-                  <span v-else class="text-slate-400">No criteria change</span>
+                  <span v-else class="text-slate-400">No change</span>
                 </td>
                 <td class="p-3 text-[11px] text-slate-500 font-mono">
-                  {{ s.gr_citation || 'Maharashtra GR' }}
+                  {{ s.gr_citation || 'Maharashtra government order' }}
                 </td>
               </tr>
             </tbody>

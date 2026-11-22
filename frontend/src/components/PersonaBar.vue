@@ -15,7 +15,7 @@ const isExpanded = ref(false);
         <div class="w-6 h-6 rounded-lg bg-[#D97706]/20 border border-[#D97706]/40 flex items-center justify-center text-[#F59E0B]">
           <Users class="w-3.5 h-3.5" />
         </div>
-        <span class="text-xs font-black text-slate-100 uppercase tracking-wider">Verified Personas:</span>
+        <span class="text-xs font-black text-slate-100 uppercase tracking-wider">Sample students:</span>
       </div>
 
       <!-- Compact 4 Pills -->
@@ -40,7 +40,7 @@ const isExpanded = ref(false);
         @click="isExpanded = !isExpanded"
         class="text-[11px] text-amber-300 hover:text-white flex items-center gap-1 transition-colors px-2.5 py-1 rounded-lg hover:bg-[#1C2541] cursor-pointer font-bold"
       >
-        <span>{{ isExpanded ? 'Hide Details' : 'View Scenarios' }}</span>
+        <span>{{ isExpanded ? 'Hide details' : 'See examples' }}</span>
         <ChevronUp v-if="isExpanded" class="w-3 h-3" />
         <ChevronDown v-else class="w-3 h-3" />
       </button>

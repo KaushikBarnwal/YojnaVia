@@ -49,7 +49,7 @@ async function runPreflight() {
     preflightData.value = res.data;
   } catch (err: any) {
     console.error('Preflight audit failed:', err);
-    errorMessage.value = err.response?.data?.error || 'Failed to complete preflight audit.';
+    errorMessage.value = err.response?.data?.error || 'Something went wrong. Please try again in a few minutes.';
   } finally {
     isLoading.value = false;
   }
@@ -79,12 +79,12 @@ watch(
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="text-lg font-black text-white">Application Preflight Audit</h3>
+              <h3 class="text-lg font-black text-white">Application readiness check</h3>
               <span class="text-xs px-2 py-0.5 rounded-sm bg-[#1C2541] text-[#FBBF24] border border-[#D97706] font-mono font-bold">
-                Deterministic
+                Rule-based
               </span>
             </div>
-            <p class="text-xs text-slate-300 mt-0.5">Pre-submission verification against MahaDBT scrutiny rules</p>
+            <p class="text-xs text-slate-300 mt-0.5">We check your application before you submit it on MahaDBT</p>
           </div>
         </div>
         <button @click="emit('close')" class="text-slate-400 hover:text-white p-1 rounded-lg transition-colors cursor-pointer">
@@ -100,7 +100,7 @@ watch(
         </div>
         <div class="flex items-center gap-1.5 text-[#0B132B] font-bold">
           <Clock class="w-3.5 h-3.5 text-[#D97706]" />
-          Target: MahaDBT Portal
+          Website: MahaDBT
         </div>
       </div>
 
@@ -109,15 +109,15 @@ watch(
         <!-- Loading State -->
         <div v-if="isLoading" class="py-12 flex flex-col items-center justify-center text-center space-y-3">
           <Loader2 class="w-8 h-8 text-[#0B132B] animate-spin" />
-          <p class="text-sm font-bold text-[#0B132B]">Running 6-Point Scrutiny Audit...</p>
-          <p class="text-xs text-[#64748B] max-w-sm">Checking civil certificate financial years, admission quota eligibility, issuing authorities and mandatory document trees.</p>
+          <p class="text-sm font-bold text-[#0B132B]">Checking your application...</p>
+          <p class="text-xs text-[#64748B] max-w-sm">Checking certificate dates, admission category, certificate issuers and the documents you must submit.</p>
         </div>
 
         <!-- Error State -->
         <div v-else-if="errorMessage" class="p-4 bg-[#FEF2F2] border-[1.5px] border-[#DC2626] rounded-lg text-xs text-[#991B1B] flex items-start gap-3 shadow-[2px_2px_0_0_#DC2626]">
           <ShieldAlert class="w-5 h-5 text-[#DC2626] shrink-0 mt-0.5" />
           <div>
-            <p class="font-black">Audit Check Failed</p>
+            <p class="font-black">Check failed</p>
             <p class="text-xs mt-1">{{ errorMessage }}</p>
           </div>
         </div>
@@ -143,16 +143,16 @@ watch(
                     'bg-[#FEE2E2] text-[#991B1B]': preflightData.status === 'BLOCKED'
                   }"
                 >
-                  {{ preflightData.status === 'READY' ? 'Ready to Submit' : preflightData.status === 'WARNINGS' ? 'Advisory Warnings' : 'Scrutiny Blockers' }}
+                  {{ preflightData.status === 'READY' ? 'Ready to submit' : preflightData.status === 'WARNINGS' ? 'Minor warnings' : 'Problems to fix' }}
                 </span>
-                <span class="text-xs font-bold text-[#64748B]">Readiness Evaluation</span>
+                <span class="text-xs font-bold text-[#64748B]">How ready you are</span>
               </div>
               <h4 class="text-base font-black text-[#0B132B]">
                 {{ preflightData.status === 'READY' 
                     ? 'Application looks solid for portal submission.' 
                     : preflightData.status === 'WARNINGS' 
                       ? 'Minor items should be double-checked before upload.' 
-                      : 'Fatal issues detected that will trigger scrutiny rejection.' }}
+                      : 'There are problems that could get your application rejected.' }}
               </h4>
             </div>
 
@@ -165,7 +165,7 @@ watch(
                 }">
                   {{ preflightData.readiness_score_pct }}%
                 </div>
-                <div class="text-[10px] font-bold text-[#64748B] uppercase">Readiness Score</div>
+                <div class="text-[10px] font-bold text-[#64748B] uppercase">Ready score</div>
               </div>
             </div>
           </div>
@@ -174,7 +174,7 @@ watch(
           <div v-if="preflightData.blockers && preflightData.blockers.length > 0" class="space-y-3">
             <h5 class="text-xs font-black uppercase tracking-wider text-[#991B1B] flex items-center gap-1.5">
               <ShieldAlert class="w-4 h-4 text-[#DC2626]" />
-              Scrutiny Blockers (Must resolve before submission)
+              Problems to fix before you submit
             </h5>
             <div class="space-y-2.5">
               <div 
@@ -195,7 +195,7 @@ watch(
                 
                 <!-- Missing Documents Pill List if available -->
                 <div v-if="blocker.missing_documents && blocker.missing_documents.length > 0" class="pt-2 border-t border-slate-100 space-y-1.5">
-                  <span class="text-[10px] font-bold text-slate-500 uppercase">Documents to Procure:</span>
+                  <span class="text-[10px] font-bold text-slate-500 uppercase">Documents to get:</span>
                   <div class="flex flex-wrap gap-1.5">
                     <div 
                       v-for="doc in blocker.missing_documents" 
@@ -221,7 +221,7 @@ watch(
           <div v-if="preflightData.warnings && preflightData.warnings.length > 0" class="space-y-3">
             <h5 class="text-xs font-black uppercase tracking-wider text-[#92400E] flex items-center gap-1.5">
               <AlertTriangle class="w-4 h-4 text-[#D97706]" />
-              Scrutiny Advisories (Potential Query Risks)
+              Things that may cause questions
             </h5>
             <div class="space-y-2.5">
               <div 
@@ -247,7 +247,7 @@ watch(
             <div class="flex items-center justify-between pb-1 border-b border-[#059669]/20">
               <h5 class="text-xs font-black uppercase tracking-wider text-[#065F46] flex items-center gap-1.5 font-heading">
                 <CheckCircle2 class="w-4 h-4 text-[#059669]" />
-                Verified & Cleared Requirements ({{ preflightData.cleared_checks.length }})
+                Checks you passed ({{ preflightData.cleared_checks.length }})
               </h5>
               <span class="text-[10px] font-bold text-[#065F46] bg-[#DCFCE7] px-2 py-0.5 rounded-sm border border-[#86EFAC]">
                 Passed
@@ -277,7 +277,7 @@ watch(
             <div class="flex items-center justify-between pb-2 border-b border-[#0B132B]/10">
               <h5 class="text-xs font-black uppercase tracking-wider text-[#0B132B] flex items-center gap-1.5 font-heading">
                 <FileText class="w-4 h-4 text-[#D97706]" />
-                Immediate Preparation Action Plan
+                Steps to do now
               </h5>
               <span class="text-[10px] font-mono font-bold text-slate-500 uppercase">
                 {{ preflightData.action_plan.length }} Step{{ preflightData.action_plan.length > 1 ? 's' : '' }}
@@ -328,7 +328,7 @@ watch(
 
           <!-- Reassurance Footer Note -->
           <div v-if="preflightData.statutory_reassurance" class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-[11px] text-slate-500 leading-relaxed font-medium">
-            ⚖️ <strong>Statutory Evaluation Note:</strong> {{ preflightData.statutory_reassurance }}
+            ⚖️ <strong>Official note:</strong> {{ preflightData.statutory_reassurance }}
           </div>
         </div>
       </div>
@@ -339,7 +339,7 @@ watch(
           @click="emit('close')" 
           class="px-4 py-2 rounded-lg text-xs font-black text-[#0B132B] bg-white border-[1.5px] border-[#0B132B] shadow-[1.5px_1.5px_0_0_#0B132B] hover:bg-slate-100 transition-colors cursor-pointer"
         >
-          Close Audit
+          Close
         </button>
 
         <a 
@@ -349,7 +349,7 @@ watch(
           rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black text-white bg-[#0B132B] hover:bg-[#1C2541] border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#D97706] transition-colors cursor-pointer"
         >
-          <span>Open Official Portal</span>
+          <span>Open official website</span>
           <ExternalLink class="w-3.5 h-3.5 text-[#F59E0B]" />
         </a>
       </div>

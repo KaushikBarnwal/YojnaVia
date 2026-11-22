@@ -39,7 +39,7 @@ function acceptConsent() {
             <ShieldCheck class="w-3.5 h-3.5" />
           </div>
           <span class="text-xs font-black text-[#0B132B] uppercase tracking-wider">
-            Sovereign Privacy Notice
+            Privacy notice
           </span>
         </div>
         <button
@@ -52,7 +52,7 @@ function acceptConsent() {
       </div>
 
       <p class="text-xs text-slate-600 font-medium leading-relaxed mb-3">
-        YojnaVia uses client-side local storage on your device only to preserve your scheme matching session. We do not use advertising cookies, third-party trackers, or sensitive biometric identifiers.
+        YojnaVia saves small bits of data only on your device, to remember your search. We do not use ad cookies, third-party trackers or biometric data.
       </p>
 
       <div class="flex items-center justify-between gap-2 pt-1 border-t border-slate-100">
@@ -60,7 +60,7 @@ function acceptConsent() {
           to="/privacy"
           class="text-[11px] font-bold text-amber-700 hover:underline inline-flex items-center gap-1"
         >
-          <span>Read Zero-Aadhaar Policy</span>
+          <span>Read our privacy policy</span>
           <ArrowRight class="w-2.5 h-2.5" />
         </router-link>
 

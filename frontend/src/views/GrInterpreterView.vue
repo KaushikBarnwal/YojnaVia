@@ -60,7 +60,7 @@ async function handleInterpret() {
     interpretedData.value = res.data;
   } catch (err: any) {
     console.error('Interpretation failed:', err);
-    errorMessage.value = err.response?.data?.error || 'Failed to interpret Government Resolution text.';
+    errorMessage.value = err.response?.data?.error || 'Could not explain this text. Please try again.';
   } finally {
     isLoading.value = false;
   }
@@ -98,15 +98,15 @@ onMounted(async () => {
         <div class="inline-flex items-center gap-2 mb-1.5">
           <span class="neo-stamp neo-stamp-navy text-[10px]">
             <BookOpen class="w-3 h-3 text-amber-400" />
-            Statutory Document Grounding Engine
+            Official order explainer
           </span>
-          <span class="text-xs text-slate-500 font-mono">Gazette Rule Decoder</span>
+          <span class="text-xs text-slate-500 font-mono">Explains official orders</span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B132B] tracking-tight font-heading">
-          Government Language-to-Action Interpreter 📜
+          Government order explainer 📜
         </h1>
         <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl font-medium">
-          Paste complex Maharashtra Government Resolutions (GRs), Gazette notifications, or circulars. YojnaVia decodes them into simple-language eligibility rules, required documents, and step-by-step citizen actions—with every single requirement linked directly back to its verbatim source passage.
+          Paste a Maharashtra Government Resolution (GR) or notice. YojnaVia explains who qualifies, what documents you need and what to do next. Every point links to the exact sentence it came from.
         </p>
       </div>
 
@@ -114,7 +114,7 @@ onMounted(async () => {
       <div class="flex items-center gap-2 shrink-0">
         <span class="neo-stamp neo-stamp-emerald text-xs">
           <ShieldCheck class="w-4 h-4 text-emerald-700" />
-          Evidence-Preserving AI
+          Checked against the original text
         </span>
       </div>
     </div>
@@ -122,8 +122,8 @@ onMounted(async () => {
     <!-- 1-Click Sample GR Templates Bar -->
     <div class="space-y-2">
       <div class="flex items-center justify-between text-xs font-bold text-[#0B132B]">
-        <span>Try Authentic Maharashtra Government Resolutions (1-Click Presets):</span>
-        <span class="text-slate-500 font-mono text-[11px]">Official Department Notifications</span>
+        <span>Try a sample government order (one click):</span>
+        <span class="text-slate-500 font-mono text-[11px]">Official notices</span>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
         <button
@@ -141,7 +141,7 @@ onMounted(async () => {
           </div>
           <div class="text-[10px] text-slate-600 flex items-center justify-between font-medium">
             <span>{{ sample.date }}</span>
-            <span class="font-bold text-amber-700">Select & Decode →</span>
+            <span class="font-bold text-amber-700">Explain this →</span>
           </div>
         </button>
       </div>
@@ -152,22 +152,22 @@ onMounted(async () => {
       <div class="flex items-center justify-between">
         <label class="text-xs font-bold text-[#0B132B] flex items-center gap-1.5">
           <FileText class="w-4 h-4 text-amber-600" />
-          <span>Official Resolution Text or Gazette Excerpt (Marathi or English):</span>
+          <span>Paste the official text (Marathi or English):</span>
         </label>
-        <span class="text-[11px] text-slate-500 font-medium">Paste official departmental clauses</span>
+        <span class="text-[11px] text-slate-500 font-medium">Paste the official sentences</span>
       </div>
 
       <textarea
         v-model="inputText"
         rows="6"
-        placeholder="Paste a paragraph from an official government resolution, scheme circular, or notification..."
+        placeholder="Paste a paragraph from an official government order, scheme notice or circular..."
         class="neo-input w-full p-4 text-xs font-mono leading-relaxed"
       ></textarea>
 
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
         <div class="text-[11px] text-slate-600 font-medium flex items-center gap-1.5">
           <ShieldCheck class="w-3.5 h-3.5 text-emerald-700" />
-          <span>Zero-hallucination guarantee: All extracted items include exact quote citations.</span>
+          <span>Every point includes the exact quote from the original text.</span>
         </div>
 
         <button
@@ -177,7 +177,7 @@ onMounted(async () => {
         >
           <Loader2 v-if="isLoading" class="w-4 h-4 animate-spin" />
           <Sparkles v-else class="w-4 h-4" />
-          <span>Decode Government Order Into Action</span>
+          <span>Explain this order</span>
         </button>
       </div>
     </div>
@@ -191,17 +191,17 @@ onMounted(async () => {
           <div>
             <div class="flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-              <span class="text-xs font-extrabold uppercase tracking-wider text-slate-300">Official Source Text</span>
+              <span class="text-xs font-extrabold uppercase tracking-wider text-slate-300">Official original text</span>
             </div>
-            <div class="text-[11px] text-slate-400 mt-0.5">Verbatim Department Notification</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">Word-for-word from the department</div>
           </div>
           <span class="text-[10px] font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded">
-            Legal Evidence
+            Original text
           </span>
         </div>
 
         <div class="space-y-1 text-xs text-slate-300">
-          <div class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Reference Citation:</div>
+          <div class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Order number:</div>
           <div class="font-mono text-emerald-300 font-bold">{{ interpretedData.gr_reference_number }}</div>
           <div class="text-[11px] text-slate-400 font-medium">{{ interpretedData.issuing_department }}</div>
         </div>
@@ -220,7 +220,7 @@ onMounted(async () => {
         </div>
 
         <div class="p-3 rounded-2xl bg-slate-800/80 border border-slate-700/60 text-[11px] text-slate-400">
-          <strong>Evidentiary Invariant:</strong> Click any <span class="text-amber-300 font-bold">"View Source Evidence"</span> tag on the right to locate and highlight its exact statutory sentence here.
+          <strong>How to use this:</strong> Click <span class="text-amber-300 font-bold">"View source"</span> on the right to find and highlight the exact sentence here.
         </div>
       </div>
 
@@ -232,7 +232,7 @@ onMounted(async () => {
           <div class="flex items-center gap-2.5">
             <Sparkles class="w-5 h-5 text-indigo-600 shrink-0" />
             <div>
-              <span class="text-xs font-bold text-indigo-900 block">AI Advisory Interpretation (Informational Guide)</span>
+              <span class="text-xs font-bold text-indigo-900 block">AI explanation (for information only)</span>
               <span class="text-[11px] text-indigo-700">{{ interpretedData.interpreted_by }}</span>
             </div>
           </div>
@@ -242,7 +242,7 @@ onMounted(async () => {
           >
             <Check v-if="isCopied" class="w-3.5 h-3.5 text-emerald-600" />
             <Copy v-else class="w-3.5 h-3.5 text-indigo-600" />
-            <span>{{ isCopied ? 'Copied!' : 'Copy Plan' }}</span>
+            <span>{{ isCopied ? 'Copied!' : 'Copy summary' }}</span>
           </button>
         </div>
 
@@ -250,7 +250,7 @@ onMounted(async () => {
         <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
           <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
             <BookOpen class="w-4 h-4 text-indigo-600" />
-            <span>What This Government Resolution Means In Plain Words:</span>
+            <span>What this order means in plain words:</span>
           </div>
           <p class="text-sm text-slate-800 font-medium leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-100">
             {{ interpretedData.plain_language_summary }}
@@ -262,9 +262,9 @@ onMounted(async () => {
           <h2 class="text-sm font-bold text-slate-900 flex items-center justify-between">
             <span class="flex items-center gap-2">
               <CheckCircle2 class="w-4 h-4 text-emerald-600" />
-              Statutory Eligibility Conditions
+              Who qualifies
             </span>
-            <span class="text-[11px] font-mono text-slate-400">{{ interpretedData.eligibility_conditions?.length || 0 }} Rules</span>
+            <span class="text-[11px] font-mono text-slate-400">{{ interpretedData.eligibility_conditions?.length || 0 }} points</span>
           </h2>
 
           <div class="space-y-3">
@@ -291,7 +291,7 @@ onMounted(async () => {
                   @click="highlightInSource(cond.source_quote)"
                   class="text-indigo-600 hover:text-indigo-800 font-bold shrink-0 flex items-center gap-1 text-[10px]"
                 >
-                  <span>View Source Evidence 🔍</span>
+                  <span>View source 🔍</span>
                 </button>
               </div>
             </div>
@@ -303,9 +303,9 @@ onMounted(async () => {
           <h2 class="text-sm font-bold text-slate-900 flex items-center justify-between">
             <span class="flex items-center gap-2">
               <FileText class="w-4 h-4 text-indigo-600" />
-              Required Certificates & Proofs
+              Documents you need
             </span>
-            <span class="text-[11px] font-mono text-slate-400">{{ interpretedData.required_documents?.length || 0 }} Documents</span>
+            <span class="text-[11px] font-mono text-slate-400">{{ interpretedData.required_documents?.length || 0 }} documents</span>
           </h2>
 
           <div class="space-y-3">
@@ -317,7 +317,7 @@ onMounted(async () => {
               <div class="flex items-start justify-between gap-2">
                 <div>
                   <div class="font-bold text-slate-900 text-xs">{{ doc.document_name }}</div>
-                  <div class="text-[11px] text-slate-500 mt-0.5">Issuing Authority: {{ doc.issuing_authority }}</div>
+                  <div class="text-[11px] text-slate-500 mt-0.5">Issued by: {{ doc.issuing_authority }}</div>
                 </div>
                 <button
                   @click="highlightInSource(doc.source_quote)"
@@ -338,7 +338,7 @@ onMounted(async () => {
         <div v-if="interpretedData.deadlines_and_timelines?.length" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
           <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
             <Clock class="w-4 h-4 text-amber-600" />
-            Official Application Windows & Deadlines
+            Deadlines
           </h2>
 
           <div class="space-y-2">
@@ -365,7 +365,7 @@ onMounted(async () => {
         <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
           <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
             <Layers class="w-4 h-4 text-indigo-600" />
-            Citizen Step-by-Step Action Sequence
+            What to do, step by step
           </h2>
 
           <div class="space-y-3">
@@ -389,7 +389,7 @@ onMounted(async () => {
         <div v-if="interpretedData.clarification_questions_for_citizen?.length" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
           <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
             <HelpCircle class="w-4 h-4 text-purple-600" />
-            Questions You Should Clarify Before Applying
+            Questions to check before you apply
           </h2>
 
           <ul class="space-y-2 text-xs text-slate-700">

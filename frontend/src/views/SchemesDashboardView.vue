@@ -175,7 +175,7 @@ function isSchemeStale(scheme: EvaluatedScheme) {
 async function handleReEvaluateAll() {
   await store.acknowledgeReEvaluation();
   await store.evaluateEligibility();
-  alert("Re-evaluation complete! Your scheme match results have been refreshed against the latest statutory rules.");
+  alert("Done! Your scheme results have been updated using the latest official rules.");
 }
 
 function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
@@ -183,7 +183,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
   const reason = s.passed_criteria?.[0]?.reason || s.brief_description || '';
   const deadlineStr = s.application_deadline 
     ? new Date(s.application_deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) 
-    : 'Rolling admissions cycle';
+    : 'No fixed deadline';
 
   if (lang === 'mr') {
     const title = s.name_marathi || s.name;
@@ -191,7 +191,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
   } else if (lang === 'hi') {
     textToSpeak = `योजना: ${s.name}। प्रत्यक्ष लाभ: ${s.benefit_amount_text}। मुख्य पात्रता: ${reason}। अंतिम तिथि: ${deadlineStr}।`;
   } else {
-    textToSpeak = `Scheme: ${s.name}. Direct Benefit: ${s.benefit_amount_text}. Eligibility: ${reason}. Official Source: ${s.statutory_gr}. Application Deadline: ${deadlineStr}.`;
+    textToSpeak = `Scheme: ${s.name}. You get: ${s.benefit_amount_text}. Eligibility: ${reason}. Official order: ${s.statutory_gr}. Last date to apply: ${deadlineStr}.`;
   }
   speakText(textToSpeak, lang, `scheme-${s.code}`);
 }
@@ -212,11 +212,11 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
         </div>
         <div>
           <div class="font-black text-amber-950 text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2">
-            <span>Statutory Eligibility Rule Revision Detected ({{ store.reEvaluationAlerts.length }} Scheme(s))</span>
+            <span>Official rules changed for {{ store.reEvaluationAlerts.length }} scheme(s)</span>
             <span class="neo-stamp neo-stamp-amber">Action Needed</span>
           </div>
           <p class="text-xs text-amber-900 font-medium mt-1">
-            Department officers have updated statutory eligibility criteria for schemes saved in your application tracker. Click below to re-evaluate your qualification.
+            The government has updated the rules for schemes in your tracker. Click below to check if you still qualify.
           </p>
         </div>
       </div>
@@ -225,7 +225,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
         class="neo-btn neo-btn-saffron px-4 py-2 text-xs font-bold shrink-0 self-start sm:self-auto"
       >
         <RotateCcw class="w-3.5 h-3.5" />
-        <span>Re-Evaluate Rules & Clear Alerts</span>
+        <span>Check again and clear alerts</span>
       </button>
     </div>
 
@@ -235,15 +235,15 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
         <div class="inline-flex items-center gap-2 mb-1.5">
           <span class="neo-stamp neo-stamp-navy text-[10px]">
             <Scale class="w-3 h-3 text-amber-400" />
-            Statutory Engine v2.5
+            Checked against official rules
           </span>
-          <span class="text-xs text-slate-500 font-mono">GR-Certified</span>
+          <span class="text-xs text-slate-500 font-mono">Based on official government orders (GRs)</span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B132B] tracking-tight">
           Recommended Schemes & Scholarships
         </h1>
         <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">
-          Matched deterministically against official Maharashtra Government criteria based on your verified profile facts.
+          We checked your details against official Maharashtra government rules. Results depend on the details in your profile.
         </p>
       </div>
 
@@ -262,7 +262,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
           class="neo-btn neo-btn-saffron px-3.5 py-2 text-xs sm:text-sm font-bold"
         >
           <RotateCcw class="w-3.5 h-3.5" :class="{ 'animate-spin': store.isLoading }" />
-          <span>Re-check Eligibility</span>
+          <span>Check eligibility again</span>
         </button>
       </div>
     </div>
@@ -270,7 +270,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
     <!-- Informational Notice -->
     <div class="px-4 py-3 rounded-xl border-[1.5px] border-[#0B132B] bg-[#FFFBEB] text-amber-950 text-xs font-medium flex items-center gap-2.5 shadow-[2px_2px_0_0_#0B132B]">
       <AlertTriangle class="w-4 h-4 text-amber-700 shrink-0" />
-      <span>Informational eligibility estimate based on published Government Resolutions (GRs). Final sanction is granted by the relevant department scrutinising authority.</span>
+      <span>This is an estimate based on published government orders (GRs). The department that reviews your application makes the final decision.</span>
     </div>
 
     <!-- 1. Compact Profile Summary Bar -->
@@ -278,16 +278,16 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
       <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs sm:text-sm text-slate-700 font-medium">
         <span class="font-extrabold text-[#0B132B] flex items-center gap-1.5">
           <UserCheck class="w-4 h-4 text-amber-600" />
-          {{ store.profile?.name || 'Citizen' }}
+          {{ store.profile?.name || 'Student' }}
         </span>
         <span class="text-slate-300">•</span>
-        <span>{{ store.profile?.age || 20 }} yrs</span>
+        <span>{{ store.profile?.age || 20 }} years old</span>
         <span class="text-slate-300">•</span>
         <span>{{ store.profile?.district || 'Pune' }}, MH</span>
         <span class="text-slate-300">•</span>
         <span class="neo-stamp text-[10px] bg-slate-100 text-[#0B132B]">{{ store.profile?.caste_category || 'OPEN' }}</span>
         <span class="text-slate-300">•</span>
-        <span class="font-bold text-emerald-800">₹{{ Number(store.profile?.annual_family_income || 0).toLocaleString('en-IN') }}/yr</span>
+        <span class="font-bold text-emerald-800">₹{{ Number(store.profile?.annual_family_income || 0).toLocaleString('en-IN') }}/year</span>
         <span class="text-slate-300">•</span>
         <span class="capitalize text-slate-600">{{ String(store.profile?.current_course_level || 'Undergraduate').toLowerCase().replace('_', ' ') }}</span>
       </div>
@@ -314,7 +314,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
           <CheckCircle2 class="w-4 h-4 text-emerald-700" />
         </div>
         <div class="text-2xl sm:text-3xl font-black text-[#0B132B] mt-2 font-heading">{{ likelyCount }}</div>
-        <div class="text-[11px] text-emerald-800 font-semibold mt-0.5">Meets all criteria</div>
+        <div class="text-[11px] text-emerald-800 font-semibold mt-0.5">You meet all the rules</div>
       </div>
 
       <!-- Needs Confirmation / Near Eligible -->
@@ -324,11 +324,11 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
         :class="activeTab === 'NEEDS_CONFIRMATION' ? '!bg-[#FFFBEB] !shadow-[3px_3px_0_0_#0B132B] ring-2 ring-amber-600' : 'bg-white'"
       >
         <div class="flex items-center justify-between">
-          <span class="neo-stamp neo-stamp-amber text-[10px]">Needs Info</span>
+          <span class="neo-stamp neo-stamp-amber text-[10px]">Need more info</span>
           <AlertTriangle class="w-4 h-4 text-amber-700" />
         </div>
         <div class="text-2xl sm:text-3xl font-black text-[#0B132B] mt-2 font-heading">{{ needsConfirmationCount }}</div>
-        <div class="text-[11px] text-amber-800 font-semibold mt-0.5">Missing or boundary info</div>
+        <div class="text-[11px] text-amber-800 font-semibold mt-0.5">Some details are missing or close to the limit</div>
       </div>
 
       <!-- Not Eligible -->
@@ -342,7 +342,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
           <XCircle class="w-4 h-4 text-rose-700" />
         </div>
         <div class="text-2xl sm:text-3xl font-black text-[#0B132B] mt-2 font-heading">{{ ineligibleCount }}</div>
-        <div class="text-[11px] text-rose-800 font-semibold mt-0.5">Criteria not met</div>
+        <div class="text-[11px] text-rose-800 font-semibold mt-0.5">You do not meet the rules</div>
       </div>
 
       <!-- Total Evaluated -->
@@ -356,7 +356,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
           <Scale class="w-4 h-4 text-slate-700" />
         </div>
         <div class="text-2xl sm:text-3xl font-black text-[#0B132B] mt-2 font-heading">{{ activeStudentSchemes.length }}</div>
-        <div class="text-[11px] text-slate-600 font-semibold mt-0.5">All reviewed schemes</div>
+        <div class="text-[11px] text-slate-600 font-semibold mt-0.5">All schemes we checked</div>
       </div>
     </div>
 
@@ -366,17 +366,17 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
         <div>
           <h2 class="text-sm sm:text-base font-extrabold text-[#0B132B] flex items-center gap-2">
             <FileText class="w-4 h-4 text-amber-600" />
-            Key Documents to Prepare (Cross-Scheme Matrix)
+            Key documents to prepare (used by many schemes)
           </h2>
           <p class="text-xs text-slate-600 mt-0.5 font-medium">
-            These statutory certificates are required across most of your eligible scholarships.
+            These official certificates are needed for most scholarships you may get.
           </p>
         </div>
         <router-link
           to="/documents"
           class="neo-btn neo-btn-paper text-xs py-1 px-3 self-start sm:self-auto font-bold text-[#0B132B]"
         >
-          <span>View All Required Documents</span>
+          <span>See all documents you need</span>
           <ArrowRight class="w-3.5 h-3.5" />
         </router-link>
       </div>
@@ -394,16 +394,16 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
                 Essential #{{ idx + 1 }}
               </span>
               <span class="text-slate-500 font-mono text-[11px] font-bold">
-                ~{{ doc.sla_days }} days SLA
+                usually takes {{ doc.sla_days }} days
               </span>
             </div>
             <h3 class="font-extrabold text-[#0B132B] text-sm mt-1">{{ doc.name }}</h3>
-            <p class="text-xs text-slate-600 mt-0.5 font-medium">Issuing Authority: {{ doc.issuing_authority }}</p>
+            <p class="text-xs text-slate-600 mt-0.5 font-medium">Issued by: {{ doc.issuing_authority }}</p>
           </div>
 
           <div class="mt-3 pt-2 border-t border-[#0B132B]/10 flex items-center justify-between text-xs">
             <span class="font-bold text-emerald-800">
-              Unlocks {{ doc.scheme_codes.length }} scholarship(s)
+              Needed for {{ doc.scheme_codes.length }} scholarship(s)
             </span>
           </div>
         </div>
@@ -456,7 +456,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
           v-model="showSampleSchemes" 
           class="w-4 h-4 rounded border-[#0B132B] text-amber-600 focus:ring-amber-500" 
         />
-        <span>Include Central / Sample Schemes (10)</span>
+        <span>Include central and sample schemes (10)</span>
       </label>
     </div>
 
@@ -495,16 +495,16 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
                 class="neo-stamp neo-stamp-amber animate-pulse"
               >
                 <AlertTriangle class="w-3 h-3 text-amber-700" />
-                <span>Criteria Revised - Re-Run Needed</span>
+                <span>Rules changed - check again</span>
               </span>
 
               <span 
                 v-if="isSchemeStale(s)"
                 class="neo-stamp neo-stamp-amber"
-                title="This scheme has not been re-verified in over 180 days. Official criteria may have changed."
+                title="This scheme has not been checked in over 180 days. The official rules may have changed."
               >
                 <AlertTriangle class="w-3 h-3 text-amber-700" />
-                <span>Stale Verification (>180d)</span>
+                <span>Not checked for 6+ months</span>
               </span>
 
               <span 
@@ -522,7 +522,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
             </div>
 
             <div class="text-xs sm:text-sm font-extrabold text-emerald-900 bg-emerald-50 border-[1.5px] border-[#0B132B] p-2.5 rounded-xl inline-block shadow-[1.5px_1.5px_0_0_#0B132B]">
-              Direct Benefit: {{ s.benefit_amount_text }}
+              You get: {{ s.benefit_amount_text }}
             </div>
 
             <p class="text-xs text-slate-700 leading-relaxed font-medium">{{ s.brief_description }}</p>
@@ -544,7 +544,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
             <div v-if="s.failed_criteria && s.failed_criteria.length > 0" class="p-3 bg-[#FFF1F2] rounded-xl border-[1.5px] border-[#0B132B] text-xs text-rose-950 space-y-1.5 shadow-[1.5px_1.5px_0_0_#0B132B]">
               <div class="font-extrabold flex items-center gap-1.5 text-rose-900">
                 <XCircle class="w-4 h-4 text-rose-700 shrink-0" />
-                <span>Ineligibility Factors:</span>
+                <span>Reasons you do not qualify:</span>
               </div>
               <ul class="space-y-1 pl-4 list-disc font-medium">
                 <li v-for="(f, i) in s.failed_criteria" :key="'f-' + i">
@@ -556,7 +556,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
             <div v-if="s.missing_criteria && s.missing_criteria.length > 0" class="p-3 bg-blue-50 rounded-xl border-[1.5px] border-[#0B132B] text-xs text-blue-950 space-y-1.5 shadow-[1.5px_1.5px_0_0_#0B132B]">
               <div class="font-extrabold flex items-center gap-1.5 text-blue-900">
                 <HelpCircle class="w-4 h-4 text-blue-700 shrink-0" />
-                <span>Criteria Needing Confirmation:</span>
+                <span>Things to confirm:</span>
               </div>
               <ul class="space-y-1 pl-4 list-disc font-medium">
                 <li v-for="(m, i) in s.missing_criteria" :key="'m-' + i">
@@ -572,16 +572,16 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
             >
               <div class="font-extrabold flex items-center gap-1.5 text-amber-950">
                 <AlertTriangle class="w-4 h-4 text-amber-700 shrink-0" />
-                <span>Near-Eligible Guidance & Official Procurement Steps:</span>
+                <span>Close to qualifying: what to do next</span>
               </div>
               <p class="leading-relaxed font-medium">
-                {{ s.near_eligible_guidance || 'You are close to the qualifying boundary for this scholarship.' }}
+                {{ s.near_eligible_guidance || 'You are close to qualifying for this scholarship.' }}
               </p>
               <div class="p-2 bg-white rounded-lg border border-[#0B132B]/30 text-[11px] text-amber-950 leading-normal">
-                <strong>Official Process:</strong> If you meet the boundary category, obtain the requisite Tahsildar Income or Domicile certificate via Aaple Sarkar portal (<span class="font-mono text-indigo-800 font-bold">aaplesarkar.mahaonline.gov.in</span>).
+                <strong>What to do:</strong> If you meet the income limit, get a Tahsildar Income Certificate or a residence certificate (proof you live in Maharashtra) from the Aaple Sarkar website (<span class="font-mono text-indigo-800 font-bold">aaplesarkar.mahaonline.gov.in</span>).
                 <br />
                 <span class="italic text-slate-600 font-semibold block mt-1">
-                  * Notice: Procuring this document allows your application to be scrutinized by the issuing authority, but does not guarantee eligibility or sanction.
+                  * Note: Getting this document lets the department review your application. It does not guarantee you will get the scholarship.
                 </span>
               </div>
             </div>
@@ -598,7 +598,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
               </div>
               <div class="flex items-center gap-1">
                 <Clock class="w-3.5 h-3.5 text-amber-600" />
-                <span>Deadline: <strong class="text-amber-900">{{ s.application_deadline ? new Date(s.application_deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Rolling' }}</strong></span>
+                <span>Deadline: <strong class="text-amber-900">{{ s.application_deadline ? new Date(s.application_deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'No fixed deadline' }}</strong></span>
               </div>
             </div>
 
@@ -660,7 +660,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
               @click="viewSchemeDetail(s.code)"
               class="neo-btn neo-btn-navy w-full py-2.5 px-3 text-xs font-bold"
             >
-              <span>View Details & Steps</span>
+              <span>See details and steps</span>
               <ArrowRight class="w-3.5 h-3.5" />
             </button>
 
@@ -693,7 +693,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
                 rel="noopener noreferrer"
                 class="hover:text-amber-700 inline-flex items-center gap-0.5 transition-colors"
               >
-                <span>{{ s.portal_name || 'Portal' }}</span>
+                <span>{{ s.portal_name || 'Website' }}</span>
                 <ExternalLink class="w-2.5 h-2.5" />
               </a>
               <span class="text-slate-300">•</span>
@@ -701,7 +701,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
                 @click="openStatutoryModal(s)"
                 class="hover:text-amber-700 inline-flex items-center gap-0.5 transition-colors"
               >
-                <span>GR Audit</span>
+                <span>Official order (GR)</span>
               </button>
             </div>
           </div>
@@ -716,7 +716,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
       </div>
       <h3 class="text-base font-extrabold text-[#0B132B] font-heading">No schemes found under this filter</h3>
       <p class="text-xs text-slate-600 font-medium max-w-md mx-auto">
-        Switch tabs or adjust your profile parameters using the Edit Profile option above.
+        Try another tab, or change your details using Edit Profile above.
       </p>
     </div>
 
@@ -736,7 +736,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
         <div class="flex items-center justify-between pb-3 border-b-[1.5px] border-[#0B132B]/20">
           <h3 class="font-extrabold text-[#0B132B] text-base flex items-center gap-2 font-heading">
             <Edit2 class="w-4 h-4 text-amber-600" />
-            Edit Profile Parameters
+            Edit your details
           </h3>
           <button @click="isEditProfileOpen = false" class="text-slate-400 hover:text-slate-700 p-1 font-bold">
             <X class="w-5 h-5" />
@@ -745,7 +745,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
 
         <form @submit.prevent="saveProfileEdit" class="space-y-3.5 text-xs">
           <div>
-            <label class="block font-bold text-[#0B132B] mb-1">Student Name / Tag:</label>
+            <label class="block font-bold text-[#0B132B] mb-1">Your name:</label>
             <input 
               v-model="editName"
               type="text"
@@ -796,7 +796,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
             </div>
 
             <div>
-              <label class="block font-bold text-[#0B132B] mb-1">Annual Family Income (₹):</label>
+              <label class="block font-bold text-[#0B132B] mb-1">Annual family income (₹):</label>
               <input 
                 v-model.number="editIncome"
                 type="number"
@@ -821,7 +821,7 @@ function listenScheme(s: EvaluatedScheme, lang: 'en' | 'hi' | 'mr') {
               :disabled="store.isLoading"
               class="neo-btn neo-btn-saffron px-5 py-2 text-xs font-bold"
             >
-              Save & Re-Evaluate
+              Save and check again
             </button>
           </div>
         </form>

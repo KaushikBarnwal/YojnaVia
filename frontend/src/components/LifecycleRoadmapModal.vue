@@ -38,7 +38,7 @@ async function fetchRoadmap() {
     roadmapData.value = res.data;
   } catch (err: any) {
     console.error('Failed to load lifecycle roadmap:', err);
-    errorMessage.value = err.response?.data?.error || 'Failed to load entitlement roadmap.';
+    errorMessage.value = err.response?.data?.error || 'Something went wrong. Please try again in a few minutes.';
   } finally {
     isLoading.value = false;
   }
@@ -68,12 +68,12 @@ watch(
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="text-lg font-black text-white">Entitlement Lifecycle Roadmap</h3>
+              <h3 class="text-lg font-black text-white">Your scholarship journey</h3>
               <span class="text-xs px-2.5 py-0.5 rounded-sm bg-[#1C2541] text-[#FBBF24] border border-[#D97706] font-mono font-bold">
                 Discover → Renew
               </span>
             </div>
-            <p class="text-xs text-slate-300 mt-0.5">Full multi-year application journey, milestones, and statutory renewal schedules</p>
+            <p class="text-xs text-slate-300 mt-0.5">The full journey over several years: steps, milestones and renewal dates</p>
           </div>
         </div>
         <button @click="emit('close')" class="text-slate-400 hover:text-white p-1 rounded-lg transition-colors cursor-pointer">
@@ -88,9 +88,9 @@ watch(
           <span class="font-mono text-[#64748B] ml-1.5">({{ schemeCode }})</span>
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-[#475569] font-medium">Application Ref:</span>
+          <span class="text-[#475569] font-medium">Application number:</span>
           <span class="font-mono font-bold text-[#0B132B] bg-white px-2 py-0.5 rounded-sm border border-[#0B132B]">
-            {{ roadmapData?.application_reference_number || 'Pending Submission' }}
+            {{ roadmapData?.application_reference_number || 'Not submitted yet' }}
           </span>
         </div>
       </div>
@@ -99,7 +99,7 @@ watch(
       <div class="p-6 max-h-[70vh] overflow-y-auto space-y-6">
         <div v-if="isLoading" class="py-12 flex flex-col items-center justify-center text-center space-y-3">
           <Loader2 class="w-8 h-8 text-[#0B132B] animate-spin" />
-          <p class="text-sm font-bold text-[#0B132B]">Calculating Lifecycle Stages & Renewal Dates...</p>
+          <p class="text-sm font-bold text-[#0B132B]">Working out your stages and renewal dates...</p>
         </div>
 
         <div v-else-if="errorMessage" class="p-4 bg-[#FEF2F2] border-[1.5px] border-[#DC2626] rounded-lg text-xs text-[#991B1B] flex items-start gap-2 shadow-[2px_2px_0_0_#DC2626]">
@@ -120,7 +120,7 @@ watch(
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <h4 class="text-xs font-black uppercase tracking-wider text-[#0B132B]">
-                The 6 Lifecycle Stages
+                The 6 stages
               </h4>
               <span class="text-xs font-black text-[#D97706]">
                 Progress: Stage {{ roadmapData.current_stage_order }} of 6 ({{ roadmapData.progress_pct }}%)
@@ -159,10 +159,10 @@ watch(
             <div class="flex items-center justify-between">
               <span class="text-xs font-black uppercase tracking-wider text-[#0B132B] flex items-center gap-1.5">
                 <Clock class="w-4 h-4 text-[#D97706]" />
-                <span>Your Next Immediate Milestone Action:</span>
+                <span>Your next step:</span>
               </span>
               <span class="text-[10px] font-black bg-[#F1F5F9] text-[#0B132B] px-2 py-0.5 rounded-sm border border-[#CBD5E1]">
-                Self-Reported Next Step
+                Entered by you
               </span>
             </div>
             <p class="text-sm font-black text-[#0B132B] leading-snug">
@@ -173,7 +173,7 @@ watch(
           <!-- Milestones Checklist for All Stages -->
           <div class="space-y-3">
             <h4 class="text-xs font-black uppercase tracking-wider text-[#0B132B]">
-              Detailed Milestone Checklist by Lifecycle Phase
+              Checklist for each stage
             </h4>
             <div class="space-y-3">
               <div 
@@ -220,19 +220,19 @@ watch(
             <div class="p-4 bg-white border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#059669] rounded-lg space-y-2 text-xs">
               <div class="flex items-center gap-2 text-[#065F46] font-black uppercase tracking-wider text-[11px]">
                 <RotateCcw class="w-4 h-4 text-[#059669]" />
-                <span>Annual Renewal Intelligence</span>
+                <span>Yearly renewal</span>
               </div>
               <div class="space-y-1.5 pt-1">
                 <div class="flex justify-between">
-                  <span class="text-[#64748B]">Frequency:</span>
+                  <span class="text-[#64748B]">How often:</span>
                   <span class="font-bold text-[#0B132B]">{{ roadmapData.renewal_intelligence.renewal_frequency }}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-[#64748B]">Next Renewal Window:</span>
+                  <span class="text-[#64748B]">Next renewal opens:</span>
                   <span class="font-bold text-[#059669]">{{ roadmapData.renewal_intelligence.next_academic_renewal_window_opens }}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-[#64748B]">Income Cert Expiry:</span>
+                  <span class="text-[#64748B]">Income certificate expires:</span>
                   <span class="font-black text-[#D97706] font-mono">{{ roadmapData.renewal_intelligence.income_certificate_renewal_deadline }}</span>
                 </div>
                 <p class="text-[11px] text-[#064E3B] pt-1 border-t border-[#CBD5E1] leading-relaxed font-medium">
@@ -245,21 +245,21 @@ watch(
             <div class="p-4 bg-white border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#D97706] rounded-lg space-y-2 text-xs">
               <div class="flex items-center gap-2 text-[#92400E] font-black uppercase tracking-wider text-[11px]">
                 <Clock class="w-4 h-4 text-[#D97706]" />
-                <span>Reapplication & Appeals Guidance</span>
+                <span>Applying again and appeals</span>
               </div>
               <div class="space-y-1.5 pt-1">
                 <div class="flex justify-between">
-                  <span class="text-[#64748B]">15-Day Scrutiny Window:</span>
+                  <span class="text-[#64748B]">15-day window to fix errors:</span>
                   <span class="font-black text-[#92400E]">
-                    {{ roadmapData.reapplication_intelligence.is_scrutiny_window_active ? 'Active (15 Days Left)' : 'Standard Portal Rules' }}
+                    {{ roadmapData.reapplication_intelligence.is_scrutiny_window_active ? 'Open (15 days left)' : 'Normal rules' }}
                   </span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-[#64748B]">Next Fresh Cycle:</span>
+                  <span class="text-[#64748B]">Next new round:</span>
                   <span class="font-bold text-[#0B132B]">{{ roadmapData.reapplication_intelligence.next_fresh_admission_cycle }}</span>
                 </div>
                 <div class="pt-1 border-t border-[#CBD5E1] text-[11px] text-[#78350F] leading-relaxed">
-                  <strong>Statutory Remedy:</strong> {{ roadmapData.reapplication_intelligence.appeal_route }}
+                  <strong>How to appeal:</strong> {{ roadmapData.reapplication_intelligence.appeal_route }}
                 </div>
               </div>
             </div>
@@ -283,7 +283,7 @@ watch(
           rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black text-white bg-[#0B132B] hover:bg-[#1C2541] border-[1.5px] border-[#0B132B] shadow-[2px_2px_0_0_#D97706] transition-colors cursor-pointer"
         >
-          <span>Open {{ roadmapData.portal_name || 'MahaDBT' }} Portal</span>
+          <span>Open {{ roadmapData.portal_name || 'MahaDBT' }} website</span>
           <ExternalLink class="w-3.5 h-3.5 text-[#F59E0B]" />
         </a>
       </div>

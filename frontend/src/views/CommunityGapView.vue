@@ -39,7 +39,7 @@ async function fetchReport() {
     reportData.value = res.data;
   } catch (err: any) {
     console.error('Failed to load community gap report:', err);
-    errorMessage.value = 'Failed to load community intelligence data.';
+    errorMessage.value = 'Something went wrong. Please try again in a few minutes.';
   } finally {
     isLoading.value = false;
   }
@@ -59,13 +59,13 @@ onMounted(async () => {
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#FEF3C7] border border-[#D97706] text-[#92400E] text-xs font-black uppercase tracking-wider mb-2 shadow-[1px_1px_0_0_#92400E]">
           <Users class="w-3.5 h-3.5 text-[#D97706]" />
-          Civil Society & NGO Support Telemetry
+          Support for community groups and NGOs
         </div>
         <h1 class="text-2xl sm:text-4xl font-black text-[#0B132B] tracking-tight">
-          Community Benefits <span class="bg-[#FDE047] px-1.5 py-0.5 border-b-[2px] border-[#0B132B]">Gap Intelligence</span>
+          Community Benefits <span class="bg-[#FDE047] px-1.5 py-0.5 border-b-[2px] border-[#0B132B]">Gap Report</span>
         </h1>
         <p class="text-sm text-[#475569] mt-2 max-w-3xl leading-relaxed">
-          Anonymised and aggregated telemetry to help social workers, CSC counselors, and NGOs identify systemic document bottlenecks, drop-off phases, and portal confusion hotspots.
+          Anonymous, combined information to help social workers, CSC counselors and NGOs find where students get stuck: documents, steps and confusing instructions.
         </p>
       </div>
 
@@ -78,7 +78,7 @@ onMounted(async () => {
           @change="fetchReport"
           class="px-3 py-1.5 text-xs font-bold text-[#0B132B] bg-white border border-[#0B132B] rounded-sm focus:ring-2 focus:ring-[#D97706] focus:outline-hidden"
         >
-          <option v-for="d in districts" :key="d" :value="d">{{ d === 'All' ? 'All Maharashtra (Aggregated)' : d }}</option>
+          <option v-for="d in districts" :key="d" :value="d">{{ d === 'All' ? 'All of Maharashtra (combined)' : d }}</option>
         </select>
       </div>
     </div>
@@ -91,30 +91,30 @@ onMounted(async () => {
         </div>
         <div>
           <div class="font-black text-[#064E3B] text-sm flex items-center gap-2">
-            <span>Privacy-Preserving Aggregation Guarantee (k-Anonymity Standard, k = 5)</span>
-            <span class="text-[10px] bg-[#A7F3D0] text-[#065F46] px-2 py-0.5 rounded-sm font-black border border-[#065F46]">Zero-PII</span>
+            <span>Privacy protected: results are combined so no one can be identified (groups of at least 5)</span>
+            <span class="text-[10px] bg-[#A7F3D0] text-[#065F46] px-2 py-0.5 rounded-sm font-black border border-[#065F46]">No personal details</span>
           </div>
           <p class="text-xs text-[#065F46] mt-0.5">
-            Strict statistical cell suppression is enforced: any cohort with fewer than 5 citizens is suppressed to prevent re-identification. No student names, Aadhaar numbers, or individual records are ever stored or exposed.
+            Any group with fewer than 5 people is hidden so no one can be identified. Student names, Aadhaar numbers and individual records are never stored or shown.
           </p>
         </div>
       </div>
       <div class="inline-flex items-center gap-1.5 text-xs font-black text-[#064E3B] bg-white px-3 py-1.5 rounded-sm border border-[#065F46] shrink-0 shadow-[1px_1px_0_0_#065F46]">
         <Lock class="w-3.5 h-3.5 text-[#059669]" />
-        <span>Suppression Active</span>
+        <span>Privacy protection on</span>
       </div>
     </div>
 
     <!-- Loading State -->
     <div v-if="isLoading" class="py-20 text-center space-y-3">
       <Loader2 class="w-10 h-10 animate-spin text-[#0B132B] mx-auto" />
-      <p class="text-sm font-bold text-[#0B132B]">Aggregating community access telemetry...</p>
+      <p class="text-sm font-bold text-[#0B132B]">Gathering community information...</p>
     </div>
 
     <!-- Error State -->
     <div v-else-if="errorMessage" class="p-6 bg-[#FEF2F2] border-[1.5px] border-[#DC2626] rounded-xl text-[#991B1B] text-center shadow-[2.5px_2.5px_0_0_#DC2626]">
       <p class="font-bold">{{ errorMessage }}</p>
-      <button @click="fetchReport" class="mt-3 px-4 py-2 bg-[#DC2626] text-white rounded-lg text-xs font-bold border border-[#7F1D1D] shadow-[1.5px_1.5px_0_0_#7F1D1D] cursor-pointer">Retry</button>
+      <button @click="fetchReport" class="mt-3 px-4 py-2 bg-[#DC2626] text-white rounded-lg text-xs font-bold border border-[#7F1D1D] shadow-[1.5px_1.5px_0_0_#7F1D1D] cursor-pointer">Try again</button>
     </div>
 
     <!-- Main Content -->
@@ -128,8 +128,8 @@ onMounted(async () => {
             <span class="text-xs font-black uppercase tracking-wider text-[#0B132B]">Top Barrier Document</span>
             <FileText class="w-4 h-4 text-[#DC2626]" />
           </div>
-          <div class="text-lg font-black text-[#0B132B] truncate">Tahsildar Income Cert</div>
-          <p class="text-xs text-[#DC2626] font-bold">82% of applicants face delay friction</p>
+          <div class="text-lg font-black text-[#0B132B] truncate">Tahsildar Income Certificate</div>
+          <p class="text-xs text-[#DC2626] font-bold">82% of applicants face delays</p>
         </div>
 
         <div class="bg-[#FBFBFA] p-5 rounded-xl border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] space-y-1">
@@ -137,8 +137,8 @@ onMounted(async () => {
             <span class="text-xs font-black uppercase tracking-wider text-[#0B132B]">Highest Drop-off Phase</span>
             <TrendingDown class="w-4 h-4 text-[#D97706]" />
           </div>
-          <div class="text-lg font-black text-[#0B132B] truncate">Civil Document Procurement</div>
-          <p class="text-xs text-[#D97706] font-bold">38% abandon before applying</p>
+          <div class="text-lg font-black text-[#0B132B] truncate">Collecting official documents</div>
+          <p class="text-xs text-[#D97706] font-bold">38% give up before applying</p>
         </div>
 
         <div class="bg-[#FBFBFA] p-5 rounded-xl border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] space-y-1">
@@ -147,7 +147,7 @@ onMounted(async () => {
             <Search class="w-4 h-4 text-[#059669]" />
           </div>
           <div class="text-lg font-black text-[#0B132B] truncate">Ladki Bahin Yojana</div>
-          <p class="text-xs text-[#059669] font-bold">Demand Index: 96 / 100</p>
+          <p class="text-xs text-[#059669] font-bold">Demand score: 96 out of 100</p>
         </div>
 
         <div class="bg-[#FBFBFA] p-5 rounded-xl border-[1.5px] border-[#0B132B] shadow-[2.5px_2.5px_0_0_#0B132B] space-y-1">
@@ -156,7 +156,7 @@ onMounted(async () => {
             <AlertTriangle class="w-4 h-4 text-[#7C3AED]" />
           </div>
           <div class="text-lg font-black text-[#0B132B]">{{ reportData.summary_metrics.average_abandonment_rate_pct }}%</div>
-          <p class="text-xs text-[#7C3AED] font-bold">Across higher education schemes</p>
+          <p class="text-xs text-[#7C3AED] font-bold">Across college scholarship schemes</p>
         </div>
 
       </div>
@@ -166,10 +166,10 @@ onMounted(async () => {
         <div>
           <h2 class="text-lg font-black text-[#0B132B] flex items-center gap-2">
             <TrendingDown class="w-5 h-5 text-[#D97706]" />
-            Citizen Application Preparation Abandonment Funnel
+            Where students stop while preparing applications
           </h2>
           <p class="text-xs text-[#64748B] mt-0.5 font-medium">
-            Identifies the precise lifecycle stage where students stall or abandon application preparation.
+            Shows the exact step where students get stuck or stop preparing their application.
           </p>
         </div>
 
@@ -183,10 +183,10 @@ onMounted(async () => {
               <span class="text-[#0B132B]">{{ stage.stage_name }}</span>
               <div class="flex items-center gap-3">
                 <span v-if="stage.drop_off_pct > 0" class="text-[#DC2626] font-black">
-                  -{{ stage.drop_off_pct }}% Drop-off
+                  -{{ stage.drop_off_pct }}% gave up here
                 </span>
                 <span class="text-[#0B132B] bg-[#F1F5F9] px-2.5 py-0.5 rounded-sm border border-[#0B132B] font-mono font-bold">
-                  {{ stage.retention_pct }}% Retained
+                  {{ stage.retention_pct }}% still going
                 </span>
               </div>
             </div>
@@ -213,10 +213,10 @@ onMounted(async () => {
         <div>
           <h2 class="text-lg font-black text-[#0B132B] flex items-center gap-2">
             <FileText class="w-5 h-5 text-[#DC2626]" />
-            Common Document Barriers & Revenue SLA Bottlenecks
+            Documents that hold students back
           </h2>
           <p class="text-xs text-[#64748B] mt-0.5 font-medium">
-            Ranked by access friction score, comparing official RTS Act delivery SLAs against actual field processing delays.
+            Ranked by how much they slow students down. Compares the official time limit with how long it really takes.
           </p>
         </div>
 
@@ -234,28 +234,28 @@ onMounted(async () => {
               <span class="px-2.5 py-1 rounded-sm text-xs font-black shrink-0 border border-[#0B132B]"
                 :class="doc.friction_score_pct >= 75 ? 'bg-[#FEE2E2] text-[#991B1B]' : (doc.friction_score_pct >= 60 ? 'bg-[#FEF3C7] text-[#92400E]' : 'bg-[#E0F2FE] text-[#075985]')"
               >
-                {{ doc.friction_score_pct }}% Friction
+                {{ doc.friction_score_pct }}% slows people down
               </span>
             </div>
 
             <!-- SLA comparison -->
             <div class="grid grid-cols-2 gap-2 text-xs py-2 px-3 rounded-lg bg-[#F8FAFC] border border-[#CBD5E1]">
               <div>
-                <span class="text-[#64748B] block text-[10px] font-bold uppercase">Statutory RTS SLA:</span>
-                <span class="font-black text-[#0B132B]">{{ doc.statutory_sla_days }} Days</span>
+                <span class="text-[#64748B] block text-[10px] font-bold uppercase">Official time limit:</span>
+                <span class="font-black text-[#0B132B]">{{ doc.statutory_sla_days }} days</span>
               </div>
               <div>
-                <span class="text-[#64748B] block text-[10px] font-bold uppercase">Actual Field Delay:</span>
-                <span class="font-black text-[#DC2626]">{{ doc.avg_delay_days }} Days (+{{ doc.avg_delay_days - doc.statutory_sla_days }}d over)</span>
+                <span class="text-[#64748B] block text-[10px] font-bold uppercase">Real wait time:</span>
+                <span class="font-black text-[#DC2626]">{{ doc.avg_delay_days }} days (+{{ doc.avg_delay_days - doc.statutory_sla_days }} days over)</span>
               </div>
             </div>
 
             <p class="text-xs text-[#334155] leading-relaxed">
-              <strong class="font-bold text-[#0B132B]">Bottleneck:</strong> {{ doc.primary_barrier_reason }}
+              <strong class="font-bold text-[#0B132B]">Main problem:</strong> {{ doc.primary_barrier_reason }}
             </p>
 
             <div class="p-2.5 rounded-lg bg-[#FEF3C7]/60 border border-[#F59E0B] text-[11px] text-[#78350F]">
-              <strong class="font-bold text-[#92400E]">NGO Counselor Guidance:</strong> {{ doc.ngo_intervention_guidance }}
+              <strong class="font-bold text-[#92400E]">Advice for counselors:</strong> {{ doc.ngo_intervention_guidance }}
             </div>
           </div>
         </div>
@@ -266,10 +266,10 @@ onMounted(async () => {
         <div>
           <h2 class="text-lg font-black text-[#0B132B] flex items-center gap-2">
             <HelpCircle class="w-5 h-5 text-[#D97706]" />
-            Official Instructions Repeatedly Causing Confusion
+            Official instructions that confuse students again and again
           </h2>
           <p class="text-xs text-[#64748B] mt-0.5 font-medium">
-            Identifies ambiguous department circular clauses where students repeatedly get rejected or trapped in scrutiny queries.
+            Shows unclear rules in government notices that often lead to rejected or delayed applications.
           </p>
         </div>
 
@@ -287,7 +287,7 @@ onMounted(async () => {
                 <h3 class="font-black text-[#0B132B] text-sm mt-1.5">{{ hotspot.title }}</h3>
               </div>
               <span class="text-xs font-black text-[#92400E] bg-white px-2.5 py-1 rounded-sm border border-[#0B132B] shrink-0 shadow-[1px_1px_0_0_#0B132B]">
-                {{ hotspot.confusion_rate_pct }}% Confusion
+                {{ hotspot.confusion_rate_pct }}% find it confusing
               </span>
             </div>
 
@@ -297,7 +297,7 @@ onMounted(async () => {
 
             <div class="pt-2 border-t border-[#FCD34D] text-xs font-medium text-[#78350F] flex items-start gap-1.5">
               <CheckCircle2 class="w-4 h-4 text-[#059669] shrink-0 mt-0.5" />
-              <span><strong class="font-bold text-[#0B132B]">Actionable Intervention:</strong> {{ hotspot.ngo_action }}</span>
+              <span><strong class="font-bold text-[#0B132B]">What to do:</strong> {{ hotspot.ngo_action }}</span>
             </div>
           </div>
         </div>
@@ -308,10 +308,10 @@ onMounted(async () => {
         <div>
           <h2 class="text-lg font-black text-[#0B132B] flex items-center gap-2">
             <Search class="w-5 h-5 text-[#0B132B]" />
-            Community Demand & Scheme Search Frequency
+            Which schemes people are looking for
           </h2>
           <p class="text-xs text-[#64748B] mt-0.5 font-medium">
-            Public interest rankings across Maharashtra welfare and scholarship programs.
+            Ranking of popular welfare and scholarship schemes across Maharashtra.
           </p>
         </div>
 
@@ -319,11 +319,11 @@ onMounted(async () => {
           <table class="w-full text-left text-xs bg-white">
             <thead>
               <tr class="border-b-[1.5px] border-[#0B132B] bg-[#F1F5F9] text-[#0B132B] font-black uppercase tracking-wider text-[10px]">
-                <th class="py-3 px-3">Scheme & Department</th>
-                <th class="py-3 px-3">Target Category</th>
-                <th class="py-3 px-3">Demand Index</th>
-                <th class="py-3 px-3">Local Tracked Cohort</th>
-                <th class="py-3 px-3">Benefit Entitlement</th>
+                <th class="py-3 px-3">Scheme and department</th>
+                <th class="py-3 px-3">Who it is for</th>
+                <th class="py-3 px-3">Popularity</th>
+                <th class="py-3 px-3">Students tracked locally</th>
+                <th class="py-3 px-3">Benefit</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-[#E2E8F0] text-[#334155]">

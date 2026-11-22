@@ -8,7 +8,7 @@ import { ArrowLeft, Sparkles, Scale, AlertTriangle } from '@lucide/vue';
       <!-- 404 Stamp -->
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-[1.5px] border-[#0B132B] bg-rose-50 text-rose-800 text-xs font-black uppercase tracking-wider mb-4 shadow-[1.5px_1.5px_0_0_#0B132B]">
         <AlertTriangle class="w-3.5 h-3.5" />
-        <span>Statutory Code 404 • Not Found</span>
+        <span>Error 404 • Page not found</span>
       </div>
 
       <h1 class="text-4xl sm:text-6xl font-black text-[#0B132B] font-heading tracking-tight leading-none mb-3">
@@ -16,11 +16,11 @@ import { ArrowLeft, Sparkles, Scale, AlertTriangle } from '@lucide/vue';
       </h1>
 
       <h2 class="text-lg sm:text-xl font-extrabold text-[#0B132B] mb-2 font-heading">
-        Gazette Page or Scheme Not Found
+        We could not find this page
       </h2>
 
       <p class="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed max-w-md mx-auto mb-8">
-        The link you followed does not correspond to an active statutory route in the Maharashtra public services catalog. It may have been updated or relocated.
+        The link you followed does not work. The page may have moved or been removed.
       </p>
 
       <!-- Quick Action Buttons -->
@@ -30,7 +30,7 @@ import { ArrowLeft, Sparkles, Scale, AlertTriangle } from '@lucide/vue';
           class="neo-btn neo-btn-saffron w-full sm:w-auto px-5 py-2.5 text-xs font-bold"
         >
           <Sparkles class="w-4 h-4" />
-          <span>Launch AI Scheme Intake</span>
+          <span>Find schemes for me</span>
         </router-link>
 
         <router-link
@@ -38,7 +38,7 @@ import { ArrowLeft, Sparkles, Scale, AlertTriangle } from '@lucide/vue';
           class="neo-btn neo-btn-paper w-full sm:w-auto px-5 py-2.5 text-xs font-bold text-[#0B132B]"
         >
           <Scale class="w-4 h-4 text-amber-600" />
-          <span>View All 15 Schemes</span>
+          <span>See all 15 schemes</span>
         </router-link>
 
         <router-link
@@ -46,15 +46,15 @@ import { ArrowLeft, Sparkles, Scale, AlertTriangle } from '@lucide/vue';
           class="neo-btn neo-btn-navy w-full sm:w-auto px-5 py-2.5 text-xs font-bold"
         >
           <ArrowLeft class="w-4 h-4" />
-          <span>Return Home</span>
+          <span>Go to home page</span>
         </router-link>
       </div>
 
       <!-- Assistance note with clickable email -->
       <div class="mt-8 pt-6 border-t border-[#0B132B]/10 text-xs text-slate-500 font-medium">
-        Need assistance or found a broken government gazette citation?
+        Need help, or did you find a broken government order link?
         <br />
-        Contact the civil tech helpdesk at
+        Email our help team at
         <a href="mailto:support@YojnaVia.in" class="font-bold text-amber-700 hover:underline">
           support@YojnaVia.in
         </a>

@@ -19,15 +19,15 @@ import { Scale, AlertTriangle, CheckCircle2, ArrowLeft, ShieldAlert } from '@luc
     <div class="neo-box p-6 sm:p-8 bg-white space-y-3">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-600 text-xs font-black uppercase tracking-wider">
         <Scale class="w-4 h-4 text-amber-700" />
-        <span>Public Legal Framework</span>
+        <span>Official legal terms</span>
       </div>
 
       <h1 class="text-2xl sm:text-4xl font-black text-[#0B132B] font-heading tracking-tight">
-        Terms of Service & Statutory Disclaimers
+        Terms of use and important disclaimers
       </h1>
 
       <p class="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
-        Effective: Academic Year 2024–2025 • Governing the YojnaVia Public Welfare Navigation Engine
+        Effective: Academic Year 2024–2025 • The rules for using YojnaVia
       </p>
     </div>
 
@@ -38,13 +38,14 @@ import { Scale, AlertTriangle, CheckCircle2, ArrowLeft, ShieldAlert } from '@luc
       <div class="neo-box p-6 bg-white space-y-2.5">
         <h2 class="text-base sm:text-lg font-black text-[#0B132B] font-heading flex items-center gap-2">
           <AlertTriangle class="w-4 h-4 text-amber-600" />
-          1. Statutory Eligibility Estimate (Never Guaranteed)
+          1. Eligibility is an estimate, never a promise
         </h2>
+        <p class="font-bold text-[#0B132B]">In short: this is an estimate only. The government makes the final decision.</p>
         <p>
-          YojnaVia provides an <strong>informational statutory estimate</strong> derived deterministically from published Government Resolutions (GRs) of the Government of Maharashtra and central welfare guidelines.
+          YojnaVia gives an <strong>information-only estimate</strong>, based on published Government of Maharashtra orders (GRs) and central welfare rules.
         </p>
         <p class="bg-amber-50 p-3 rounded-xl border border-amber-300 text-amber-950 font-bold">
-          Eligibility evaluations indicate that a citizen is "likely eligible" based on provided criteria. Final approval, sanction, and fund disbursement remain under the sole constitutional authority of the respective government department, desk officer, or scrutinizing committee.
+          "Likely eligible" means you appear to qualify based on the details you gave. Only the government department, desk officer or scrutiny committee can approve, sanction and send money.
         </p>
       </div>
 
@@ -52,13 +53,14 @@ import { Scale, AlertTriangle, CheckCircle2, ArrowLeft, ShieldAlert } from '@luc
       <div class="neo-box p-6 bg-white space-y-2.5">
         <h2 class="text-base sm:text-lg font-black text-[#0B132B] font-heading flex items-center gap-2">
           <CheckCircle2 class="w-4 h-4 text-emerald-600" />
-          2. Free Civic Service — No Middlemen / No Agent Fees
+          2. Free to use: no agents, no middlemen fees
         </h2>
+        <p class="font-bold text-[#0B132B]">In short: using YojnaVia is free. Pay official fees only on government websites.</p>
         <p>
-          YojnaVia is dedicated to eliminating the exploitation of citizens by unauthorized middlemen. Using YojnaVia to discover schemes, generate document checklists, and inspect Government Resolutions is 100% free of charge.
+          YojnaVia works to stop unauthorised middlemen from exploiting citizens. Using YojnaVia to find schemes, make document checklists and read government orders is completely free.
         </p>
         <p>
-          Official government fees for certificate issuance (such as Tahsildar stamp charges on Aaple Sarkar) are defined by the state government and must be paid only through official state gateways.
+          Official fees for certificates (such as Tahsildar stamp charges on Aaple Sarkar) are set by the state government. Pay them only through official state payment systems.
         </p>
       </div>
 
@@ -66,10 +68,11 @@ import { Scale, AlertTriangle, CheckCircle2, ArrowLeft, ShieldAlert } from '@luc
       <div class="neo-box p-6 bg-white space-y-2.5">
         <h2 class="text-base sm:text-lg font-black text-[#0B132B] font-heading flex items-center gap-2">
           <Scale class="w-4 h-4 text-indigo-600" />
-          3. Maharashtra Right to Services (RTS) Act 2015 SLA Guidelines
+          3. Maharashtra Right to Services (RTS) Act 2015: processing times
         </h2>
+        <p class="font-bold text-[#0B132B]">In short: processing times are guides, and they can change during busy periods.</p>
         <p>
-          Service Level Agreements (SLAs) shown in the document dependency graph and application tracker reflect statutory timelines under the Maharashtra Right to Public Services Act 2015. While departments strive to meet these deadlines, processing times may vary during peak admission cycles.
+          The processing times shown in the document guide and application tracker follow the Maharashtra Right to Public Services Act 2015. Departments try to meet them, but times may vary in busy admission periods.
         </p>
       </div>
 
@@ -77,10 +80,11 @@ import { Scale, AlertTriangle, CheckCircle2, ArrowLeft, ShieldAlert } from '@luc
       <div class="neo-box p-6 bg-white space-y-2.5">
         <h2 class="text-base sm:text-lg font-black text-[#0B132B] font-heading flex items-center gap-2">
           <ShieldAlert class="w-4 h-4 text-blue-600" />
-          4. Contact & Inquiries
+          4. Contact us
         </h2>
+        <p class="font-bold text-[#0B132B]">In short: email us with questions about these terms.</p>
         <p>
-          For questions regarding the terms of service or institutional partnerships with Common Service Centers (CSCs), email us at:
+          For questions about these terms, or about partnering with Common Service Centres (CSCs), email us at:
         </p>
         <p class="font-bold text-[#0B132B]">
           Email: <a href="mailto:support@YojnaVia.in" class="text-amber-700 underline">support@YojnaVia.in</a>

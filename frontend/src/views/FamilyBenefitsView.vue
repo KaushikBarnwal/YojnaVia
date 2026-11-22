@@ -45,15 +45,15 @@ function printCounselorReport() {
         <div class="inline-flex items-center gap-2 mb-1.5">
           <span class="neo-stamp neo-stamp-navy text-[10px]">
             <Users class="w-3 h-3 text-amber-400" />
-            Household-Level Benefits Discovery
+            Benefits for your whole household
           </span>
-          <span class="text-xs text-slate-500 font-mono">Multi-Member Synthesis</span>
+          <span class="text-xs text-slate-500 font-mono">All family members</span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B132B] tracking-tight font-heading">
-          Family Entitlement Package
+          Your family's benefits package
         </h1>
         <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl font-medium">
-          Schemes matched across your entire household—combining higher education scholarships, small farmer support, women's welfare, and universal family health insurance.
+          Schemes found for your whole family: college scholarships, help for small farmers, support for women and free family health cover.
         </p>
       </div>
 
@@ -63,7 +63,7 @@ function printCounselorReport() {
           class="neo-btn neo-btn-paper px-4 py-2 text-xs sm:text-sm font-bold text-[#0B132B]"
         >
           <Printer class="w-4 h-4 text-amber-600" />
-          <span>Print / Export Counselor Summary</span>
+          <span>Print summary for counsellor</span>
         </button>
       </div>
     </div>
@@ -75,7 +75,7 @@ function printCounselorReport() {
         class="neo-btn px-3.5 py-1.5 text-xs font-bold"
         :class="activePersona === 'rohan_obc' ? 'neo-btn-navy' : 'neo-btn-paper text-slate-700'"
       >
-        <span>Gaikwad Family (OBC Small Farmer)</span>
+        <span>Gaikwad family (OBC, small farmer)</span>
       </button>
 
       <button
@@ -83,7 +83,7 @@ function printCounselorReport() {
         class="neo-btn px-3.5 py-1.5 text-xs font-bold"
         :class="activePersona === 'sneha_ebc' ? 'neo-btn-navy' : 'neo-btn-paper text-slate-700'"
       >
-        <span>Kulkarni Family (Open / EWS)</span>
+        <span>Kulkarni family (General / EWS)</span>
       </button>
 
       <button
@@ -91,7 +91,7 @@ function printCounselorReport() {
         class="neo-btn px-3.5 py-1.5 text-xs font-bold"
         :class="activePersona === 'vikas_sc' ? 'neo-btn-navy' : 'neo-btn-paper text-slate-700'"
       >
-        <span>Kamble Family (SC Polytechnic)</span>
+        <span>Kamble family (SC, polytechnic student)</span>
       </button>
     </div>
 
@@ -102,36 +102,36 @@ function printCounselorReport() {
           <div class="space-y-2">
             <div class="flex items-center gap-2">
               <span class="neo-stamp neo-stamp-emerald text-[9px]">
-                Verified Maharashtra Entitlements
+                Checked Maharashtra benefits
               </span>
               <span class="text-xs text-amber-300 font-mono font-bold">
                 {{ familyData.district }} • {{ familyData.category }}
               </span>
             </div>
             <h2 class="text-2xl sm:text-3xl font-extrabold font-heading text-white">
-              {{ familyData.family_name }} Household Package
+              {{ familyData.family_name }} family package
             </h2>
             <p class="text-xs sm:text-sm text-slate-300 max-w-xl font-medium">
-              Annual household income: ₹{{ familyData.total_annual_income.toLocaleString('en-IN') }}/yr (Ration Card: {{ familyData.ration_card }})
+              Yearly household income: ₹{{ familyData.total_annual_income.toLocaleString('en-IN') }} (ration card: {{ familyData.ration_card }})
             </p>
           </div>
 
           <!-- Highlight Metric Boxes -->
           <div class="flex flex-wrap items-center gap-3">
             <div class="bg-white/10 p-4 rounded-xl border border-white/20 min-w-[160px]">
-              <div class="text-xs text-emerald-300 font-bold">Total Annual Direct Benefit</div>
+              <div class="text-xs text-emerald-300 font-bold">Total yearly cash and fee benefit</div>
               <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono mt-1 font-heading">
                 ₹{{ familyData.total_annual_household_benefit_inr.toLocaleString('en-IN') }}
               </div>
-              <div class="text-[11px] text-slate-300 mt-0.5">Direct Cash & Tuition Waivers</div>
+              <div class="text-[11px] text-slate-300 mt-0.5">Cash support and fee waivers</div>
             </div>
 
             <div class="bg-white/10 p-4 rounded-xl border border-white/20 min-w-[160px]">
-              <div class="text-xs text-amber-300 font-bold">Universal Family Health Cover</div>
+              <div class="text-xs text-amber-300 font-bold">Free family health cover</div>
               <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono mt-1 font-heading">
                 ₹5,00,000
               </div>
-              <div class="text-[11px] text-slate-300 mt-0.5">MJPJAY Cashless Hospitalization</div>
+              <div class="text-[11px] text-slate-300 mt-0.5">MJPJAY: free treatment at hospitals</div>
             </div>
           </div>
         </div>
@@ -141,7 +141,7 @@ function printCounselorReport() {
       <div class="space-y-4">
         <h3 class="text-base font-extrabold text-[#0B132B] flex items-center gap-2 font-heading">
           <Users class="w-4 h-4 text-amber-600" />
-          <span>Individual Member Entitlement Breakdown</span>
+          <span>Benefits for each family member</span>
         </h3>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -194,7 +194,7 @@ function printCounselorReport() {
             <!-- Footer -->
             <div class="mt-4 pt-3 border-t-[1.5px] border-[#0B132B]/10 flex items-center justify-between text-xs text-slate-600 font-medium">
               <span>Status: <strong class="text-emerald-800 font-bold">Likely Eligible</strong></span>
-              <span class="text-[11px] text-amber-700 font-bold">100% Rule Engine Matched</span>
+              <span class="text-[11px] text-amber-700 font-bold">Matched by the eligibility check</span>
             </div>
           </div>
         </div>
@@ -204,7 +204,7 @@ function printCounselorReport() {
       <div class="neo-box p-5 space-y-3 bg-white">
         <h3 class="text-sm sm:text-base font-extrabold text-[#0B132B] flex items-center gap-2 font-heading">
           <HeartHandshake class="w-4 h-4 text-emerald-700" />
-          <span>Shared Family Social Safety Nets (Universal Maharashtra Cover)</span>
+          <span>Benefits shared by the whole family</span>
         </h3>
 
         <div 
@@ -214,16 +214,16 @@ function printCounselorReport() {
         >
           <div>
             <div class="flex items-center gap-2">
-              <span class="neo-stamp neo-stamp-emerald text-[9px]">Universal Family Protection</span>
-              <span class="neo-stamp bg-emerald-200 text-emerald-950 text-[9px]">Zero Income Cap</span>
+              <span class="neo-stamp neo-stamp-emerald text-[9px]">Open to every family</span>
+              <span class="neo-stamp bg-emerald-200 text-emerald-950 text-[9px]">No income limit</span>
             </div>
             <h4 class="text-base font-extrabold text-emerald-950 mt-1 font-heading">{{ shared.name }}</h4>
             <p class="text-xs text-emerald-900 mt-0.5 font-medium">{{ shared.benefit_text }}</p>
-            <p class="text-[11px] text-emerald-800 mt-1 font-mono font-bold">Authority: {{ shared.statutory_gr }}</p>
+            <p class="text-[11px] text-emerald-800 mt-1 font-mono font-bold">Official order: {{ shared.statutory_gr }}</p>
           </div>
           <div class="shrink-0 text-right">
             <span class="neo-stamp neo-stamp-navy text-xs">
-              All Family Members Covered
+              Covers all family members
             </span>
           </div>
         </div>
@@ -233,7 +233,7 @@ function printCounselorReport() {
       <div class="neo-box p-5 space-y-2 bg-[#FFFBEB]">
         <div class="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[#0B132B] font-heading">
           <Building2 class="w-4 h-4 text-amber-700" />
-          <span>NGO / CSC Counselor Guidance Plan</span>
+          <span>Advice for counsellors and NGOs</span>
         </div>
         <ul class="text-xs text-amber-950 space-y-1.5 pl-4 list-disc font-medium">
           <li v-for="(note, idx) in familyData.counsellor_action_notes" :key="idx">

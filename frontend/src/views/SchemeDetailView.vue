@@ -113,7 +113,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
   const reason = s.passed_criteria?.[0]?.reason || s.brief_description || '';
   const deadlineStr = s.application_deadline 
     ? new Date(s.application_deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) 
-    : 'Rolling academic cycle';
+    : 'No fixed deadline';
 
   if (lang === 'mr') {
     const title = s.name_marathi || s.name;
@@ -121,7 +121,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
   } else if (lang === 'hi') {
     textToSpeak = `योजना: ${s.name}। विभाग: ${s.department}। सीधा लाभ: ${s.benefit_amount_text}। विवरण: ${s.brief_description}। मुख्य पात्रता: ${reason}। अंतिम तिथि: ${deadlineStr}।`;
   } else {
-    textToSpeak = `Scheme Name: ${s.name}. Department: ${s.department}. Direct Benefit: ${s.benefit_amount_text}. Description: ${s.brief_description}. Key Eligibility: ${reason}. Official Source: ${s.statutory_gr}. Deadline: ${deadlineStr}.`;
+    textToSpeak = `Scheme Name: ${s.name}. Department: ${s.department}. Direct Benefit: ${s.benefit_amount_text}. Description: ${s.brief_description}. Key Eligibility: ${reason}. Official order: ${s.statutory_gr}. Deadline: ${deadlineStr}.`;
   }
   speakText(textToSpeak, lang, `detail-${s.code}`);
 }
@@ -138,7 +138,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
         class="neo-btn neo-btn-paper px-3 py-1.5 text-xs font-bold text-[#0B132B]"
       >
         <ArrowLeft class="w-3.5 h-3.5" />
-        <span>Back to Schemes Dashboard</span>
+        <span>Back to all schemes</span>
       </router-link>
 
       <div class="flex items-center gap-2">
@@ -148,7 +148,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
           class="neo-btn neo-btn-saffron px-4 py-2 text-xs font-bold"
         >
           <BookmarkCheck class="w-4 h-4" />
-          <span>Add to Application Tracker</span>
+          <span>Add to my application list</span>
         </button>
       </div>
     </div>
@@ -158,8 +158,8 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
       <div class="inline-block p-3 rounded-xl border-[1.5px] border-[#0B132B] bg-[#F5F5F3] text-slate-700 mb-3 animate-spin shadow-[2px_2px_0_0_#0B132B]">
         <Clock class="w-6 h-6" />
       </div>
-      <h3 class="text-lg font-extrabold text-[#0B132B] font-heading">Loading Scheme Specifications...</h3>
-      <p class="text-xs text-slate-600 mt-1 font-medium">Fetching statutory rules and document requirements.</p>
+      <h3 class="text-lg font-extrabold text-[#0B132B] font-heading">Loading scheme details...</h3>
+      <p class="text-xs text-slate-600 mt-1 font-medium">Getting the rules and documents needed.</p>
     </div>
 
     <!-- Not Found State -->
@@ -167,16 +167,16 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
       <div class="inline-block p-3 rounded-xl border-[1.5px] border-[#0B132B] bg-rose-50 text-rose-700 mb-3 shadow-[2px_2px_0_0_#0B132B]">
         <XCircle class="w-6 h-6" />
       </div>
-      <h3 class="text-lg font-extrabold text-[#0B132B] font-heading">Scheme Code "{{ schemeCode }}" Not Found</h3>
+      <h3 class="text-lg font-extrabold text-[#0B132B] font-heading">Scheme "{{ schemeCode }}" not found</h3>
       <p class="text-xs text-slate-600 mt-1 max-w-md mx-auto mb-4 font-medium">
-        This scheme may not be active or does not exist in the Maharashtra Higher Education catalog.
+        This scheme may not be open now, or it is not in our Maharashtra higher education list.
       </p>
       <router-link
         to="/schemes"
         class="neo-btn neo-btn-navy px-4 py-2 text-xs font-bold"
       >
         <ArrowLeft class="w-3.5 h-3.5" />
-        <span>Return to Schemes Dashboard</span>
+        <span>Back to all schemes</span>
       </router-link>
     </div>
 
@@ -192,7 +192,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
                 {{ statusBadge.text }}
               </span>
               <span class="neo-stamp neo-stamp-navy font-mono text-[10px]">
-                {{ scheme.code }} • AY {{ scheme.effective_academic_year }}
+                {{ scheme.code }} • Academic year {{ scheme.effective_academic_year }}
               </span>
               <span class="text-xs font-bold bg-[#F5F5F3] text-slate-800 border border-[#0B132B]/20 px-2.5 py-0.5 rounded-md">
                 {{ scheme.department }}
@@ -208,7 +208,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
 
             <div class="pt-1">
               <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#ECFDF5] border-[1.5px] border-[#0B132B] text-emerald-950 font-extrabold text-sm sm:text-base shadow-[2px_2px_0_0_#0B132B]">
-                <span>Benefit: {{ scheme.benefit_amount_text }}</span>
+                <span>You get: {{ scheme.benefit_amount_text }}</span>
               </div>
             </div>
 
@@ -220,7 +220,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
             <div class="pt-3 border-t border-[#0B132B]/10 flex flex-wrap items-center gap-2">
               <div class="flex items-center gap-1.5 text-xs text-slate-700 font-bold">
                 <Volume2 class="w-4 h-4" :class="isSpeaking && speakingId === 'detail-' + scheme.code ? 'text-[#D97706] animate-pulse' : 'text-slate-500'" />
-                <span>{{ isSpeaking && speakingId === 'detail-' + scheme.code ? 'Speaking Scheme Details:' : 'Listen to Scheme Details:' }}</span>
+                <span>{{ isSpeaking && speakingId === 'detail-' + scheme.code ? 'Reading scheme details aloud:' : 'Listen to scheme details:' }}</span>
               </div>
               <div class="flex items-center gap-1.5">
                 <button
@@ -265,7 +265,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
           <!-- Quick Metadata Box -->
           <div class="neo-box bg-[#FBFBFA] p-4 shrink-0 space-y-3 w-full md:w-72 text-xs">
             <div class="flex items-center justify-between pb-2 border-b border-[#0B132B]/10">
-              <span class="text-slate-600 font-bold">Verification:</span>
+              <span class="text-slate-600 font-bold">Verified status:</span>
               <span 
                 class="neo-stamp text-[9px]"
                 :class="scheme.verification_status === 'VERIFIED' ? 'neo-stamp-emerald' : 'neo-stamp-amber'"
@@ -274,12 +274,12 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
               </span>
             </div>
             <div v-if="scheme.verification_status !== 'VERIFIED'" class="p-2 bg-amber-50 border border-[#0B132B]/30 rounded-lg text-[10px] text-amber-950 leading-tight">
-              ⚠️ <strong>Notice:</strong> This record is indicative sample data. Official parameters must be cross-checked on the issuing authority portal.
+              ⚠️ <strong>Notice:</strong> This is sample information. Please check the details on the official website.
             </div>
             <div class="flex items-center justify-between pb-2 border-b border-[#0B132B]/10">
               <span class="text-slate-600 font-bold flex items-center gap-1">
                 <Calendar class="w-3.5 h-3.5 text-slate-500" />
-                Last Verified:
+                Last checked:
               </span>
               <span class="font-bold text-[#0B132B]">{{ scheme.last_verified_on || 'Nov 2024' }}</span>
             </div>
@@ -289,7 +289,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
                 Application Deadline:
               </span>
               <span class="font-bold text-amber-900 font-mono text-[11px]">
-                {{ scheme.application_deadline ? new Date(scheme.application_deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'AY Window Open' }}
+                {{ scheme.application_deadline ? new Date(scheme.application_deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Applications open' }}
               </span>
             </div>
             <div class="pt-1 space-y-2">
@@ -298,7 +298,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
                 class="neo-btn neo-btn-navy w-full py-2.5 px-3 text-xs font-bold"
               >
                 <ShieldCheck class="w-4 h-4 text-emerald-400" />
-                <span>Run Application Preflight ⚡</span>
+                <span>Run a quick document check ⚡</span>
               </button>
               <a 
                 :href="scheme.official_portal_url"
@@ -306,7 +306,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
                 rel="noopener noreferrer"
                 class="neo-btn neo-btn-paper w-full py-2 px-3 text-xs font-bold text-[#0B132B]"
               >
-                <span>Open {{ scheme.portal_name }} Portal</span>
+                <span>Open {{ scheme.portal_name }} website</span>
                 <ExternalLink class="w-3.5 h-3.5" />
               </a>
             </div>
@@ -318,8 +318,8 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
       <div class="p-4 rounded-xl border-[1.5px] border-[#0B132B] bg-[#FFFBEB] text-amber-950 text-xs sm:text-sm font-medium flex items-start gap-3 shadow-[2px_2px_0_0_#0B132B]">
         <AlertTriangle class="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
         <div>
-          <strong class="font-bold block text-amber-950 mb-0.5">Statutory Eligibility Notice:</strong>
-          <span class="text-amber-900 font-medium">"This is an informational eligibility estimate, not an official approval. Final decisions belong to the relevant government department."</span>
+          <strong class="font-bold block text-amber-950 mb-0.5">Eligibility notice:</strong>
+          <span class="text-amber-900 font-medium">"This is only an estimate of eligibility, not an official approval. The government department makes the final decision."</span>
         </div>
       </div>
 
@@ -329,21 +329,21 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
           <div>
             <h2 class="text-base sm:text-lg font-extrabold text-[#0B132B] flex items-center gap-2 font-heading">
               <Scale class="w-5 h-5 text-amber-600" />
-              Statutory Authority & Deterministic Eligibility Audit Trail
+              Official rules and eligibility check
             </h2>
             <p class="text-xs text-slate-600 mt-0.5 font-medium">
-              Certified against official Government Resolutions (GRs). Zero LLM hallucination in this legal determination.
+              Checked against official government orders (GRs). No AI is used to decide this.
             </p>
           </div>
           <span class="neo-stamp neo-stamp-navy font-mono text-[10px]">
-            Engine Rule v{{ scheme.version }}
+            Rule version {{ scheme.version }}
           </span>
         </div>
 
         <!-- Official Resolution Box -->
         <div class="p-4 rounded-xl border-[1.5px] border-[#0B132B] bg-[#F5F5F3] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-[1.5px_1.5px_0_0_#0B132B]">
           <div>
-            <span class="font-bold uppercase tracking-wider text-[#0B132B] block text-[11px]">Statutory Government Resolution (GR) Citation:</span>
+            <span class="font-bold uppercase tracking-wider text-[#0B132B] block text-[11px]">Official government order (GR) number:</span>
             <span class="font-bold text-[#0B132B] text-sm mt-0.5 block font-mono">{{ scheme.statutory_gr }}</span>
           </div>
           <a
@@ -352,14 +352,14 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
             rel="noopener noreferrer"
             class="neo-btn neo-btn-paper text-xs py-1.5 px-3 font-bold text-[#0B132B] self-start sm:self-auto"
           >
-            <span>View Official Gazette / GR</span>
+            <span>View the official government order</span>
             <ExternalLink class="w-3.5 h-3.5" />
           </a>
         </div>
 
         <!-- Criteria Cards Grid -->
         <div class="space-y-3">
-          <div class="text-xs font-bold text-[#0B132B] uppercase tracking-wider">Evaluation Audit Trail:</div>
+          <div class="text-xs font-bold text-[#0B132B] uppercase tracking-wider">How we checked:</div>
 
           <!-- Passed Criteria -->
           <div v-for="(item, idx) in scheme.passed_criteria" :key="'pass-' + idx" class="p-3.5 rounded-xl border-[1.5px] border-[#0B132B] bg-[#ECFDF5] text-sm flex items-start gap-3 shadow-[1.5px_1.5px_0_0_#0B132B]">
@@ -367,7 +367,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
             <div class="space-y-1">
               <div class="font-bold text-emerald-950">{{ item.reason }}</div>
               <div class="text-xs text-emerald-900 font-mono bg-emerald-100 px-2 py-0.5 rounded border border-[#0B132B]/15 inline-block font-semibold">
-                Statutory Reference: {{ item.citation }}
+                Official reference: {{ item.citation }}
               </div>
             </div>
           </div>
@@ -378,7 +378,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
             <div class="space-y-1">
               <div class="font-bold text-amber-950">{{ item.reason }}</div>
               <div class="text-xs text-amber-900 font-mono bg-amber-100 px-2 py-0.5 rounded border border-[#0B132B]/15 inline-block font-semibold">
-                Statutory Reference: {{ item.citation }}
+                Official reference: {{ item.citation }}
               </div>
             </div>
           </div>
@@ -388,7 +388,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
             <HelpCircle class="w-4 h-4 text-blue-700 shrink-0 mt-0.5" />
             <div class="space-y-1">
               <div class="font-bold text-blue-950">{{ item.reason }}</div>
-              <div class="text-xs text-blue-900 font-semibold">Verification condition: {{ item.citation }}</div>
+              <div class="text-xs text-blue-900 font-semibold">To confirm: {{ item.citation }}</div>
             </div>
           </div>
 
@@ -398,7 +398,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
             <div class="space-y-1">
               <div class="font-bold text-rose-950">{{ item.reason }}</div>
               <div class="text-xs text-rose-900 font-mono bg-rose-100 px-2 py-0.5 rounded border border-[#0B132B]/15 inline-block font-semibold">
-                Statutory Reference: {{ item.citation }}
+                Official reference: {{ item.citation }}
               </div>
             </div>
           </div>
@@ -411,14 +411,14 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
           <div>
             <h2 class="text-base sm:text-lg font-extrabold text-[#0B132B] flex items-center gap-2 font-heading">
               <FileCheck2 class="w-5 h-5 text-amber-600" />
-              Personalised Document Readiness Checklist
+              Documents you need
             </h2>
             <p class="text-xs text-slate-600 mt-0.5 font-medium">
-              Official certificates required for scrutiny. Mark the documents you currently hold ready.
+              Official certificates needed to apply. Tick the ones you already have.
             </p>
           </div>
           <span class="neo-stamp neo-stamp-navy text-[10px]">
-            {{ scheme.required_documents?.length || 0 }} Documents Required
+            {{ scheme.required_documents?.length || 0 }} documents needed
           </span>
         </div>
 
@@ -444,7 +444,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
                   {{ doc.name }}
                 </span>
                 <span v-if="doc.is_mandatory" class="neo-stamp neo-stamp-rose text-[9px]">
-                  Mandatory
+                  Required
                 </span>
                 <span class="neo-stamp neo-stamp-navy font-mono text-[9px]">
                   {{ doc.code }}
@@ -456,22 +456,22 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
               </p>
 
               <div class="flex flex-wrap items-center gap-y-1 gap-x-4 text-xs text-slate-600 mt-2 font-medium">
-                <span><strong>Issuing Authority:</strong> {{ doc.issuing_authority }}</span>
-                <span><strong>Procurement Portal:</strong> <span class="font-mono text-indigo-800 font-bold">{{ doc.procurement_portal }}</span></span>
+                <span><strong>Issued by:</strong> {{ doc.issuing_authority }}</span>
+                <span><strong>Where to get it:</strong> <span class="font-mono text-indigo-800 font-bold">{{ doc.procurement_portal }}</span></span>
               </div>
             </div>
 
             <div class="text-right shrink-0">
               <span class="neo-stamp bg-[#F5F5F3] text-slate-700 text-[10px]">
                 <Clock class="w-3 h-3 text-slate-500" />
-                {{ doc.estimated_sla_days }}d SLA
+                usually {{ doc.estimated_sla_days }} days
               </span>
             </div>
           </div>
         </div>
 
         <div v-else class="text-xs text-slate-600 p-4 bg-[#F5F5F3] rounded-xl border border-[#0B132B]/20 font-medium">
-          No external certificates required beyond valid Aadhaar-seeded student bank account.
+          No extra certificates needed. You only need a valid student bank account linked to Aadhaar.
         </div>
       </div>
 
@@ -480,20 +480,20 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
         <div class="border-b-[1.5px] border-[#0B132B]/15 pb-4">
           <h2 class="text-base sm:text-lg font-extrabold text-[#0B132B] flex items-center gap-2 font-heading">
             <Sparkles class="w-5 h-5 text-amber-600" />
-            Step-by-Step Official Application Instructions
+            How to apply, step by step
           </h2>
           <p class="text-xs text-slate-600 mt-0.5 font-medium">
-            Follow these verified steps on the official government portal to ensure valid submission.
+            Follow these steps on the official government website so your application is accepted.
           </p>
         </div>
 
         <div class="space-y-3">
           <div 
             v-for="(step, idx) in (scheme.application_steps || [
-              'Register on the official portal with Aadhaar-linked mobile verification.',
-              'Complete profile with academic marks, domicile, and Tahsildar income certificate.',
-              'Upload scanned copies of mandatory documents certified by competent authorities.',
-              'Submit online application and submit printed acknowledgment to college scholarship clerk.'
+              'Register on the official website, verifying with the mobile number linked to your Aadhaar.',
+              'Complete your profile with your marks, residence (domicile) certificate and Tahsildar income certificate.',
+              'Upload scanned copies of the required documents, checked by the authority.',
+              'Submit the online application, then give the printed receipt to your college scholarship clerk.'
             ])" 
             :key="idx"
             class="flex items-start gap-4 p-4 rounded-xl bg-[#FBFBFA] border-[1.5px] border-[#0B132B] text-xs sm:text-sm shadow-[1.5px_1.5px_0_0_#0B132B]"
@@ -514,7 +514,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
         <div class="neo-box p-6 bg-white space-y-3">
           <div class="flex items-center gap-2 text-[#0B132B] font-extrabold text-sm font-heading">
             <PhoneCall class="w-4 h-4 text-amber-600" />
-            <span>Verified Official Helpline & Office</span>
+            <span>Official helpline and office</span>
           </div>
           <div class="text-xs text-slate-700 space-y-1.5 leading-relaxed font-medium">
             <p class="font-bold text-[#0B132B]">
@@ -524,7 +524,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
               Directorate of Higher & Technical Education, Elphinstone Technical High School Campus, 3, Mahapalika Marg, Dhobi Talao, Chhatrapati Shivaji Terminus Area, Mumbai 400001.
             </p>
             <span class="neo-stamp neo-stamp-emerald text-[9px]">
-              Officially Verified Government Contact
+              Checked government contact
             </span>
           </div>
         </div>
@@ -533,17 +533,17 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
         <div class="neo-box p-6 bg-white space-y-3">
           <div class="flex items-center gap-2 text-[#0B132B] font-extrabold text-sm font-heading">
             <Coins class="w-4 h-4 text-amber-600" />
-            <span>Statutory Government Processing Fee</span>
+            <span>Official processing fee</span>
           </div>
           <div class="text-xs text-slate-700 space-y-1.5 leading-relaxed font-medium">
             <p class="font-bold text-[#0B132B]">
-              {{ scheme.statutory_fee_text || '₹0.00 (MahaDBT scholarship application is completely free of charge)' }}
+              {{ scheme.statutory_fee_text || '₹0.00 (applying for the MahaDBT scholarship is completely free)' }}
             </p>
             <p class="text-slate-600">
-              Issuance of Revenue Income or Domicile Certificates via Aaple Sarkar attracts an official statutory processing fee of ₹33.60.
+              Getting a revenue income or residence (domicile) certificate on Aaple Sarkar costs an official fee of ₹33.60.
             </p>
             <span class="neo-stamp neo-stamp-emerald text-[9px]">
-              Official Statutory Fee Schedule
+              Official fee list
             </span>
           </div>
         </div>
@@ -553,19 +553,19 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
       <div class="neo-box p-5 bg-[#FFF1F2] text-rose-950 space-y-2">
         <div class="flex items-center gap-2 font-extrabold text-sm text-[#0B132B] font-heading">
           <ShieldAlert class="w-5 h-5 text-rose-700" />
-          <span>Notice on Fraud Prevention & Unofficial Agents</span>
+          <span>Warning about fraud and unofficial agents</span>
         </div>
         <p class="text-xs leading-relaxed text-rose-950 font-medium">
-          Government scholarships and benefit disbursements under Maharashtra state and Central schemes <strong>do not require any third-party agent, intermediary, or commission</strong>. Never share your Aadhaar number, OTPs, login passwords, or bank PINs with unauthorized persons or cyber cafe operators. Report any fee solicitation to the Anti-Corruption Bureau (Toll-free 1064).
+          Government scholarships under Maharashtra and central schemes <strong>do not need any agent, middleman or commission</strong>. Never share your Aadhaar number, OTPs, passwords or bank PINs with unauthorised people or cyber cafe operators. Report any fee demand to the Anti-Corruption Bureau (toll-free 1064).
         </p>
       </div>
 
       <!-- 6. Prominent Link to Official Application Portal (Requirement 5.4 & 9) -->
       <div class="neo-box p-6 sm:p-7 bg-[#0B132B] text-white shadow-[4px_4px_0_0_#D97706] flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h3 class="text-lg font-extrabold text-white font-heading">Ready to Apply on the Government Portal?</h3>
+          <h3 class="text-lg font-extrabold text-white font-heading">Ready to apply on the government website?</h3>
           <p class="text-xs text-slate-300 mt-0.5 font-medium">
-            You will be redirected directly to the authenticated state portal ({{ scheme.portal_name }}).
+            You will go straight to the official state website ({{ scheme.portal_name }}).
           </p>
         </div>
         <div class="flex items-center gap-2.5">
@@ -574,7 +574,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
             class="neo-btn neo-btn-paper px-4 py-2.5 text-xs font-bold text-[#0B132B]"
           >
             <ShieldCheck class="w-4 h-4 text-emerald-600" />
-            <span>Preflight Audit ⚡</span>
+            <span>Quick document check ⚡</span>
           </button>
           <a 
             :href="scheme.official_portal_url"
@@ -582,7 +582,7 @@ function listenDetailScheme(lang: 'en' | 'hi' | 'mr') {
             rel="noopener noreferrer"
             class="neo-btn neo-btn-saffron px-5 py-2.5 text-xs font-bold"
           >
-            <span>Open Official Portal</span>
+            <span>Open official website</span>
             <ExternalLink class="w-4 h-4" />
           </a>
         </div>

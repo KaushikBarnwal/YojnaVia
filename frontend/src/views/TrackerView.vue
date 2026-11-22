@@ -107,7 +107,7 @@ async function quickAdvanceStatus(app: any, newStatus: ApplicationStatus) {
 async function handleReEvaluateApp(schemeCode: string) {
   await store.acknowledgeReEvaluation(schemeCode);
   await store.evaluateEligibility();
-  alert("Re-evaluation complete! Your application results have been refreshed against the latest statutory rules.");
+  alert("Done! Your application results are updated using the latest official rules.");
 }
 </script>
 
@@ -121,15 +121,15 @@ async function handleReEvaluateApp(schemeCode: string) {
         <div class="inline-flex items-center gap-2 mb-1.5">
           <span class="neo-stamp neo-stamp-navy text-[10px]">
             <CheckCircle2 class="w-3 h-3 text-emerald-400" />
-            Milestone Follow-Up Log
+            Progress log
           </span>
           <span class="text-xs text-slate-500 font-mono">Stage 5 of 5</span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B132B] tracking-tight">
-          My Saved Applications & Milestone Tracker
+          My saved applications and progress tracker
         </h1>
         <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl font-medium">
-          Track your progress across self-reported offline and online milestones (from Aaple Sarkar certificate procurement to MahaDBT College Clerk submission).
+          Track your progress, online and offline: from getting certificates at Aaple Sarkar to handing papers to your college clerk.
         </p>
       </div>
 
@@ -137,7 +137,7 @@ async function handleReEvaluateApp(schemeCode: string) {
         to="/schemes"
         class="neo-btn neo-btn-navy px-4 py-2.5 text-xs sm:text-sm font-bold shrink-0 self-start md:self-auto"
       >
-        <span>Discover & Save Schemes</span>
+        <span>Find and save schemes</span>
         <ArrowRight class="w-4 h-4" />
       </router-link>
     </div>
@@ -146,8 +146,8 @@ async function handleReEvaluateApp(schemeCode: string) {
     <div class="p-4 rounded-xl border-[1.5px] border-[#0B132B] bg-[#FFFBEB] text-amber-950 text-xs sm:text-sm font-medium flex items-start gap-3 shadow-[2px_2px_0_0_#0B132B]">
       <Info class="w-5 h-5 text-amber-800 shrink-0 mt-0.5" />
       <div>
-        <strong class="font-bold block text-amber-950 mb-0.5">User-Reported Application Status Notice (Self-Managed):</strong>
-        <span class="text-amber-900 font-medium">"This tracker is a personal planning and document-readiness log. YojnaVia does not integrate with internal government sanction databases and does not claim official departmental application status. All milestone stages, application dates, and reference numbers are user-reported."</span>
+        <strong class="font-bold block text-amber-950 mb-0.5">Note: you enter this status yourself:</strong>
+        <span class="text-amber-900 font-medium">"This tracker is a personal planning log. YojnaVia is not connected to government systems and does not show official application status. You enter all stages, dates and reference numbers yourself."</span>
       </div>
     </div>
 
@@ -159,11 +159,11 @@ async function handleReEvaluateApp(schemeCode: string) {
         </div>
         <div>
           <div class="font-extrabold text-[#0B132B] text-sm flex items-center gap-2">
-            <span>MahaDBT Scrutiny Query or Application Rejected?</span>
+            <span>Application rejected or has a query from MahaDBT?</span>
             <span class="neo-stamp neo-stamp-rose text-[9px]">15-Day Resubmission Window</span>
           </div>
           <p class="text-xs text-rose-900 mt-0.5 font-medium">
-            Translate confusing scrutiny remarks into plain language, verify your 15-day resubmission window, and discover verified statutory appeal routes under the Maharashtra RTS Act 2015.
+            Understand confusing remarks in plain words, check your 15-day resubmission window, and find official ways to appeal under the Maharashtra Right to Services Act, 2015.
           </p>
         </div>
       </div>
@@ -171,7 +171,7 @@ async function handleReEvaluateApp(schemeCode: string) {
         @click="openRejectionNavigator()" 
         class="neo-btn neo-btn-rose px-4 py-2 text-xs font-bold shrink-0 self-start sm:self-auto"
       >
-        <span>Launch Rejection Navigator</span>
+        <span>Open rejection help</span>
         <ArrowRight class="w-3.5 h-3.5" />
       </button>
     </div>
@@ -184,11 +184,11 @@ async function handleReEvaluateApp(schemeCode: string) {
         </div>
         <div>
           <div class="font-extrabold text-[#0B132B] text-sm flex items-center gap-2">
-            <span>Automated WhatsApp & SMS Deadline Reminders</span>
-            <span class="neo-stamp neo-stamp-emerald text-[9px]">Consent-Driven</span>
+            <span>WhatsApp and SMS deadline reminders</span>
+            <span class="neo-stamp neo-stamp-emerald text-[9px]">You choose</span>
           </div>
           <p class="text-xs text-emerald-900 mt-0.5 font-medium">
-            Receive verified portal cutoff alerts (7d/2d/0d), missing document SLA warnings, 15-day scrutiny resubmission clocks, and annual March 31 renewals directly to WhatsApp or SMS.
+            Get alerts on WhatsApp or SMS: 7, 2 and 0 days before deadlines, missing documents, your 15-day resubmission window, and renewals due by 31 March.
           </p>
         </div>
       </div>
@@ -197,7 +197,7 @@ async function handleReEvaluateApp(schemeCode: string) {
         class="neo-btn neo-btn-emerald px-4 py-2 text-xs font-bold shrink-0 self-start sm:self-auto"
       >
         <MessageSquare class="w-3.5 h-3.5" />
-        <span>Manage Notification Alerts</span>
+        <span>Manage alerts</span>
         <ArrowRight class="w-3.5 h-3.5" />
       </router-link>
     </div>
@@ -218,11 +218,11 @@ async function handleReEvaluateApp(schemeCode: string) {
             <AlertTriangle class="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
             <div>
               <div class="font-bold text-amber-950 text-xs uppercase tracking-wider flex items-center gap-1.5">
-                <span>Statutory Eligibility Rule Revision Detected</span>
+                <span>Official rules changed for this scheme</span>
                 <span class="neo-stamp neo-stamp-amber text-[9px]">Action Needed</span>
               </div>
               <p class="text-xs text-amber-900 mt-1 font-medium">
-                {{ app.re_evaluation_reason || 'Eligibility criteria for this scheme were recently updated by the department.' }}
+                {{ app.re_evaluation_reason || 'The department recently updated the rules for this scheme.' }}
               </p>
             </div>
           </div>
@@ -231,7 +231,7 @@ async function handleReEvaluateApp(schemeCode: string) {
             class="neo-btn neo-btn-saffron px-4 py-2 text-xs font-bold shrink-0"
           >
             <RotateCcw class="w-3.5 h-3.5" />
-            <span>Re-Evaluate Rules</span>
+            <span>Check again</span>
           </button>
         </div>
 
@@ -246,7 +246,7 @@ async function handleReEvaluateApp(schemeCode: string) {
                 {{ app.portal_name }}
               </span>
               <span class="text-[10px] bg-[#F5F5F3] text-slate-700 px-2 py-0.5 rounded border border-[#0B132B]/20 font-bold">
-                User-Reported (Self-Managed)
+                Entered by you
               </span>
             </div>
             <h2 class="text-xl font-extrabold text-[#0B132B] mt-1.5">{{ app.scheme_name }}</h2>
@@ -259,7 +259,7 @@ async function handleReEvaluateApp(schemeCode: string) {
               class="neo-btn neo-btn-paper px-3.5 py-2 text-xs font-bold text-[#0B132B]"
             >
               <MapPin class="w-3.5 h-3.5 text-amber-600" />
-              <span>Lifecycle Roadmap 🗺️</span>
+              <span>Journey roadmap 🗺️</span>
             </button>
 
             <button
@@ -268,7 +268,7 @@ async function handleReEvaluateApp(schemeCode: string) {
               class="neo-btn neo-btn-rose px-3.5 py-2 text-xs font-bold"
             >
               <RotateCcw class="w-3.5 h-3.5" />
-              <span>Diagnose Query</span>
+              <span>Check the problem</span>
             </button>
 
             <button
@@ -276,7 +276,7 @@ async function handleReEvaluateApp(schemeCode: string) {
               class="neo-btn neo-btn-paper px-3.5 py-2 text-xs font-bold text-[#0B132B]"
             >
               <Edit2 class="w-3.5 h-3.5 text-slate-600" />
-              <span>Record Ref & Date</span>
+              <span>Add number and date</span>
             </button>
 
             <a 
@@ -285,7 +285,7 @@ async function handleReEvaluateApp(schemeCode: string) {
               rel="noopener noreferrer"
               class="neo-btn neo-btn-navy px-4 py-2 text-xs font-bold"
             >
-              <span>Open {{ app.portal_name }}</span>
+              <span>Open {{ app.portal_name }} website</span>
               <ExternalLink class="w-3.5 h-3.5" />
             </a>
           </div>
@@ -295,10 +295,10 @@ async function handleReEvaluateApp(schemeCode: string) {
         <div class="p-4 rounded-xl border-[1.5px] border-[#0B132B] bg-[#FFFBEB] text-amber-950 flex items-start gap-3 shadow-[2px_2px_0_0_#0B132B]">
           <AlertCircle class="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
           <div class="space-y-0.5">
-            <div class="text-xs font-bold text-amber-950 uppercase tracking-wider">Your Next Immediate Action:</div>
+            <div class="text-xs font-bold text-amber-950 uppercase tracking-wider">Your next step:</div>
             <p class="text-sm font-extrabold text-[#0B132B]">{{ app.next_immediate_action }}</p>
             <p class="text-xs text-amber-900 font-medium">
-              Handover of physical attested documents to your college scholarship clerk is mandatory under Maharashtra Government rules.
+              You must hand over the original signed documents to your college scholarship clerk.
             </p>
           </div>
         </div>
@@ -306,8 +306,8 @@ async function handleReEvaluateApp(schemeCode: string) {
         <!-- 7 Canonical Status Pipeline Buttons (Requirement 2) -->
         <div>
           <div class="text-xs font-bold text-[#0B132B] uppercase tracking-wider mb-2 flex items-center justify-between">
-            <span>Status Pipeline (Click to advance milestone):</span>
-            <span class="text-slate-500 font-mono text-[11px]">7 Canonical Stages</span>
+            <span>Your stage (click to move on):</span>
+            <span class="text-slate-500 font-mono text-[11px]">7 stages</span>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
             <button
@@ -328,9 +328,9 @@ async function handleReEvaluateApp(schemeCode: string) {
         <!-- Application Metadata Strip (Requirement 3) -->
         <div class="pt-4 border-t-[1.5px] border-[#0B132B]/10 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-slate-600">
           <div>
-            <span class="text-slate-500 block text-[11px] font-bold">Application Reference:</span>
+            <span class="text-slate-500 block text-[11px] font-bold">Application number:</span>
             <span class="font-mono font-bold text-[#0B132B] text-sm mt-0.5 block truncate">
-              {{ app.application_reference_number || 'Pending Submission' }}
+              {{ app.application_reference_number || 'Not submitted yet' }}
             </span>
           </div>
 
@@ -342,7 +342,7 @@ async function handleReEvaluateApp(schemeCode: string) {
           </div>
 
           <div>
-            <span class="text-slate-500 block text-[11px] font-bold">Submission Mode:</span>
+            <span class="text-slate-500 block text-[11px] font-bold">How you applied:</span>
             <span class="font-semibold text-slate-800 text-xs mt-0.5 block">
               {{ app.submission_mode || 'Online Portal' }}
             </span>
@@ -369,16 +369,16 @@ async function handleReEvaluateApp(schemeCode: string) {
         <CheckCircle2 class="w-8 h-8" />
       </div>
       <div>
-        <h2 class="text-xl font-extrabold text-[#0B132B] font-heading">No Saved Applications in Your Tracker Yet</h2>
+        <h2 class="text-xl font-extrabold text-[#0B132B] font-heading">No saved applications yet</h2>
         <p class="text-xs text-slate-600 max-w-md mx-auto mt-1 font-medium">
-          Explore eligible scholarships under Step 3 and click "Save to Application Tracker" to generate your actionable milestone checklist.
+          Look at schemes you may qualify for, then click "Save to Tracker" to get your checklist.
         </p>
       </div>
       <router-link
         to="/schemes"
         class="neo-btn neo-btn-saffron px-6 py-3 text-sm font-bold"
       >
-        <span>Discover Matched Schemes</span>
+        <span>Find schemes for you</span>
         <ArrowRight class="w-4 h-4" />
       </router-link>
     </div>
@@ -390,9 +390,9 @@ async function handleReEvaluateApp(schemeCode: string) {
           <div>
             <h2 class="text-base font-extrabold text-[#0B132B] flex items-center gap-2 font-heading">
               <Edit2 class="w-4 h-4 text-amber-600" />
-              Update Tracker Record ({{ editingApp?.scheme_code }})
+              Update your record ({{ editingApp?.scheme_code }})
             </h2>
-            <p class="text-xs text-slate-500 font-medium">Record self-reported application reference, submission date, and notes.</p>
+            <p class="text-xs text-slate-500 font-medium">Add the application number, date and notes you have.</p>
           </div>
           <button @click="isEditModalOpen = false" class="text-slate-400 hover:text-slate-700 p-1 font-bold">
             <X class="w-5 h-5" />
@@ -401,7 +401,7 @@ async function handleReEvaluateApp(schemeCode: string) {
 
         <form @submit.prevent="handleSaveDetails" class="space-y-4 text-xs">
           <div>
-            <label class="block font-bold text-[#0B132B] mb-1">Status Milestone</label>
+            <label class="block font-bold text-[#0B132B] mb-1">Stage</label>
             <select v-model="editStatus" class="neo-input w-full px-3 py-2 bg-white font-bold text-xs">
               <option v-for="stg in statuses" :key="stg.key" :value="stg.key">{{ stg.label }}</option>
             </select>
@@ -409,7 +409,7 @@ async function handleReEvaluateApp(schemeCode: string) {
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-[#0B132B] mb-1">Application Reference No.</label>
+              <label class="block font-bold text-[#0B132B] mb-1">Application number</label>
               <input
                 v-model="editRefNo"
                 type="text"
@@ -419,7 +419,7 @@ async function handleReEvaluateApp(schemeCode: string) {
             </div>
 
             <div>
-              <label class="block font-bold text-[#0B132B] mb-1">Date Submitted / Applied</label>
+              <label class="block font-bold text-[#0B132B] mb-1">Date you applied</label>
               <input
                 v-model="editAppliedDate"
                 type="date"
@@ -429,7 +429,7 @@ async function handleReEvaluateApp(schemeCode: string) {
           </div>
 
           <div>
-            <label class="block font-bold text-[#0B132B] mb-1">Submission Mode / Channel</label>
+            <label class="block font-bold text-[#0B132B] mb-1">How you applied</label>
             <select v-model="editSubmissionMode" class="neo-input w-full px-3 py-2 bg-white text-xs font-medium">
               <option value="Online MahaDBT Portal">Online MahaDBT Portal</option>
               <option value="College Scholarship Clerk Desk">College Scholarship Clerk Desk</option>
@@ -439,7 +439,7 @@ async function handleReEvaluateApp(schemeCode: string) {
           </div>
 
           <div>
-            <label class="block font-bold text-[#0B132B] mb-1">Personal Follow-Up Notes</label>
+            <label class="block font-bold text-[#0B132B] mb-1">Your notes</label>
             <textarea
               v-model="editNotes"
               rows="3"
@@ -449,7 +449,7 @@ async function handleReEvaluateApp(schemeCode: string) {
           </div>
 
           <div class="p-3 rounded-xl border border-[#0B132B]/20 bg-[#FBFBFA] text-[11px] text-slate-600 font-medium">
-            <strong class="text-[#0B132B]">Notice:</strong> All statuses and dates saved here are for personal student follow-up. This tool does not claim or reflect official government sanction approval.
+            <strong class="text-[#0B132B]">Notice:</strong> Stages and dates here are for your own tracking. This does not show official government approval.
           </div>
 
           <div class="pt-3 border-t-[1.5px] border-[#0B132B]/15 flex items-center justify-end gap-2">
@@ -464,7 +464,7 @@ async function handleReEvaluateApp(schemeCode: string) {
               type="submit"
               class="neo-btn neo-btn-saffron px-5 py-2 text-xs font-bold"
             >
-              Save Tracker Details
+              Save details
             </button>
           </div>
         </form>
