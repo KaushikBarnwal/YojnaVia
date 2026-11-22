@@ -3,6 +3,8 @@ import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStudentStore } from './stores/studentStore';
 import Navbar from './components/Navbar.vue';
+import CookieConsent from './components/CookieConsent.vue';
+import ToastNotification from './components/ToastNotification.vue';
 import { t } from './utils/i18n';
 import { 
   Sparkles, 
@@ -11,7 +13,8 @@ import {
   FileText, 
   CheckCircle2, 
   ShieldCheck,
-  Users
+  Users,
+  Mail
 } from '@lucide/vue';
 
 const route = useRoute();
@@ -23,7 +26,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#FBFBFA] flex flex-col font-sans selection:bg-[#D97706] selection:text-white">
+  <div class="min-h-screen bg-[#FBFBFA] flex flex-col font-sans selection:bg-[#D97706] selection:text-white overflow-x-hidden">
+    <!-- Global Toast Notifications -->
+    <ToastNotification />
+
     <!-- Main Top Navbar -->
     <Navbar />
 
@@ -31,6 +37,9 @@ onMounted(async () => {
     <main class="flex-1" :class="route.path === '/' ? 'pb-0' : 'pb-16 md:pb-0 xl:pl-64'">
       <router-view />
     </main>
+
+    <!-- Sovereign Cookie / Storage Consent Banner -->
+    <CookieConsent />
 
     <!-- Mobile Bottom Navigation Bar (Visible only inside /app routes on < md screens) -->
     <nav v-if="route.path !== '/'" class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#FBFBFA]/95 backdrop-blur-md border-t-[1.5px] border-[#0B132B] px-2 py-1.5 flex items-center justify-around shadow-lg">
@@ -98,22 +107,46 @@ onMounted(async () => {
 
     <!-- Civic Tech Footer -->
     <footer class="bg-white border-t-[1.5px] border-[#0B132B] mt-12 py-8" :class="route.path === '/' ? '' : 'xl:pl-64'">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600 font-medium">
-        <div class="flex items-center gap-2 flex-wrap">
-          <span class="font-black text-[#0B132B] tracking-tight">YOJNAVIA</span>
-          <span>•</span>
-          <span class="font-bold text-slate-800">{{ t('brand_subtitle', store.locale) }}</span>
-          <span>•</span>
-          <span class="neo-stamp neo-stamp-emerald">
-            <ShieldCheck class="w-3.5 h-3.5 text-emerald-600" />
-            Zero-PII Sovereign Advisory
-          </span>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600 font-medium pb-4 border-b border-slate-100">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="font-black text-[#0B132B] tracking-tight text-sm">YOJNAVIA</span>
+            <span>•</span>
+            <span class="font-bold text-slate-800">{{ t('brand_subtitle', store.locale) }}</span>
+            <span>•</span>
+            <span class="neo-stamp neo-stamp-emerald">
+              <ShieldCheck class="w-3.5 h-3.5 text-emerald-600" />
+              Zero-PII Sovereign Advisory
+            </span>
+          </div>
+
+          <!-- Clickable Email & Helpdesk -->
+          <div class="flex items-center gap-3 text-xs">
+            <a
+              href="mailto:support@yojnavia.in"
+              class="inline-flex items-center gap-1.5 font-bold text-[#0B132B] hover:text-[#D97706] transition-colors"
+              title="Official Civic Tech Helpdesk"
+            >
+              <Mail class="w-3.5 h-3.5 text-[#D97706]" />
+              <span>support@yojnavia.in</span>
+            </a>
+          </div>
         </div>
 
-        <div class="flex items-center gap-3 text-slate-600">
-          <span class="font-semibold">Official MahaDBT & Aaple Sarkar GRs</span>
-          <span>•</span>
-          <span class="font-bold text-[#0B132B]">Maharashtra Public Services (RTS) Act 2015</span>
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500 font-medium">
+          <div class="flex items-center gap-3 flex-wrap">
+            <router-link to="/privacy" class="hover:text-amber-800 transition-colors font-semibold">Privacy Policy</router-link>
+            <span>•</span>
+            <router-link to="/terms" class="hover:text-amber-800 transition-colors font-semibold">Terms & Disclaimers</router-link>
+            <span>•</span>
+            <router-link to="/schemes" class="hover:text-amber-800 transition-colors font-semibold">Schemes Catalog</router-link>
+            <span>•</span>
+            <router-link to="/counselor" class="hover:text-amber-800 transition-colors font-semibold">CSC Portal</router-link>
+          </div>
+
+          <div class="flex items-center gap-2 text-slate-500">
+            <span>Derived from official Maharashtra GRs • Maharashtra Public Services (RTS) Act 2015</span>
+          </div>
         </div>
       </div>
     </footer>

@@ -1,8 +1,11 @@
 import axios from 'axios';
 import type { IntakeChatResponse, IntakeState, NextQuestion } from '../types';
 
+const rawBase = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+const baseURL = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
+
 const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL,
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',

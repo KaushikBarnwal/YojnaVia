@@ -39,7 +39,10 @@ if not SECRET_KEY:
     else:
         raise ImproperlyConfigured('SECRET_KEY environment variable is required when DEBUG is False.')
 
-ALLOWED_HOSTS = ['*'] if DEBUG else _env_list('ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver')
+ALLOWED_HOSTS = ['*'] if DEBUG else _env_list(
+    'ALLOWED_HOSTS',
+    'localhost,127.0.0.1,testserver,.onrender.com,.railway.app,.koyeb.app,yojna-via.vercel.app'
+)
 
 # Application definition
 INSTALLED_APPS = [
@@ -77,6 +80,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+try:
+    import whitenoise  # noqa: F401
+    MIDDLEWARE.insert(2, 'whitenoise.middleware.WhiteNoiseMiddleware')
+except ImportError:
+    pass
 
 ROOT_URLCONF = 'core.urls'
 
@@ -150,15 +159,38 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser',
     ],
     'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
         'rest_framework.throttling.ScopedRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '1000/day',
-        'user': '10000/day',
-        'ai_intake': '60/min',
+        'anon': '120/min',
+        'user': '600/min',
+        'ai_intake': '30/min',
+        'voice_intake': '15/min',
+        'counselor': '120/min',
     },
 }
 
-# CORS settings for frontend SPA (Vite running on port 5173 / localhost)
-CORS_ALLOWED_ORIGINS = _env_list('CORS_ALLOWED_ORIGINS', 'http://localhost:5173')
+# CORS settings for frontend SPA (Vercel + Local dev)
+_default_cors = (
+    'http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,'
+    'https://yojna-via.vercel.app'
+)
+CORS_ALLOWED_ORIGINS = _env_list('CORS_ALLOWED_ORIGINS', _default_cors)
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",
+]
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = _env_bool('CORS_ALLOW_ALL', default=False)
+
+CSRF_TRUSTED_ORIGINS = _env_list(
+    'CSRF_TRUSTED_ORIGINS',
+    'https://yojna-via.vercel.app,http://localhost:5173,http://127.0.0.1:5173'
+)
+
+# Production Security & Proxy Headers
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_BROWSER_XSS_FILTER = True

@@ -4,17 +4,53 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0B132B" />
-    <title>YOJNAVIA — From Eligibility to Action | Maharashtra Benefits Navigator</title>
-    <meta name="description" content="Sovereign, explainable government welfare & scholarship navigator for Maharashtra students and households. 100% deterministic rules, zero-Aadhaar policy, and RTS Act 2015 grievance recovery." />
+    <link rel="canonical" href="https://yojna-via.vercel.app/" />
+
+    <!-- Primary Meta Tags -->
+    <title>YOJNAVIA — Sovereign Welfare & Scholarships Navigator | Maharashtra</title>
+    <meta name="title" content="YOJNAVIA — Sovereign Welfare & Scholarships Navigator | Maharashtra" />
+    <meta name="description" content="Discover likely eligible Maharashtra government scholarships and welfare schemes with 100% deterministic rules, zero-Aadhaar sovereign privacy, and Maharashtra RTS Act 2015 SLA tracking." />
+    <meta name="keywords" content="MahaDBT scholarships, Maharashtra government schemes, Aaple Sarkar documents, caste validity certificate, RTS Act 2015, welfare navigator, Pune student scholarships" />
+    <meta name="author" content="YOJNAVIA Civic Tech" />
+
+    <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yojna-via.vercel.app/" />
+    <meta property="og:title" content="YOJNAVIA — Claim What's Yours | Maharashtra Benefits Navigator" />
+    <meta property="og:description" content="Discover likely eligible Maharashtra government scholarships and welfare schemes with 100% deterministic rules, zero-Aadhaar sovereign privacy, and RTS 2015 tracking." />
+    <meta property="og:image" content="https://yojna-via.vercel.app/og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://yojna-via.vercel.app/" />
+    <meta name="twitter:title" content="YOJNAVIA — Claim What's Yours | Maharashtra Benefits Navigator" />
+    <meta name="twitter:description" content="Discover likely eligible Maharashtra government scholarships with 100% deterministic rules and zero-Aadhaar policy." />
+    <meta name="twitter:image" content="https://yojna-via.vercel.app/og-image.svg" />
 
     <!-- Google Fonts: Archivo (Headings) + Mukta (Devanagari/Marathi/Hindi) + JetBrains Mono (Statutory GR Codes) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Privacy-Preserving Analytics Hook -->
+    <script>
+      window.yojnaviaAnalytics = {
+        trackEvent: function(eventName, props) {
+          try {
+            if (window.console && window.console.log) {
+              console.log('[YOJNAVIA Analytics]', eventName, props || {});
+            }
+          } catch(e) {}
+        }
+      };
+    </script>
   </head>
-  <body class="bg-[#FBFBFA] text-[#0F172A] selection:bg-[#D97706] selection:text-white">
+  <body class="bg-[#FBFBFA] text-[#0F172A] selection:bg-[#D97706] selection:text-white antialiased overflow-x-hidden">
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
