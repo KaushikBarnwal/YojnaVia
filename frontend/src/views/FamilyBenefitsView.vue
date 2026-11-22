@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import api from '../services/api';
 import PersonaBar from '../components/PersonaBar.vue';
 import { 
   Users, 
@@ -16,10 +17,8 @@ async function loadFamilyData(personaKey: string) {
   isLoading.value = true;
   activePersona.value = personaKey;
   try {
-    const res = await fetch(`http://127.0.0.1:8000/api/v1/eligibility/family/?persona=${personaKey}`);
-    if (res.ok) {
-      familyData.value = await res.json();
-    }
+    const res = await api.get(`/eligibility/family/?persona=${personaKey}`);
+    familyData.value = res.data;
   } catch (err) {
     console.error('Failed to load family data:', err);
   } finally {

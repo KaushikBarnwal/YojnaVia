@@ -103,21 +103,51 @@ INDIAN_STATES = (
 _AGE_PATTERNS = (
     re.compile(r"\b(\d{1,3})\s*(?:years?|yrs?|y/o|year[- ]old)\b", re.IGNORECASE),
     re.compile(r"\bI\s*(?:am|'m)\s*(\d{1,3})\b", re.IGNORECASE),
+    re.compile(r"(?:वय|उम्र|आयु)\s*:?\s*(\d{1,3})", re.IGNORECASE),
+    re.compile(r"(\d{1,3})\s*(?:वर्ष|साल|सालांचा|वर्षे)", re.IGNORECASE),
 )
-_LAKH_RE = re.compile(r"\b(\d+(?:\.\d+)?)\s*(?:lakhs?|lacs?)\b", re.IGNORECASE)
-_THOUSAND_RE = re.compile(r"\b(\d+(?:\.\d+)?)\s*k\b", re.IGNORECASE)
+_LAKH_RE = re.compile(r"\b(\d+(?:\.\d+)?)\s*(?:lakhs?|lacs?|लाख|लाख्स)\b", re.IGNORECASE)
+_THOUSAND_RE = re.compile(r"\b(\d+(?:\.\d+)?)\s*(?:k|हजार)\b", re.IGNORECASE)
 _PLAIN_AMOUNT_RE = re.compile(
-    r"(?:₹|\brs\.?|\binr\b|\bincome\b|\bsalary\b)\s*:?\s*(\d{4,7})\b"
-    r"|\b(\d{4,7})\s*(?:per\s+(?:year|annum)|a\s+year|annually|yearly)\b",
+    r"(?:₹|\brs\.?|\binr\b|\bincome\b|\bsalary\b|\bउत्पन्न\b|\bआय\b)\s*:?\s*(\d{4,7})\b"
+    r"|\b(\d{4,7})\s*(?:per\s+(?:year|annum)|a\s+year|annually|yearly|वार्षिक)\b",
     re.IGNORECASE,
 )
 _EDUCATION_RULES = (
-    (re.compile(r"\bmca\b|\bm\.?\s?tech\b|\bmba\b|\bm\.?\s?sc\b|\bpost-?graduate\b|\bmaster'?s\b", re.IGNORECASE), "postgraduate"),
-    (re.compile(r"\bb\.?\s?tech\b|\bb\.?\s?sc\b|\bb\.?\s?com\b|\bbachelor'?s?\b|\bundergraduate\b|\bgraduate\b", re.IGNORECASE), "undergraduate"),
-    (re.compile(r"\bdiploma\b|\bpolytechnic\b", re.IGNORECASE), "diploma"),
-    (re.compile(r"\b12th\b|\bhsc\b|\bjunior college\b", re.IGNORECASE), "12th_pass"),
-    (re.compile(r"\b10th\b|\bssc\b", re.IGNORECASE), "10th_pass"),
+    (re.compile(r"\bmca\b|\bm\.?\s?tech\b|\bmba\b|\bm\.?\s?sc\b|\bpost-?graduate\b|\bmaster'?s\b|\bपदव्युत्तर\b|\bमास्टर्स\b", re.IGNORECASE), "postgraduate"),
+    (re.compile(r"\bb\.?\s?tech\b|\bb\.?\s?sc\b|\bb\.?\s?com\b|\bbachelor'?s?\b|\bundergraduate\b|\bgraduate\b|\bपदवी\b|\bइंजिनिअरिंग\b|\bअभियांत्रिकी\b|\bग्रॅज्युएट\b", re.IGNORECASE), "undergraduate"),
+    (re.compile(r"\bdiploma\b|\bpolytechnic\b|\bडिप्लोमा\b|\bपॉलीटेक्निक\b", re.IGNORECASE), "diploma"),
+    (re.compile(r"\b12th\b|\bhsc\b|\bjunior college\b|\bबारावी\b|\b१२वी\b|\b12वी\b", re.IGNORECASE), "12th_pass"),
+    (re.compile(r"\b10th\b|\bssc\b|\bदहावी\b|\b१०वी\b|\b10वी\b", re.IGNORECASE), "10th_pass"),
 )
+
+DEVANAGARI_DIGITS_MAP = str.maketrans("०१२३४५६७८९", "0123456789")
+
+INDIC_NUMBER_WORDS = {
+    "एक": 1.0, "दोन": 2.0, "दो": 2.0, "तीन": 3.0, "चार": 4.0, "पाच": 5.0, "पांच": 5.0,
+    "सहा": 6.0, "छह": 6.0, "सात": 7.0, "आठ": 8.0, "नऊ": 9.0, "नौ": 9.0, "दहा": 10.0, "दस": 10.0,
+    "दीड": 1.5, "डेढ": 1.5, "अडीच": 2.5, "ढाई": 2.5
+}
+
+MAHARASHTRA_DISTRICTS_INDIC = {
+    "पुणे": "Pune", "पुण्यात": "Pune",
+    "सांगली": "Sangli", "सांगलीत": "Sangli",
+    "नाशिक": "Nashik", "नाशिकमध्ये": "Nashik",
+    "सोलापूर": "Solapur", "सोलापुरात": "Solapur",
+    "कोल्हापूर": "Kolhapur", "कोल्हापुरात": "Kolhapur",
+    "मुंबई": "Mumbai", "मुंबईत": "Mumbai",
+    "नागपूर": "Nagpur", "नागपुरात": "Nagpur",
+    "ठाणे": "Thane", "ठाण्यात": "Thane",
+    "छत्रपती संभाजीनगर": "Chhatrapati Sambhajinagar",
+    "संभाजीनगर": "Chhatrapati Sambhajinagar",
+    "औरंगाबाद": "Chhatrapati Sambhajinagar",
+    "अमरावती": "Amravati",
+    "नांदेड": "Nanded",
+    "जळगाव": "Jalgaon",
+    "सातारा": "Satara",
+    "लातूर": "Latur",
+    "बीड": "Beed",
+}
 
 
 # ----------------------------------------------------------------- conversation
@@ -327,13 +357,20 @@ def _band_for_lakh(lakh: float) -> str:
 
 
 def _income_band_from_text(text: str) -> Optional[str]:
-    match = _LAKH_RE.search(text)
+    norm = text.translate(DEVANAGARI_DIGITS_MAP)
+    
+    # Check word + lakh e.g. "दोन लाख" or "दो लाख"
+    for word, val in INDIC_NUMBER_WORDS.items():
+        if re.search(r"\b" + re.escape(word) + r"\s*(?:लाख|लाख्स|lakh|lac)\b", norm, re.IGNORECASE):
+            return _band_for_lakh(val)
+
+    match = _LAKH_RE.search(norm)
     if match:
         return _band_for_lakh(float(match.group(1)))
-    match = _THOUSAND_RE.search(text)
+    match = _THOUSAND_RE.search(norm)
     if match:
         return _band_for_lakh(float(match.group(1)) * 1000 / 100000)
-    match = _PLAIN_AMOUNT_RE.search(text)
+    match = _PLAIN_AMOUNT_RE.search(norm)
     if match:
         rupees = int(match.group(1) or match.group(2))
         return _band_for_lakh(rupees / 100000)
@@ -343,28 +380,41 @@ def _income_band_from_text(text: str) -> Optional[str]:
 def heuristic_extract(message: str) -> dict:
     """Regex-only extraction of literally stated values. Returns schema-validated fields only."""
     text = message or ""
+    norm = text.translate(DEVANAGARI_DIGITS_MAP)
     raw: dict = {}
 
     for pattern in _AGE_PATTERNS:
-        match = pattern.search(text)
+        match = pattern.search(norm)
         if match:
             raw["age"] = int(match.group(1))
             break
 
-    best = None
-    for name in INDIAN_STATES:
-        match = re.search(r"\b" + re.escape(name) + r"\b", text, re.IGNORECASE)
-        if match and (best is None or match.start() < best[0]):
-            best = (match.start(), name)
-    if best:
-        raw["state"] = best[1]
+    # Indic & English state detection
+    if "महाराष्ट्र" in text or "महाराष्ट्रात" in text:
+        raw["state"] = "Maharashtra"
+    else:
+        best = None
+        for name in INDIAN_STATES:
+            match = re.search(r"\b" + re.escape(name) + r"\b", text, re.IGNORECASE)
+            if match and (best is None or match.start() < best[0]):
+                best = (match.start(), name)
+        if best:
+            raw["state"] = best[1]
+
+    # Indic district detection
+    for indic_key, mapped_dist in MAHARASHTRA_DISTRICTS_INDIC.items():
+        if re.search(r"\b" + re.escape(indic_key) + r"\b", text, re.IGNORECASE) or indic_key in text:
+            raw["district"] = mapped_dist
+            if "state" not in raw:
+                raw["state"] = "Maharashtra"
+            break
 
     band = _income_band_from_text(text)
     if band:
         raw["income_band"] = band
 
     for pattern, level in _EDUCATION_RULES:
-        if pattern.search(text):
+        if pattern.search(norm) or pattern.search(text):
             raw["education_level"] = level
             break
 

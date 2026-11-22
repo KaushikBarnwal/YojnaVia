@@ -22,7 +22,8 @@ import {
   Calendar, 
   BookmarkPlus, 
   RotateCcw, 
-  Check 
+  Check,
+  Sliders 
 } from '@lucide/vue';
 
 const store = useStudentStore();
@@ -218,6 +219,14 @@ async function handleReEvaluateAll() {
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
+        <router-link
+          to="/what-if"
+          class="px-3.5 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 border border-indigo-200 text-indigo-800 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 shadow-xs"
+        >
+          <Sliders class="w-3.5 h-3.5 text-indigo-600" />
+          <span>What-If Simulator 🔮</span>
+        </router-link>
+
         <button
           @click="store.evaluateEligibility()"
           :disabled="store.isLoading"

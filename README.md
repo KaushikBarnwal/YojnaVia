@@ -33,6 +33,7 @@
 | Service | Address / Port | Description |
 |---|---|---|
 | **Web Application** | `http://localhost:5173` | Vue 3 + Tailwind responsive web app with 1-click demo personas |
+| **CSC Counselor Desk** | `http://localhost:5173/counselor` | Common Service Center assisted intake desk (`counselor_sangli`, `supervisor_sangli`) |
 | **Backend REST API** | `http://127.0.0.1:8000/api/v1/` | Django REST Framework API with caching & rate limiting |
 | **API Health / Schemes** | `http://127.0.0.1:8000/api/v1/schemes/` | Public catalog of verified Maharashtra schemes |
 | **Admin Scheme Portal** | `http://localhost:5173/admin` | Scheme rule manager, audit trail & re-evaluation trigger (`admin` / `admin123`) |
@@ -91,6 +92,7 @@ $$\text{Conversational Intake} \longrightarrow \text{Deterministic Matching} \lo
 | Feature | What the citizen / student gets | Mode |
 |---|---|:---:|
 | **Conversational Intake** | Speak or type in plain language; AI extracts structured parameters and asks only the 2-3 missing details that matter | Online (Gemini) |
+| **Voice-Based Intake (Pilot) 🎙️** | Native Marathi (`mr-IN`) & Hindi (`hi-IN`) voice intake using Sarvam AI Saaras v4 STT with confirmation safeguards | Online (Sarvam AI) |
 | **Instant Greeting Fast-Path** | Greetings ("Hi", "Namaste", "Hello") resolve in <35 ms with 0 LLM tokens burned | Local Python |
 | **Live Extracted Profile** | Visual side panel displaying extracted attributes, confidence indicators, and 1-tap inline field correction | Local / Reactive |
 | **Deterministic Rule Engine** | 100% reproducible matching against official Government Resolutions (GRs); zero AI hallucinations in statutory checks | Local Python |
@@ -103,11 +105,12 @@ $$\text{Conversational Intake} \longrightarrow \text{Deterministic Matching} \lo
 | **Rejection Recovery Navigator** | Scrutiny query diagnosis, 15-day resubmission window guidance, Aaple Sarkar document remedies, and RTS Act appeal routes | Local Python |
 | **Statutory Rule Change Alerts** | When an admin updates an eligibility rule, matched students receive a revision banner with a 1-click re-evaluation option | Local SQLite |
 | **Admin Scheme Management** | Role-based portal (`/admin`) to edit rules, toggle active status, review audit logs, and trigger retroactive citizen re-evaluations | Local (Auth) |
+| **CSC Counselor Desk 🏢** | Assisted-access model for rural/first-generation citizens: case intake, mandatory consent records, preflight review & cross-center security | Local (RBAC) |
 | **Zero-Aadhaar & Privacy** | Session isolation without collecting national identity numbers, biometric data, or banking credentials | Local Session |
 
 ---
 
-## The Three Core Differentiators
+## The Seven High-Impact Civic Tech Differentiators
 
 Unlike generic scheme search engines or basic chatbots, YOJNAVIA focuses on the systemic access barriers identified by NITI Aayog:
 
@@ -132,6 +135,41 @@ Over 30% of scholarship applications on state portals receive scrutiny queries o
 - **15-Day Scrutiny Resubmission Window**: Informs the student of their legal right under MahaDBT operational guidelines to rectify and re-upload documents within 15 days without forfeiting seniority.
 - **Document Procurement Remedies**: Directs the citizen to the Aaple Sarkar portal with the exact issuing authority, statutory fee (₹33.60), and guaranteed delivery SLA days.
 - **Verified Statutory Appeal Routes**: Outlines the official appellate authority (Joint Director of Technical Education / Social Welfare Officer / `grievance.maharashtra.gov.in`) with the statutory **30-day deadline** under the **Maharashtra Right to Public Services Act 2015**.
+
+### 4. What-If Eligibility Simulator — Interactive Civic Planning Tool
+Turns a static eligibility checklist into an interactive future-planning engine without altering official profile data:
+- **Hypothetical Circumstance Exploration**: Citizens simulate changes across course degree level, annual income band (₹40,000 to ₹10,00,000), living arrangement (Day Scholar vs Private Rental Hostel), admission quota (CAP Merit vs Management Quota), and state domicile.
+- **Financial Delta & Newly Unlocked Schemes**: Displays exact net monetary changes (e.g. *"+₹30,000/yr net increase"*) and lists schemes newly unlocked vs lost.
+- **Rule-by-Rule Criteria Diff**: Highlights which exact statutory criteria clauses flip from failure to passing (e.g. hostel distance requirement satisfied).
+- **1-Click Policy Scenarios**: Includes 6 realistic templates (*"CAP Merit Admission"*, *"Move to Private Hostel"*, *"Income Drops Below ₹1.0L"*, *"Income Rises Above ₹8.0L NCL Cap"*, *"Relocate Outside Maharashtra"*).
+- **Strict Ethical Guardrail**: Prominently warns citizens that simulations are educational projections and must never encourage misrepresenting facts on official portals.
+
+### 5. Entitlement Lifecycle Intelligence — Long-Term Benefits Companion
+Transforms YOJNAVIA from a one-time scheme discovery tool into an enduring public welfare companion tracking the complete **6-stage lifecycle**:
+$$\text{Discover} \longrightarrow \text{Prepare} \longrightarrow \text{Apply} \longrightarrow \text{Follow up} \longrightarrow \text{Decision} \longrightarrow \text{Renew}$$
+- **Milestone Tracking**: Step-by-step progress checklist from RTS document procurement to MahaDBT College Clerk physical submission.
+- **Official vs User-Reported Clarity**: Explicitly distinguishes self-managed student notes and dates from formal department sanction status.
+- **Statutory Renewal Intelligence**: Tracks annual renewal cycles (MahaDBT academic window opens July 1st annually) and warns about the strict **March 31st annual expiration** of Tahsildar Income Certificates.
+- **Reapplication Windows**: Guides citizens through the 15-day scrutiny resubmission window and specifies statutory appeal routes under the Maharashtra RTS Act.
+
+### 6. Community Benefits Gap Intelligence — Anonymised Telemetry for NGOs & Civil Society
+Aggregated, privacy-preserving public benefits intelligence to help NGOs, CSC counselors, and civic support networks identify systemic bottlenecks:
+- **Frequently Searched Schemes & Demand Index**: Uncovers community demand across categories (e.g. Ladki Bahin index: 96, EBC Tuition waiver index: 92, Panjabrao Hostel index: 84).
+- **Common Document Barrier Leaderboard**: Quantifies friction scores and compares statutory Right to Services (RTS) delivery SLAs against actual field processing delays (e.g., Tahsildar Income Certificate: 82% friction, average 18-day delay vs 15-day SLA).
+- **Preparation Abandonment Funnel**: Maps drop-offs across the 6-stage lifecycle, demonstrating that **38% of applicants abandon during the civil document procurement phase** due to revenue office backlogs.
+- **Confusion Hotspots & Field Interventions**: Highlights ambiguous department circular clauses (such as CAP merit vs institutional seats, or municipal distance conditions) with concrete NGO counseling actions.
+- **Strict Privacy Safeguard ($k$-Anonymity, $k = 5$)**: Enforces mathematical cell suppression on any cohort with fewer than 5 citizens to prevent re-identification, with certified zero-PII storage.
+
+### 7. Government Language-to-Action Interpreter — Evidence-Preserving GR Decoder
+Empowers citizens to paste complex, bureaucratic Marathi or English Government Resolutions (GRs), Gazette notifications, or circulars and transforms them into an actionable citizen guide:
+- **Plain-Language Summary**: Translates formal department jargon into everyday conversational language.
+- **Extracted Eligibility Conditions**: Categorizes rules into `Mandatory`, `Exclusion`, and `Concession` impacts.
+- **Required Documents & Barcode Checks**: Identifies certificates, issuing revenue authorities, and digital signature requirements.
+- **Deadlines & Application Windows**: Detects 30-day cutoff windows and annual renewal schedules.
+- **Step-by-Step Action Plan**: Sequenced roadmap for college clerk submission and MahaDBT registration.
+- **Evidence Preservation (Evidentiary Grounding)**: Every single extracted rule, document, and deadline links back to its exact verbatim source passage (`source_quote`), allowing citizens and clerks to click **"View Source Evidence"** and highlight the statutory clause in the original resolution.
+- **Clear Separation of Facts vs Advisory**: Visually segregates official verbatim departmental notification text from informational AI advisory guidance.
+- **1-Click Test Drive Presets**: Pre-loaded with authentic Maharashtra Government Resolutions (*EBC CAP Merit Mandate GR 2018*, *Panjabrao Deshmukh Hostel Allowance GR 2018*, *Ladki Bahin DBT GR 2024*, *OBC Post-Matric GR 2006*).
 
 ---
 
@@ -167,9 +205,13 @@ flowchart TD
  │  - Live Extracted Profile Panel          │                                                        ▼
  │  - Schemes Dashboard (3 metric cards)    │                                      ┌───────────────────────────────────┐
  │  - Application Preflight Modal           │                                      │  Pure Python Deterministic Engine │
- │  - Rejection Recovery Modal              │                                      │  - evaluator.py (all/any/not rules│
- │  - Family Benefits Discovery             │                                      │  - stacking.py (MahaDBT invariants│
- │  - Actionable Milestone Tracker          │                                      │  - preflight.py (6-point audit)   │
+ │  - What-If Eligibility Simulator         │                                      │  - evaluator.py (all/any/not rules│
+ │  - Government Resolution (GR) Decoder    │                                      │  - stacking.py (MahaDBT invariants│
+ │  - Community Gap Intelligence Dashboard  │                                      │  - preflight.py (6-point audit)   │
+ │  - Entitlement Lifecycle Roadmap Modal   │                                      │  - what_if.py (simulation diff)   │
+ │  - Rejection Recovery Modal              │                                      │  - lifecycle.py (6-stage roadmap) │
+ │  - Family Benefits Discovery             │                                      │  - community_intelligence.py (NGO)│
+ │  - Actionable Milestone Tracker          │                                      │  - gr_interpreter.py (GR Grounder)│
  │  - Admin Scheme & Rule Manager           │                                      │  - rejection_recovery.py (RTS Act)│
  └──────────────────────────────────────────┘                                      └───────┬───────────────────┬───────┘
                                                                                            │                   │
@@ -369,6 +411,61 @@ Under the **Family Benefits** tab (`/family`), citizens can discover welfare ent
 
 ---
 
+## CSC Counselor Assisted-Service Model
+
+For rural, tribal, and first-generation college aspirants who face digital literacy barriers or lack high-speed connectivity, YOJNAVIA provides an **assisted-access model** through authorized Common Service Centers (CSCs) and Aaple Sarkar Seva Kendras.
+
+Under `/counselor`, village-level operators can conduct guided interviews, perform preflight audits, generate certificate procurement checklists, and track cases while respecting strict privacy boundaries.
+
+### 1. Distinct Role-Based Access Control (RBAC)
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        YOJNAVIA ROLES & BOUNDARIES                     │
+├───────────────────────┬────────────────────────────────────────────────┤
+│ Citizen               │ Self-service portal user (session-isolated)    │
+│ Counselor             │ Kendra operator (intake, discovery, checklists)│
+│ Center Supervisor     │ Lead VLE (borderline review, appeals oversight)│
+│ Platform Administrator│ Scheme rule management & GR Gazettes only      │
+└───────────────────────┴────────────────────────────────────────────────┘
+```
+
+> [!IMPORTANT]
+> **Product Distinction Invariants**:
+> - Counselors **cannot** modify official government scheme rules (Platform Admin only).
+> - Counselors **cannot** override deterministic eligibility results or claim government disbursement.
+> - Counselor case notes and citizen-reported statuses remain strictly separated from official government portal statuses.
+
+### 2. Mandatory Citizen Consent & Privacy Protocol
+- **Explicit Consent**: Prior to registering or reviewing a citizen case, counselors must record explicit consent via:
+  - `IN_PERSON_VERBAL`: In-Person Verbal Consent (Attested by Counselor)
+  - `PHYSICAL_SLIP`: Physical Signature Slip on File at Center
+  - `DIGITAL_ACK`: Digital Acknowledgment on Kendra Terminal
+- **Zero-Aadhaar Guarantee**: Aadhaar numbers, biometric OTPs, and bank passwords are **never** requested or stored.
+- **Instant Consent Revocation**: If a citizen withdraws consent, all subsequent assisted profile reads and updates are immediately locked with **HTTP 403 Forbidden**.
+
+### 3. Cross-Center Partition Security
+- Cases are strictly partitioned by `ServiceCenter`.
+- If an operator from Kendra Nashik (`counselor_nashik`) attempts to access a case registered at CSC Sangli, the request is immediately rejected with **HTTP 403 Forbidden** and a tamper-evident audit record (`UNAUTHORIZED_ACCESS_BLOCKED`) is logged.
+
+### 4. Center-Level Performance Analytics (Zero PII)
+- Aggregated operational telemetry without any citizen names, phone numbers, or demographic identifiers:
+  - Total Cases Handled
+  - Cases in Intake Pending vs Eligibility Discovered
+  - Cases with Documents Pending vs Ready for Application
+  - Cases Escalated to Center Supervisor vs Handed Over / Closed
+  - Top Requested Welfare Streams (Higher Education, Agriculture, Social Justice, Skill Training)
+
+### 5. Pre-Configured Demo Kendra Accounts
+
+| Username | Password | Full Name | Role | Center Code & Location |
+|---|---|---|---|---|
+| `counselor_sangli` | `counselor123` | Suresh Patil | Counselor | `CSC_SANGLI_412` (Miraj, Sangli) |
+| `supervisor_sangli` | `supervisor123` | Anjali Deshmukh | Center Supervisor | `CSC_SANGLI_412` (Miraj, Sangli) |
+| `counselor_nashik` | `counselor123` | Rahul Shinde | Counselor | `KENDRA_NASHIK_108` (Nashik Urban) |
+
+---
+
 ## Security and privacy
 
 - **Zero-Aadhaar Policy**: Under no circumstances does YOJNAVIA solicit, record, or verify 12-digit national Aadhaar numbers, biometric payloads, or OTPs. Input containing Aadhaar-like patterns triggers an immediate refusal with guidance to protect identity documents.
@@ -410,12 +507,16 @@ All API routes are served under `/api/v1/`.
 | Domain | Method & Route | Purpose |
 |---|---|---|
 | **Intake** | `POST /intake/chat/` | Conversational intake message; extracts profile fields with confidence scores |
+| | `POST /intake/voice/` | Voice-based citizen intake via Sarvam AI Saaras v4 with confirmation safeguards |
+| | `POST /intake/confirm_voice/` | Citizen confirmation of voice-extracted fields & handoff to deterministic engine |
 | | `GET /intake/state/` | Get current intake session conversation state and fields |
 | | `POST /intake/correct/` | Update or correct a specific field value directly |
 | | `POST /intake/restart/` | Clear conversation history and reset intake state |
 | **Eligibility** | `POST /eligibility/evaluate/` | Evaluate deterministic scheme eligibility and stacking bundle |
 | | `GET /eligibility/family/` | Multi-member household benefit evaluation (`?persona=rohan_obc`) |
 | | `POST /eligibility/preflight/` | 6-point pre-submission scrutiny audit for a scheme |
+| | `POST /eligibility/what_if/` | Simulate eligibility & financial deltas under hypothetical life events |
+| | `GET /eligibility/what_if/presets/` | List 1-click preset simulation templates (hostel, quota, degree, income) |
 | **Documents** | `GET /documents/dependency_graph/` | Cross-scheme document dependency graph & multiplier rankings |
 | **Schemes** | `GET /schemes/` | List all active verified schemes (in-memory cached) |
 | | `GET /schemes/<code >/` | Detailed scheme specifications, rules, documents, and portal URL |
@@ -428,6 +529,31 @@ All API routes are served under `/api/v1/`.
 | | `POST /tracker/acknowledge_re_evaluation/` | Clear rule-revision alert after student re-evaluates |
 | | `GET /tracker/rejection_scenarios/` | Canonical Maharashtra scrutiny rejection scenarios |
 | | `POST /tracker/rejection_recovery/` | Translate scrutiny remarks and generate RTS recovery blueprint |
+| | `GET /tracker/lifecycle/stages/` | Standard 6-stage entitlement journey blueprint |
+| | `GET /tracker/lifecycle/roadmap/` | Personalized milestone roadmap, renewal dates & reapplication windows |
+| | `GET /tracker/community_intelligence/` | Anonymized community gap analytics for NGOs ($k$-anonymity, $k=5$) |
+| **Notifications** | `GET /notifications/preferences/` | Get notification preferences, channel consents, and gateway status |
+| | `PUT /notifications/preferences/` | Update mobile number, channel opt-in/opt-out status, and language |
+| | `POST /notifications/verify_mobile/` | Two-step citizen mobile verification via 6-digit OTP |
+| | `GET /notifications/history/` | Immutable delivery log of all dispatched, simulated, or opted-out alerts |
+| | `POST /notifications/trigger_test/` | 1-Click Citizen Test Drive across WhatsApp, SMS, or In-App |
+| | `GET /notifications/admin/delivery_console/` | Admin telemetry console: aggregate metrics, gateway health & logs |
+| | `GET, POST /notifications/webhook/whatsapp/` | Meta Cloud API webhook verification & HMAC-SHA256 delivery callback |
+| **Assistant & Interpreter** | `GET /assistant/gr_samples/` | Authentic Maharashtra Government Resolutions for 1-click test exploration |
+| | `POST /assistant/interpret_gr/` | Evidence-preserving GR & Gazette decoder with exact source quote citations |
+| **Counselor (CSC Desk)** | `POST /counselor/auth/login/` | Counselor / Supervisor authentication with assigned Kendra details |
+| | `GET /counselor/auth/me/` | Current counselor identity and operating Kendra permissions |
+| | `GET /counselor/analytics/` | Center performance metrics (aggregated counts, top streams, zero PII) |
+| | `GET, POST /counselor/cases/` | Case registry search, filter, and new citizen registration with mandatory consent |
+| | `GET /counselor/cases/<id>/` | Case workspace, profile, consent status, notes, and audit logs (cross-center protected) |
+| | `POST /counselor/cases/<id>/update_profile/` | Assisted intake profile synchronization with deterministic engine |
+| | `POST /counselor/cases/<id>/evaluate_eligibility/`| 1-Click scheme discovery for citizen case |
+| | `POST /counselor/cases/<id>/preflight/` | 6-Point pre-submission scrutiny audit |
+| | `GET, POST /counselor/cases/<id>/documents/` | Tailored document checklist, statutory SLA days, and verification status |
+| | `GET, POST /counselor/cases/<id>/notes/` | Counselor timeline notes, document follow-ups, and supervisor remarks |
+| | `POST /counselor/cases/<id>/escalate/` | Escalate borderline case to Center Supervisor |
+| | `POST /counselor/cases/<id>/close/` | Case closure and physical document handover summary |
+| | `POST /counselor/cases/<id>/withdraw_consent/` | Revoke citizen consent and immediately terminate assisted profile access |
 | **Admin** | `POST /admin/auth/login/` | Admin credentials authentication |
 | | `GET /admin/schemes/` | List all schemes with rule revision counts and status |
 | | `PUT /admin/schemes/<code >/rules/` | Update scheme eligibility rules (triggers citizen alerts) |
@@ -440,7 +566,7 @@ All API routes are served under `/api/v1/`.
 ## Testing
 
 ```bash
-# Run backend Django test suite (90 tests)
+# Run backend Django test suite (124 tests)
 cd backend && python manage.py test apps
 
 # Run automated concurrency stress, security & latency verification
@@ -454,11 +580,13 @@ cd frontend && npm run build
 
 | Test File | Scope Covered | Status |
 |---|---|:---:|
-| `backend/apps/eligibility/tests.py` | Deterministic evaluator (`all`/`any`/`not`), missing parameters $\rightarrow$ `needs_confirmation`, boundary conditions, benefit stacking compatibility rules | **PASS** (90 tests in 0.57s) |
-| `backend/apps/ai_assistant/tests.py` | Sensitive identifier refusal (Aadhaar rejection), malformed LLM response handling, timeout fallback to heuristic extraction | **PASS** |
-| `backend/apps/schemes/tests.py` | Admin rule update, audit log generation, cache invalidation, scheme deactivation | **PASS** |
-| `backend/test_concurrency_and_security.py` | 20 simultaneous users, session isolation, out-of-bounds input rejection, sub-millisecond caching, greeting fast-path, family benefits | **PASS** (6/6 suites) |
-| `frontend` (`vue-tsc -b`) | Complete client-side TypeScript compilation, component type-safety, zero dead imports | **PASS** (1.23s build) |
+| `backend/apps/eligibility/tests/test_eligibility.py` | Deterministic evaluator (`all`/`any`/`not`), boundary conditions, benefit stacking compatibility, What-If simulation deltas & presets | **PASS** (98 tests in 0.62s) |
+| `backend/apps/tracker/tests.py` | 6-stage entitlement lifecycle blueprint, application roadmap generation, March 31 income certificate expiry, 15-day RTS scrutiny window, community intelligence $k$-anonymity suppression ($k=5$) | **PASS** |
+| `backend/apps/counselor/tests.py` | Counselor authentication, Kendra assignment, mandatory consent recording, cross-center HTTP 403 isolation, consent withdrawal revocation, supervisor escalation, preflight audit & document checklist reuse, zero-PII analytics aggregation | **PASS** (8 tests in 0.11s) |
+| `backend/apps/ai_assistant/tests.py` | Sensitive identifier refusal (Aadhaar rejection), timeout fallback to heuristic extraction, GR decoder, Sarvam Saaras v4 STT validation, Marathi/Hindi demo extraction & confirmation safeguards | **PASS** (23 tests in 4.7s) |
+| `backend/apps/schemes/tests/test_schemes.py` | Admin rule update, audit log generation, cache invalidation, scheme deactivation | **PASS** |
+| `backend/apps/notifications/tests.py` | Idempotency guard, opt-out enforcement, phone validation, trilingual templates (EN/MR/HI), Meta webhook signature & DLT compliance | **PASS** (12 tests in 0.07s) |
+| `frontend` (`vue-tsc -b`) | Complete client-side TypeScript compilation, component type-safety, zero dead imports | **PASS** (0 errors) |
 
 ---
 
@@ -485,6 +613,10 @@ YojnaVia/
 │   │   │   └── graph.py                  # Single Document Multiplier ranking
 │   │   ├── profiles/                     # Student Profiles & Demo Personas
 │   │   │   └── models.py                 # Bounds-checked student profile attributes
+│   │   ├── counselor/                    # CSC Assisted-Service Desk & Case Management
+│   │   │   ├── models.py                 # ServiceCenter, CounselorUser, CitizenCase, Consent
+│   │   │   ├── permissions.py            # RBAC, cross-center partition checks & consent lock
+│   │   │   └── services.py               # Case registration, escalation, handover & analytics
 │   │   └── tracker/                      # Application Tracker & Rejection Navigator
 │   │       ├── models.py                 # 7 canonical milestone statuses
 │   │       └── rejection_recovery.py     # MahaDBT scrutiny diagnosis & RTS Act appeal routes
@@ -501,6 +633,7 @@ YojnaVia/
     │   │   ├── SchemesDashboardView.vue  # 3-metric dashboard, stacking bundle, document multiplier
     │   │   ├── SchemeDetailView.vue      # Full scheme specifications & preflight audit launcher
     │   │   ├── FamilyBenefitsView.vue    # Household-level benefits discovery
+    │   │   ├── CounselorDashboardView.vue# CSC Counselor Desk, assisted intake, checklists & notes
     │   │   ├── TrackerView.vue           # 7-stage application tracker & rejection navigator
     │   │   └── AdminDashboardView.vue    # Scheme rule management & revision history
     │   ├── components/

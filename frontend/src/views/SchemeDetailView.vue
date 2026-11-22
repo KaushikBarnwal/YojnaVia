@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import api from '../services/api';
 import { useStudentStore } from '../stores/studentStore';
 import { t } from '../utils/i18n';
 import PersonaBar from '../components/PersonaBar.vue';
@@ -36,16 +37,17 @@ const isPreflightOpen = ref(false);
 
 // State for student's document checklist interactive checkmarks
 const checkedDocs = ref<Record<string, boolean>>({});
+const directScheme = ref<any>(null);
 
-const scheme = computed<EvaluatedScheme | undefined>(() => {
-  return store.evaluatedSchemes.find(s => s.code === schemeCode.value);
+const scheme = computed<EvaluatedScheme | any>(() => {
+  return store.evaluatedSchemes.find(s => s.code === schemeCode.value) || directScheme.value;
 });
 
 watch(
   scheme,
   (newScheme) => {
     if (newScheme?.required_documents) {
-      newScheme.required_documents.forEach(doc => {
+      newScheme.required_documents.forEach((doc: any) => {
         if (checkedDocs.value[doc.code] === undefined) {
           checkedDocs.value[doc.code] = false;
         }
@@ -58,6 +60,23 @@ watch(
 onMounted(async () => {
   if (store.evaluatedSchemes.length === 0) {
     await store.evaluateEligibility();
+  }
+  if (!store.evaluatedSchemes.find(s => s.code === schemeCode.value)) {
+    try {
+      const res = await api.get(`/schemes/${schemeCode.value}/`);
+      if (res.data) {
+        directScheme.value = {
+          ...res.data,
+          status: 'NEEDS_CONFIRMATION',
+          passed_criteria: [],
+          failed_criteria: [],
+          unconfirmed_criteria: [],
+          required_documents: res.data.document_requirements?.map((dr: any) => dr.document) || []
+        };
+      }
+    } catch (e) {
+      console.warn('Could not fetch direct scheme:', e);
+    }
   }
 });
 
@@ -413,7 +432,7 @@ async function trackThisScheme() {
             class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 text-sm"
           >
             <div class="w-7 h-7 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
-              {{ idx + 1 }}
+              {{ Number(idx) + 1 }}
             </div>
             <div class="font-medium text-slate-800 leading-relaxed pt-0.5">
               {{ step }}

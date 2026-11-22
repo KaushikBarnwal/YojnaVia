@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     'apps.documents',
     'apps.ai_assistant',
     'apps.tracker',
+    'apps.notifications',
+    'apps.counselor',
 ]
 
 MIDDLEWARE = [

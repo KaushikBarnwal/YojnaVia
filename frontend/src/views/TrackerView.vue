@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import { useStudentStore } from '../stores/studentStore';
 import PersonaBar from '../components/PersonaBar.vue';
 import RejectionRecoveryModal from '../components/RejectionRecoveryModal.vue';
+import LifecycleRoadmapModal from '../components/LifecycleRoadmapModal.vue';
 import type { ApplicationStatus } from '../types';
 import { 
   CheckCircle2, 
@@ -14,7 +15,10 @@ import {
   X,
   AlertTriangle,
   RotateCcw,
-  Check
+  Check,
+  MapPin,
+  Bell,
+  MessageSquare
 } from '@lucide/vue';
 
 const store = useStudentStore();
@@ -47,6 +51,17 @@ const editNotes = ref('');
 const isRecoveryOpen = ref(false);
 const recoverySchemeCode = ref('');
 const recoveryInitialRemark = ref('');
+
+// Entitlement Lifecycle Roadmap Modal state
+const isLifecycleOpen = ref(false);
+const lifecycleSchemeCode = ref('');
+const lifecycleSchemeName = ref('');
+
+function openLifecycleRoadmap(schemeCode: string, schemeName: string) {
+  lifecycleSchemeCode.value = schemeCode;
+  lifecycleSchemeName.value = schemeName;
+  isLifecycleOpen.value = true;
+}
 
 function openRejectionNavigator(schemeCode?: string, remark?: string) {
   recoverySchemeCode.value = schemeCode || 'MH_DTE_EBC_2024';
@@ -158,6 +173,32 @@ async function handleReEvaluateApp(schemeCode: string) {
       </button>
     </div>
 
+    <!-- WHATSAPP & SMS DEADLINE REMINDERS BANNER -->
+    <div class="p-4 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-indigo-50 border border-emerald-200 text-emerald-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+      <div class="flex items-start gap-3">
+        <div class="p-2 bg-emerald-100 rounded-xl text-emerald-700 shrink-0 mt-0.5">
+          <Bell class="w-5 h-5" />
+        </div>
+        <div>
+          <div class="font-bold text-emerald-900 text-sm flex items-center gap-2">
+            <span>Automated WhatsApp & SMS Deadline Reminders</span>
+            <span class="text-[10px] bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded-full font-bold">Consent-Driven</span>
+          </div>
+          <p class="text-xs text-emerald-800 mt-0.5">
+            Receive verified portal cutoff alerts (7d/2d/0d), missing document SLA warnings, 15-day scrutiny resubmission clocks, and annual March 31 renewals directly to WhatsApp or SMS.
+          </p>
+        </div>
+      </div>
+      <router-link 
+        to="/notifications" 
+        class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-xs shrink-0 flex items-center gap-1.5 transition-colors self-start sm:self-auto"
+      >
+        <MessageSquare class="w-3.5 h-3.5" />
+        <span>Manage Notification Alerts</span>
+        <ArrowRight class="w-3.5 h-3.5" />
+      </router-link>
+    </div>
+
     <!-- Active Tracked Applications -->
     <div v-if="store.trackedApplications.length > 0" class="space-y-6">
       <div 
@@ -210,6 +251,14 @@ async function handleReEvaluateApp(schemeCode: string) {
           </div>
 
           <div class="flex items-center gap-2 shrink-0">
+            <button
+              @click="openLifecycleRoadmap(app.scheme_code, app.scheme_name)"
+              class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors"
+            >
+              <MapPin class="w-3.5 h-3.5 text-emerald-600" />
+              <span>Lifecycle Roadmap 🗺️</span>
+            </button>
+
             <button
               v-if="app.status === 'REJECTED' || app.status === 'UNDER_REVIEW'"
               @click="openRejectionNavigator(app.scheme_code, app.notes)"
@@ -425,6 +474,14 @@ async function handleReEvaluateApp(schemeCode: string) {
       :scheme-code="recoverySchemeCode"
       :initial-rejection-remark="recoveryInitialRemark"
       @close="isRecoveryOpen = false"
+    />
+
+    <!-- Entitlement Lifecycle Roadmap Modal -->
+    <LifecycleRoadmapModal
+      :is-open="isLifecycleOpen"
+      :scheme-code="lifecycleSchemeCode"
+      :scheme-name="lifecycleSchemeName"
+      @close="isLifecycleOpen = false"
     />
 
   </div>

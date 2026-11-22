@@ -204,3 +204,182 @@ class IntakeEndToEndTests(IntakeTestBase):
             self.assertIsNotNone(data["eligibility"])
             self.assertIn("summary", data["eligibility"])
             self.assertIn("results", data["eligibility"])
+
+
+class GovernmentResolutionInterpreterTests(TestCase):
+    def test_gr_samples_endpoint(self):
+        response = self.client.get("/api/v1/assistant/gr_samples/")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIn("samples", data)
+        self.assertGreaterEqual(len(data["samples"]), 4)
+        sample_ids = [s["id"] for s in data["samples"]]
+        self.assertIn("ebc_cap_merit_2018", sample_ids)
+        self.assertIn("ladki_bahin_2024", sample_ids)
+
+    def test_interpret_gr_endpoint(self):
+        payload = {
+            "source_text": (
+                "शासन निर्णय क्रमांक: संकीर्ण-२०१८/प्र.क्र.३६३/तांशि-४\n"
+                "विद्यार्थ्याने केंद्रीभूत प्रवेश प्रक्रियेद्वारे (CAP) प्रवेश घेतलेला असणे अनिवार्य आहे.\n"
+                "व्यवस्थापन कोट्यातील विद्यार्थी अपात्र ठरतील.\n"
+                "कुटुंबाचे वार्षिक उत्पन्न रु. ८,००,०००/- पेक्षा जास्त नसावे.\n"
+                "तहसीलदार यांनी दिलेला उत्पन्नाचा दाखला आवश्यक आहे."
+            ),
+            "preferred_language": "en"
+        }
+        response = self.client.post("/api/v1/assistant/interpret_gr/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data.get("evidence_integrity_certified"))
+        self.assertIn("eligibility_conditions", data)
+        self.assertGreaterEqual(len(data["eligibility_conditions"]), 2)
+        # Verify quotes are preserved
+        for cond in data["eligibility_conditions"]:
+            self.assertTrue(len(cond.get("source_quote", "")) > 0)
+        self.assertIn("required_documents", data)
+        self.assertIn("action_steps", data)
+
+
+class SarvamVoiceIntakeTests(TestCase):
+    def setUp(self):
+        self.token = "test-voice-session-404"
+        from io import BytesIO
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        self.dummy_audio_wav = SimpleUploadedFile("voice.wav", b"RIFF....WAVEfmt ....data....", content_type="audio/wav")
+
+    def test_audio_validation_empty_and_format(self):
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from apps.ai_assistant.sarvam_speech import SarvamSpeechService
+
+        # 1. Empty file
+        empty_file = SimpleUploadedFile("empty.wav", b"", content_type="audio/wav")
+        with self.assertRaises(ValueError) as ctx:
+            SarvamSpeechService.validate_audio_upload(empty_file)
+        self.assertIn("empty", str(ctx.exception).lower())
+
+        # 2. Unsupported format
+        bad_file = SimpleUploadedFile("doc.pdf", b"%PDF-1.4...", content_type="application/pdf")
+        with self.assertRaises(ValueError) as ctx:
+            SarvamSpeechService.validate_audio_upload(bad_file)
+        self.assertIn("unsupported", str(ctx.exception).lower())
+
+        # 3. Oversized file (>10MB)
+        big_file = SimpleUploadedFile("huge.wav", b"0" * (11 * 1024 * 1024), content_type="audio/wav")
+        with self.assertRaises(ValueError) as ctx:
+            SarvamSpeechService.validate_audio_upload(big_file)
+        self.assertIn("exceeds", str(ctx.exception).lower())
+
+    def test_marathi_voice_demo_transcription_and_extraction(self):
+        """Tests the canonical Marathi test scenario: age 24, Pune, income 2 lakh."""
+        from apps.profiles.models import StudentProfile
+
+        payload = {
+            "session_token": self.token,
+            "is_demo": "true",
+            "demo_scenario": "marathi"
+        }
+        response = self.client.post("/api/v1/intake/voice/", data=payload)
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+
+        self.assertTrue(data["success"])
+        self.assertEqual(data["detected_language"], "mr-IN")
+        self.assertIn("पुण्यात", data["transcript"])
+        self.assertTrue(data["requires_confirmation"])
+
+        # Check extracted fields
+        extracted = data["extracted_fields"]
+        self.assertEqual(extracted.get("age"), 24)
+        self.assertEqual(extracted.get("district"), "Pune")
+        self.assertEqual(extracted.get("income_band"), "1_to_2_5_lakh")
+
+        # High risk fields must be flagged
+        high_risk_fields = [f["field"] for f in data["high_risk_fields"]]
+        self.assertIn("age", high_risk_fields)
+        self.assertIn("income_band", high_risk_fields)
+        self.assertIn("district", high_risk_fields)
+
+        # CONFIRMATION SAFEGUARD: StudentProfile must NOT be silently updated before citizen confirms
+        profile = StudentProfile.objects.filter(session_token=self.token).first()
+        if profile:
+            self.assertNotEqual(profile.annual_family_income, 250000.0)
+
+    def test_hindi_voice_demo_transcription_and_extraction(self):
+        """Tests Hindi voice intake scenario."""
+        payload = {
+            "session_token": self.token,
+            "is_demo": "true",
+            "demo_scenario": "hindi"
+        }
+        response = self.client.post("/api/v1/intake/voice/", data=payload)
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+
+        self.assertTrue(data["success"])
+        self.assertEqual(data["detected_language"], "hi-IN")
+        self.assertIn("पुणे", data["transcript"])
+        self.assertEqual(data["extracted_fields"].get("age"), 24)
+        self.assertEqual(data["extracted_fields"].get("district"), "Pune")
+
+    def test_sensitive_identifier_refusal_in_voice(self):
+        """Voice note containing Aadhaar numbers must trigger sensitive refusal without extracting."""
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from apps.ai_assistant.sarvam_speech import SarvamSpeechService
+
+        with patch.object(SarvamSpeechService, "transcribe") as mock_stt:
+            mock_stt.return_value = {
+                "transcript": "My Aadhaar number is 9876 5432 1098 and my age is 20",
+                "language_code": "en-IN",
+                "request_id": "test_req",
+                "is_simulated": True
+            }
+            audio_file = SimpleUploadedFile("voice.wav", b"RIFF1234WAVEfmt ", content_type="audio/wav")
+            response = self.client.post("/api/v1/intake/voice/", data={
+                "session_token": self.token,
+                "audio": audio_file
+            })
+            self.assertEqual(response.status_code, 200)
+            data = response.json()
+            self.assertTrue(data.get("is_sensitive_refusal"))
+            self.assertIn("Aadhaar", data.get("reply", ""))
+
+    def test_confirm_voice_intake_saves_profile_and_runs_eligibility(self):
+        """Citizen explicitly confirms extracted values; engine synchronizes to profile and runs rules."""
+        from apps.profiles.models import StudentProfile
+
+        confirm_payload = {
+            "session_token": self.token,
+            "confirmed_fields": {
+                "age": 24,
+                "state": "Maharashtra",
+                "district": "Pune",
+                "income_band": "1_to_2_5_lakh"
+            }
+        }
+        response = self.client.post("/api/v1/intake/confirm_voice/", data=json.dumps(confirm_payload), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["success"])
+
+        # Check that StudentProfile was synced
+        profile = StudentProfile.objects.get(session_token=self.token)
+        self.assertEqual(profile.age, 24)
+        self.assertEqual(profile.state, "Maharashtra")
+        self.assertEqual(profile.district, "Pune")
+        self.assertEqual(profile.annual_family_income, 250000.0)
+
+    def test_sarvam_service_network_timeout_and_error_handling(self):
+        """Simulate Sarvam API timeout and ensure clean error reporting."""
+        import requests
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from apps.ai_assistant.sarvam_speech import SarvamSpeechService
+
+        audio_file = SimpleUploadedFile("test.wav", b"RIFF....WAVE", content_type="audio/wav")
+
+        with patch.object(SarvamSpeechService, "is_configured", return_value=True):
+            with patch("requests.post", side_effect=requests.exceptions.Timeout("Request timed out")):
+                with self.assertRaises(TimeoutError):
+                    SarvamSpeechService.transcribe(audio_file)
+
+

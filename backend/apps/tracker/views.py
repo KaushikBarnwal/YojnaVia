@@ -6,6 +6,8 @@ from apps.schemes.models import Scheme
 from .models import ApplicationRecord
 from .serializers import ApplicationRecordSerializer
 from .rejection_recovery import RejectionRecoveryService
+from .lifecycle import EntitlementLifecycleService
+from .community_intelligence import CommunityGapIntelligenceService
 
 # Next action mappings according to stage / status
 STATUS_NEXT_ACTIONS = {
@@ -154,5 +156,59 @@ class RejectionRecoveryView(APIView):
             scheme_code=scheme_code
         )
         return Response(result)
+
+
+class LifecycleStagesView(APIView):
+    """
+    Returns the complete 6-stage entitlement journey blueprint.
+    GET /api/v1/tracker/lifecycle/stages/
+    """
+    def get(self, request):
+        return Response({"stages": EntitlementLifecycleService.get_lifecycle_stages()})
+
+
+class ApplicationLifecycleRoadmapView(APIView):
+    """
+    Generates personalized lifecycle roadmap, milestones, renewal dates,
+    and reapplication windows for a tracked application.
+    GET /api/v1/tracker/lifecycle/roadmap/?session_token=...&scheme_code=...
+    """
+    def get(self, request):
+        session_token = request.query_params.get("session_token")
+        scheme_code = request.query_params.get("scheme_code")
+
+        if not session_token or not scheme_code:
+            return Response({"error": "session_token and scheme_code are required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            profile = StudentProfile.objects.get(session_token=session_token)
+            record = ApplicationRecord.objects.select_related("scheme").get(profile=profile, scheme__code=scheme_code)
+            roadmap = EntitlementLifecycleService.get_application_lifecycle_roadmap(record)
+            return Response(roadmap)
+        except (StudentProfile.DoesNotExist, ApplicationRecord.DoesNotExist):
+            # If not yet tracked, generate speculative roadmap from scheme
+            try:
+                scheme = Scheme.objects.get(code=scheme_code)
+                # Create transient record for preview
+                profile, _ = StudentProfile.objects.get_or_create(session_token=session_token, defaults={"name": "Student"})
+                record, _ = ApplicationRecord.objects.get_or_create(profile=profile, scheme=scheme)
+                roadmap = EntitlementLifecycleService.get_application_lifecycle_roadmap(record)
+                return Response(roadmap)
+            except Scheme.DoesNotExist:
+                return Response({"error": "Scheme not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class CommunityGapReportView(APIView):
+    """
+    Returns anonymised and aggregated analytics for NGOs and support organizations.
+    Suppresses any sub-cohort < 5 for k-anonymity compliance.
+    GET /api/v1/tracker/community_intelligence/?district=Pune
+    """
+    def get(self, request):
+        district = request.query_params.get("district")
+        report = CommunityGapIntelligenceService.get_community_gap_report(selected_district=district)
+        return Response(report)
+
+
 
 

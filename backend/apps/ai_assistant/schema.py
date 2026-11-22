@@ -113,6 +113,53 @@ def _clean_text(raw: Any, field_name: str, max_length: int, allow_empty: bool) -
     return text
 
 
+DISTRICT_INDIC_TO_ENGLISH = {
+    "पुणे": "Pune", "पुण्यात": "Pune",
+    "सांगली": "Sangli", "सांगलीत": "Sangli",
+    "नाशिक": "Nashik", "नाशिकमध्ये": "Nashik",
+    "सोलापूर": "Solapur", "सोलापुरात": "Solapur",
+    "कोल्हापूर": "Kolhapur", "कोल्हापुरात": "Kolhapur",
+    "मुंबई": "Mumbai", "मुंबईत": "Mumbai",
+    "नागपूर": "Nagpur", "नागपुरात": "Nagpur",
+    "ठाणे": "Thane", "ठाण्यात": "Thane",
+    "छत्रपती संभाजीनगर": "Chhatrapati Sambhajinagar",
+    "संभाजीनगर": "Chhatrapati Sambhajinagar",
+    "औरंगाबाद": "Chhatrapati Sambhajinagar",
+    "अमरावती": "Amravati",
+    "नांदेड": "Nanded",
+    "जळगाव": "Jalgaon",
+    "सातारा": "Satara",
+    "रत्नागिरी": "Ratnagiri",
+    "सिंधुदुर्ग": "Sindhudurg",
+    "अहमदनगर": "Ahmednagar",
+    "अहिल्यानगर": "Ahilyanagar",
+    "लातूर": "Latur",
+    "बीड": "Beed",
+    "उस्मानाबाद": "Dharashiv",
+    "धाराशिव": "Dharashiv",
+    "धुळे": "Dhule",
+    "नंदुरबार": "Nandurbar",
+    "चंद्रपूर": "Chandrapur",
+    "गोंदिया": "Gondia",
+    "भंडारा": "Bhandara",
+    "गडचिरोली": "Gadchiroli",
+    "वर्धा": "Wardha",
+    "यवतमाळ": "Yavatmal",
+    "वाशिम": "Washim",
+    "अकोला": "Akola",
+    "हिंगोली": "Hingoli",
+    "परभणी": "Parbhani",
+    "जालना": "Jalna",
+    "रायगड": "Raigad",
+    "पालघर": "Palghar",
+}
+
+STATE_INDIC_TO_ENGLISH = {
+    "महाराष्ट्र": "Maharashtra",
+    "महाराष्ट्रात": "Maharashtra",
+}
+
+
 def validate_field_value(field: str, raw: Any) -> Any:
     """Return the normalised value for `field`, or raise ValueError."""
     if field == "age":
@@ -122,8 +169,13 @@ def validate_field_value(field: str, raw: Any) -> Any:
             raise ValueError("age must be between 0 and 120")
         return raw
 
-    if field in ("state", "district"):
-        return _clean_text(raw, field, 100, allow_empty=False)
+    if field == "state":
+        cleaned = _clean_text(raw, field, 100, allow_empty=False)
+        return STATE_INDIC_TO_ENGLISH.get(cleaned, cleaned)
+
+    if field == "district":
+        cleaned = _clean_text(raw, field, 100, allow_empty=False)
+        return DISTRICT_INDIC_TO_ENGLISH.get(cleaned, cleaned)
 
     if field == "occupation":
         return _clean_text(raw, field, 100, allow_empty=True)

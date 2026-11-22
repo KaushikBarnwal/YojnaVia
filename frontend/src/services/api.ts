@@ -26,6 +26,16 @@ export const intakeApi = {
       '/intake/restart/',
       { session_token: sessionToken }
     ),
+  voiceIntake: (formData: FormData) =>
+    api.post('/intake/voice/', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 30000,
+    }),
+  confirmVoice: (sessionToken: string, confirmedFields: Record<string, any>) =>
+    api.post('/intake/confirm_voice/', {
+      session_token: sessionToken,
+      confirmed_fields: confirmedFields,
+    }),
 };
 
 export default api;

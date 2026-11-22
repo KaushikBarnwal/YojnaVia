@@ -3,6 +3,8 @@ import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStudentStore } from '../stores/studentStore';
 import PersonaBar from '../components/PersonaBar.vue';
+import { intakeApi } from '../services/api';
+import { t } from '../utils/i18n';
 import { 
   Send, 
   Sparkles, 
@@ -17,7 +19,13 @@ import {
   X,
   Lock,
   Award,
-  CheckCircle2
+  CheckCircle2,
+  Mic,
+  Square,
+  Volume2,
+  Radio,
+  Check,
+  RefreshCw
 } from '@lucide/vue';
 
 const store = useStudentStore();
@@ -28,6 +36,177 @@ const inputMessage = ref('');
 const isEditModalOpen = ref(false);
 const editingFieldKey = ref('age');
 const editingFieldValue = ref<any>('');
+
+// Voice Intake State (Sarvam Saaras v4 Pilot)
+const isRecording = ref(false);
+const recordingDuration = ref(0);
+const mediaRecorder = ref<MediaRecorder | null>(null);
+const audioChunks = ref<Blob[]>([]);
+const timerInterval = ref<any>(null);
+const isTranscribing = ref(false);
+const voiceError = ref('');
+const selectedVoiceLang = ref<'unknown' | 'mr-IN' | 'hi-IN'>('unknown');
+const isVoiceModalOpen = ref(false);
+const voiceTranscript = ref('');
+const detectedLanguage = ref('mr-IN');
+const voiceSttMeta = ref<any>(null);
+const voiceExtractedFields = ref<Record<string, any>>({});
+const voiceHighRiskFields = ref<any[]>([]);
+const isConfirmingVoice = ref(false);
+
+const formattedDuration = computed(() => {
+  const m = Math.floor(recordingDuration.value / 60);
+  const s = recordingDuration.value % 60;
+  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+});
+
+async function startRecording() {
+  voiceError.value = '';
+  audioChunks.value = [];
+  recordingDuration.value = 0;
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const recorder = new MediaRecorder(stream);
+    mediaRecorder.value = recorder;
+
+    recorder.ondataavailable = (e) => {
+      if (e.data && e.data.size > 0) {
+        audioChunks.value.push(e.data);
+      }
+    };
+
+    recorder.onstop = async () => {
+      clearInterval(timerInterval.value);
+      stream.getTracks().forEach((track) => track.stop());
+      if (audioChunks.value.length > 0) {
+        const mime = recorder.mimeType || 'audio/webm';
+        const audioBlob = new Blob(audioChunks.value, { type: mime });
+        await processAudioUpload(audioBlob);
+      }
+    };
+
+    recorder.start(250);
+    isRecording.value = true;
+    timerInterval.value = setInterval(() => {
+      recordingDuration.value++;
+      if (recordingDuration.value >= 60) {
+        stopRecording();
+      }
+    }, 1000);
+  } catch (err: any) {
+    voiceError.value = 'Microphone access denied or audio device not found. You can test using the 1-Click Demo Voice below.';
+  }
+}
+
+function stopRecording() {
+  if (mediaRecorder.value && mediaRecorder.value.state !== 'inactive') {
+    mediaRecorder.value.stop();
+    isRecording.value = false;
+  }
+}
+
+function cancelRecording() {
+  if (mediaRecorder.value && mediaRecorder.value.state !== 'inactive') {
+    clearInterval(timerInterval.value);
+    mediaRecorder.value.stop();
+    isRecording.value = false;
+    audioChunks.value = [];
+  }
+}
+
+async function processAudioUpload(audioSource: Blob | 'marathi' | 'hindi') {
+  isTranscribing.value = true;
+  voiceError.value = '';
+  try {
+    const formData = new FormData();
+    formData.append('session_token', store.sessionToken);
+    formData.append('language_code', selectedVoiceLang.value);
+
+    if (typeof audioSource === 'string') {
+      formData.append('is_demo', 'true');
+      formData.append('demo_scenario', audioSource);
+    } else {
+      const ext = audioSource.type.includes('wav') ? 'wav' : 'webm';
+      formData.append('audio', audioSource, `citizen_voice.${ext}`);
+    }
+
+    const res = await intakeApi.voiceIntake(formData);
+    if (res.data.is_sensitive_refusal) {
+      voiceError.value = res.data.reply;
+      return;
+    }
+
+    voiceTranscript.value = res.data.transcript || '';
+    detectedLanguage.value = res.data.detected_language || 'mr-IN';
+    voiceSttMeta.value = res.data.stt_metadata || {};
+    voiceExtractedFields.value = { ...res.data.extracted_fields };
+    voiceHighRiskFields.value = res.data.high_risk_fields || [];
+    isVoiceModalOpen.value = true;
+  } catch (err: any) {
+    voiceError.value =
+      err?.response?.data?.error?.message ||
+      err?.response?.data?.error ||
+      'Transcription failed. Please try speaking again.';
+  } finally {
+    isTranscribing.value = false;
+  }
+}
+
+async function handleConfirmVoiceProfile() {
+  isConfirmingVoice.value = true;
+  voiceError.value = '';
+  try {
+    const res = await intakeApi.confirmVoice(store.sessionToken, voiceExtractedFields.value);
+    if (res.data.success) {
+      // Add speech interaction to chat messages
+      store.chatMessages.push({
+        sender: 'user',
+        text: `🎙️ ${voiceTranscript.value}`
+      });
+      store.intakeState = res.data.state;
+      store.nextQuestion = res.data.next_question;
+      if (res.data.eligibility) {
+        store.evaluatedSchemes = res.data.eligibility.results || [];
+        store.evaluationSummary = res.data.eligibility.summary || null;
+      }
+      await store.fetchProfile();
+      isVoiceModalOpen.value = false;
+    }
+  } catch (err: any) {
+    voiceError.value = err?.response?.data?.error?.message || 'Failed to save confirmed profile.';
+  } finally {
+    isConfirmingVoice.value = false;
+  }
+}
+
+async function handleReExtractTranscript() {
+  if (!voiceTranscript.value.trim()) return;
+  isTranscribing.value = true;
+  try {
+    const res = await intakeApi.chat(voiceTranscript.value, store.sessionToken);
+    store.chatMessages.push({
+      sender: 'user',
+      text: voiceTranscript.value
+    });
+    store.chatMessages.push({
+      sender: 'assistant',
+      text: res.data.reply
+    });
+    store.intakeState = res.data.state;
+    store.nextQuestion = res.data.next_question;
+    if (res.data.eligibility) {
+      store.evaluatedSchemes = res.data.eligibility.results || [];
+      store.evaluationSummary = res.data.eligibility.summary || null;
+    }
+    await store.fetchProfile();
+    isVoiceModalOpen.value = false;
+  } catch (err: any) {
+    voiceError.value = err?.response?.data?.error?.message || 'Extraction failed.';
+  } finally {
+    isTranscribing.value = false;
+  }
+}
 
 const samplePrompts = [
   "I am 21, from Sangli, Maharashtra, studying B.Tech Mechanical Engineering, and my family's annual income is around ₹1.2 Lakhs.",
@@ -261,7 +440,11 @@ function formatFieldValue(key: string, value: any): string {
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-xs text-slate-500 inline-flex items-center gap-1 bg-white border border-slate-200 px-2.5 py-1 rounded-full shadow-xs">
+            <span class="text-xs text-emerald-800 font-bold inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full shadow-xs">
+              <Mic class="w-3 h-3 text-emerald-600 animate-pulse" />
+              <span>{{ t('voice_pilot_badge', store.locale) }}</span>
+            </span>
+            <span class="text-xs text-slate-500 inline-flex items-center gap-1 bg-white border border-slate-200 px-2.5 py-1 rounded-full shadow-xs hidden sm:inline-flex">
               <Lock class="w-3 h-3 text-emerald-600" />
               <span>Safe Demo • No Aadhaar</span>
             </span>
@@ -346,14 +529,136 @@ function formatFieldValue(key: string, value: any): string {
           </button>
         </div>
 
-        <!-- Chat Input Form -->
-        <form @submit.prevent="handleSendMessage" class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
+        <!-- Voice Mode & Quick Speech Demo Strip -->
+        <div class="px-4 py-2 bg-gradient-to-r from-emerald-50/70 via-indigo-50/40 to-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div class="flex items-center gap-1.5">
+            <span class="text-[11px] font-bold text-emerald-900 flex items-center gap-1">
+              <Volume2 class="w-3.5 h-3.5 text-emerald-600" />
+              <span>Voice Language:</span>
+            </span>
+            <div class="inline-flex rounded-lg bg-white p-0.5 border border-slate-200 shadow-2xs text-[10px] font-bold">
+              <button 
+                type="button"
+                @click="selectedVoiceLang = 'unknown'" 
+                class="px-2 py-0.5 rounded transition-all"
+                :class="selectedVoiceLang === 'unknown' ? 'bg-emerald-600 text-white' : 'text-slate-600 hover:text-slate-900'"
+              >
+                Auto
+              </button>
+              <button 
+                type="button"
+                @click="selectedVoiceLang = 'mr-IN'" 
+                class="px-2 py-0.5 rounded transition-all"
+                :class="selectedVoiceLang === 'mr-IN' ? 'bg-emerald-600 text-white' : 'text-slate-600 hover:text-slate-900'"
+              >
+                मराठी
+              </button>
+              <button 
+                type="button"
+                @click="selectedVoiceLang = 'hi-IN'" 
+                class="px-2 py-0.5 rounded transition-all"
+                :class="selectedVoiceLang === 'hi-IN' ? 'bg-emerald-600 text-white' : 'text-slate-600 hover:text-slate-900'"
+              >
+                हिंदी
+              </button>
+            </div>
+          </div>
+
+          <!-- 1-Click Demo Voice Buttons -->
+          <div class="flex items-center gap-1.5">
+            <button
+              type="button"
+              @click="processAudioUpload('marathi')"
+              :disabled="isTranscribing || isRecording"
+              title="Test Marathi speech input with Pune, age 24, income 2 lakh"
+              class="px-2.5 py-1 bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg text-[10px] font-bold shadow-2xs transition-all flex items-center gap-1"
+            >
+              <Radio class="w-2.5 h-2.5 text-emerald-600" />
+              <span>🎙️ Test Marathi Voice</span>
+            </button>
+
+            <button
+              type="button"
+              @click="processAudioUpload('hindi')"
+              :disabled="isTranscribing || isRecording"
+              title="Test Hindi speech input"
+              class="px-2.5 py-1 bg-white hover:bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-lg text-[10px] font-bold shadow-2xs transition-all flex items-center gap-1"
+            >
+              <Radio class="w-2.5 h-2.5 text-indigo-600" />
+              <span>🎙️ Test Hindi Voice</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Voice Error Alert -->
+        <div v-if="voiceError" class="mx-3 my-2 p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-1.5 font-medium">
+            <AlertCircle class="w-4 h-4 text-rose-600 shrink-0" />
+            <span>{{ voiceError }}</span>
+          </div>
+          <button @click="voiceError = ''" class="text-rose-500 hover:text-rose-800 text-xs font-bold">✕</button>
+        </div>
+
+        <!-- ACTIVE RECORDING BAR -->
+        <div v-if="isRecording" class="p-3 bg-red-50 border-t border-red-200 flex items-center justify-between gap-3 animate-in fade-in">
+          <div class="flex items-center gap-3">
+            <div class="relative flex items-center justify-center">
+              <span class="w-3.5 h-3.5 rounded-full bg-red-600 animate-ping absolute"></span>
+              <span class="w-3 h-3 rounded-full bg-red-600 relative"></span>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-red-950 flex items-center gap-2">
+                <span>{{ t('voice_recording', store.locale) }}</span>
+                <span class="font-mono bg-red-100 text-red-800 px-2 py-0.5 rounded text-[11px] font-extrabold">{{ formattedDuration }}</span>
+              </div>
+              <div class="text-[10px] text-red-700">Audio is processed in-memory and never saved to permanent disk.</div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              @click="cancelRecording()"
+              class="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded-xl text-xs font-bold transition-all"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              @click="stopRecording()"
+              class="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5"
+            >
+              <Square class="w-3.5 h-3.5 fill-current" />
+              <span>{{ t('voice_stop_record', store.locale) }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- TRANSCRIBING LOADER BAR -->
+        <div v-else-if="isTranscribing" class="p-3.5 bg-indigo-50 border-t border-indigo-200 flex items-center justify-center gap-2 text-xs font-bold text-indigo-900 animate-in fade-in">
+          <RefreshCw class="w-4 h-4 text-indigo-600 animate-spin" />
+          <span>{{ t('voice_transcribing', store.locale) }}</span>
+        </div>
+
+        <!-- Normal Chat Input Form -->
+        <form v-else @submit.prevent="handleSendMessage" class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
           <input
             v-model="inputMessage"
             type="text"
             placeholder="Describe your age, college, location, income or caste..."
             class="flex-1 text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           />
+
+          <!-- Microphone Recording Button -->
+          <button
+            type="button"
+            @click="startRecording()"
+            :title="t('voice_start_record', store.locale)"
+            class="p-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-xl transition-all shadow-xs shrink-0 flex items-center justify-center"
+          >
+            <Mic class="w-4 h-4" />
+          </button>
+
           <button
             type="submit"
             :disabled="!inputMessage.trim() || store.isLoading"
@@ -586,6 +891,180 @@ function formatFieldValue(key: string, value: any): string {
             </button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- VOICE REVIEW & HIGH-RISK CONFIRMATION MODAL (SARVAM SAARAS V4) -->
+    <div 
+      v-if="isVoiceModalOpen" 
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs"
+    >
+      <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl border border-slate-200 space-y-5 max-h-[90vh] overflow-y-auto">
+        
+        <!-- Modal Header -->
+        <div class="flex items-start justify-between border-b border-slate-100 pb-4">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <div class="p-2 bg-emerald-50 text-emerald-700 rounded-xl">
+                <Mic class="w-5 h-5 text-emerald-600" />
+              </div>
+              <h3 class="font-extrabold text-slate-900 text-base sm:text-lg">
+                {{ t('voice_speak_title', store.locale) }}
+              </h3>
+            </div>
+            <p class="text-xs text-slate-500">
+              Sarvam Saaras v4 Native-Script Transcription & Structured Extraction
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300 uppercase">
+              {{ detectedLanguage }}
+            </span>
+            <button 
+              @click="isVoiceModalOpen = false" 
+              class="text-slate-400 hover:text-slate-600 text-sm p-1 rounded-lg"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <!-- Pilot Notice Badge -->
+        <div class="p-3 rounded-2xl bg-gradient-to-r from-emerald-50 to-indigo-50 border border-emerald-200 text-emerald-950 text-xs flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2 font-medium">
+            <Sparkles class="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>Pilot Feature: Speech-to-text powered by Sarvam AI Saaras v4.</span>
+          </div>
+          <span v-if="voiceSttMeta?.is_simulated" class="px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded font-mono text-[10px] font-bold shrink-0">
+            Simulated
+          </span>
+        </div>
+
+        <!-- Section 1: Transcribed Speech (Editable) -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-700">
+            <span>{{ t('voice_edit_transcript', store.locale) }}</span>
+            <button
+              type="button"
+              @click="handleReExtractTranscript()"
+              class="text-[11px] text-indigo-700 hover:text-indigo-900 font-bold flex items-center gap-1 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-200 transition-colors"
+            >
+              <RefreshCw class="w-3 h-3" />
+              <span>Re-Extract with AI</span>
+            </button>
+          </div>
+          <textarea
+            v-model="voiceTranscript"
+            rows="3"
+            class="w-full text-sm p-3 bg-slate-50 border border-slate-300 rounded-2xl font-sans focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white leading-relaxed"
+          ></textarea>
+        </div>
+
+        <!-- Section 2: Statutory Safeguards: High-Risk Profile Fields -->
+        <div class="space-y-3 pt-1">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+            <ShieldCheck class="w-4 h-4 text-emerald-600" />
+            <span>{{ t('voice_confirm_title', store.locale) }}</span>
+          </div>
+
+          <div class="p-3 rounded-2xl bg-amber-50/80 border border-amber-200 text-amber-950 text-[11px] font-medium leading-relaxed">
+            <strong>Accuracy Safeguard:</strong> Unverified numbers are never silently converted into profile fields. Please verify and correct the extracted values below before saving to your profile:
+          </div>
+
+          <!-- High-Risk Fields Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            
+            <!-- Age -->
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <label class="text-[10px] font-bold text-slate-500 uppercase">Age (Years)</label>
+              <input
+                v-model.number="voiceExtractedFields.age"
+                type="number"
+                min="0"
+                max="120"
+                placeholder="Not stated"
+                class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500"
+              />
+            </div>
+
+            <!-- District -->
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <label class="text-[10px] font-bold text-slate-500 uppercase">District (Maharashtra)</label>
+              <input
+                v-model="voiceExtractedFields.district"
+                type="text"
+                placeholder="e.g. Pune"
+                class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500"
+              />
+            </div>
+
+            <!-- Annual Family Income Band -->
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1 sm:col-span-2">
+              <label class="text-[10px] font-bold text-slate-500 uppercase">Annual Household Income Band</label>
+              <select
+                v-model="voiceExtractedFields.income_band"
+                class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500"
+              >
+                <option :value="undefined">Not stated / Unknown</option>
+                <option v-for="opt in incomeBandOptions" :key="opt.value" :value="opt.value">
+                  {{ opt.label }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Education Level -->
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <label class="text-[10px] font-bold text-slate-500 uppercase">Education Level</label>
+              <select
+                v-model="voiceExtractedFields.education_level"
+                class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500"
+              >
+                <option :value="undefined">Not stated</option>
+                <option v-for="opt in educationOptions" :key="opt.value" :value="opt.value">
+                  {{ opt.label }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Social Category (Volunteered) -->
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <label class="text-[10px] font-bold text-slate-500 uppercase">Social Category (Volunteered)</label>
+              <select
+                v-model="voiceExtractedFields.social_category"
+                class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500"
+              >
+                <option :value="undefined">Not stated</option>
+                <option v-for="opt in socialCategoryOptions" :key="opt.value" :value="opt.value">
+                  {{ opt.label }}
+                </option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
+          <button
+            type="button"
+            @click="isVoiceModalOpen = false"
+            class="px-4 py-2 border border-slate-300 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            @click="handleConfirmVoiceProfile()"
+            :disabled="isConfirmingVoice"
+            class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50"
+          >
+            <Check class="w-4 h-4" />
+            <span>{{ isConfirmingVoice ? 'Confirming...' : t('voice_btn_confirm', store.locale) }}</span>
+          </button>
+        </div>
+
       </div>
     </div>
   </div>

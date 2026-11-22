@@ -8,6 +8,7 @@ from .engine import RuleEngine
 from .stacking import StackingOptimizer
 from .family import FamilyBenefitsService
 from .preflight import ApplicationPreflightService
+from .what_if import WhatIfSimulatorService
 
 
 def evaluate_profile_data(profile_data):
@@ -141,4 +142,62 @@ class ApplicationPreflightView(APIView):
             custom_audit_params=custom_params
         )
         return Response(result)
+
+
+class WhatIfPresetScenariosView(APIView):
+    """
+    Returns 1-click preset what-if life event scenarios.
+    GET /api/v1/eligibility/what_if/presets/
+    """
+    def get(self, request):
+        return Response({"scenarios": WhatIfSimulatorService.get_preset_scenarios()})
+
+
+class WhatIfSimulationView(APIView):
+    """
+    Runs interactive what-if eligibility simulation comparing baseline vs simulated changes.
+    POST /api/v1/eligibility/what_if/
+    {
+      "session_token": "...",
+      "preset_scenario_id": "advance_education_degree",
+      "modifications": {"annual_family_income": 120000, ...}
+    }
+    """
+    def post(self, request):
+        token = request.data.get("session_token")
+        modifications = request.data.get("modifications", {})
+        scenario_id = request.data.get("preset_scenario_id")
+
+        profile_data = {}
+        if token:
+            try:
+                profile_obj = StudentProfile.objects.get(session_token=token)
+                profile_data = {
+                    "age": profile_obj.age,
+                    "gender": profile_obj.gender,
+                    "state": profile_obj.state,
+                    "district": profile_obj.district,
+                    "is_maharashtra_domicile": profile_obj.is_maharashtra_domicile,
+                    "caste_category": profile_obj.caste_category,
+                    "annual_family_income": profile_obj.annual_family_income,
+                    "current_course_level": profile_obj.current_course_level,
+                    "admission_quota": profile_obj.admission_quota,
+                    "accommodation_type": profile_obj.accommodation_type,
+                    "parent_is_farmer": profile_obj.parent_is_farmer,
+                    "parent_land_acres": profile_obj.parent_land_acres,
+                    "previous_year_percentage": profile_obj.previous_year_percentage,
+                }
+            except StudentProfile.DoesNotExist:
+                profile_data = {}
+
+        if not profile_data and "profile" in request.data:
+            profile_data = request.data.get("profile", {})
+
+        simulation_res = WhatIfSimulatorService.run_simulation(
+            baseline_profile=profile_data,
+            modifications=modifications,
+            preset_scenario_id=scenario_id
+        )
+        return Response(simulation_res)
+
 

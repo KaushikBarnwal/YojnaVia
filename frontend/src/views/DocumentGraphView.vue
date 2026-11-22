@@ -13,7 +13,7 @@ import {
 const store = useStudentStore();
 
 onMounted(async () => {
-  if (store.documentGraph.documents.length === 0) {
+  if (!store.documentGraph?.documents || store.documentGraph.documents.length === 0) {
     await store.fetchDocumentGraph();
   }
 });
